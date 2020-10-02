@@ -1,0 +1,14 @@
+<launch>
+  <!-- Launch the gripper in an empty gazebo world -->
+  <param command="$(find xacro)/xacro --inorder '$(find onrobot_rg2)/urdf/rg2.xacro'" name="robot_description"/>
+  <node args="-param robot_description -urdf -model rg2 -z 0.5" name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"/>
+  <param name="robot_description_semantic" textfile="$(find onrobot_rg2)/launch/rg2_world.srdf" />
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+</launch>

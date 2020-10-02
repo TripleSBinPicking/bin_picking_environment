@@ -1,0 +1,91 @@
+<?xml version="1.0" ?>
+<!--
+    This is a modified version of $(find ur_gazebo)/launch/ur5.launch
+    This version loads an urdf file with an gripper attached
+-->
+<launch>
+    <env name="GAZEBO_MODEL_PATH" value="$(find triple_s_util)/meshes" />
+
+    <arg name="paused" default="false" doc="Launch Gazebo paused" />
+    <arg name="gui" default="true" doc="Launch Gazebo GUI" />
+    <arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
+    <arg name="limited" default="true" doc="Limits ur joint movement to [-pi,pi]" />
+    <arg name="camera_on_robot" default="true" doc="Is the camera linked to the robot? (Otherwise it is static)"/>
+
+    <!-- startup simulated world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <!--arg name="world_name" default="worlds/empty.world"/-->
+        <arg name="world_name" default="$(find triple_s_util)/meshes/table.world"/>
+        <arg name="paused" value="true"/>
+        <arg name="gui" value="$(arg gui)"/>
+    </include>
+
+    <!-- send robot urdf to param server -->
+    <param
+        name="robot_description"
+        command="$(find xacro)/xacro --inorder
+            '$(find triple_s_util)/urdf/ur5_rg2.urdf.xacro'
+            transmission_hw_interface:=$(arg transmission_hw_interface)
+            limited:=$(arg limited)
+            camera_on_robot:=$(arg camera_on_robot)"
+    />
+
+    <!-- push robot_description to factory and spawn robot in gazebo -->
+    <arg name="gazebo_paused" value="" if="$(arg paused)" />
+    <arg name="gazebo_paused" value="-unpause" unless="$(arg paused)" />
+    <node
+        name="spawn_gazebo_model"
+        pkg="gazebo_ros"
+        type="spawn_model"
+        args="-urdf
+            -param robot_description
+            -model ur5_rg2
+            -J ur5_rg2::elbow_joint 1.5707
+            -J ur5_rg2::shoulder_lift_joint -1.5707
+            -J ur5_rg2::shoulder_pan_joint 0
+            -J ur5_rg2::wrist_1_joint -1.5707
+            -J ur5_rg2::wrist_2_joint -1.5707
+            -J ur5_rg2::wrist_3_joint 0
+            $(arg gazebo_paused)
+            -z 1"
+        respawn="false"
+        output="screen"
+    />
+
+    <include file="$(find ur_gazebo)/launch/controller_utils.launch"/>
+
+    <!-- Start UR5-arm controller -->
+    <rosparam file="$(find ur_gazebo)/controller/arm_controller_ur5.yaml" command="load"/>
+    <node name="arm_controller_spawner" pkg="controller_manager" type="spawner" args="arm_controller" respawn="false" output="screen"/>
+    
+    <!-- Start onrobot_rg2 controller -->
+    <rosparam file="$(find onrobot_rg2)/launch/controller.yaml" command="load"/>
+    <node
+        name="gripper_controller_spawner"
+        pkg="controller_manager"
+        type="spawner"
+        respawn="false"
+        output="screen"
+        args="onrobot_rg2/rg2_right_controller onrobot_rg2/rg2_left_controller"
+    />
+
+    <!-- load other controllers -->
+    <node
+        name="ros_control_controller_manager"
+        pkg="controller_manager"
+        type="controller_manager"
+        respawn="false"
+        output="screen"
+        args="load joint_group_position_controller"
+    />
+
+    <!-- Load onrobot rg2 gripper serivice -->
+    <node
+        name="control_rg2"
+        pkg="onrobot_rg2"
+        type="control_gripper_service.py"
+        respawn="false"
+        output="screen"
+        ns="/onrobot_rg2"
+    />
+</launch>

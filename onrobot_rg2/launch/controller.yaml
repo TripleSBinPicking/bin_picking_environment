@@ -1,0 +1,27 @@
+onrobot_rg2:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50  
+
+  # Position Controllers ---------------------------------------
+  rg2_right_controller:
+    type: position_controllers/JointGroupPositionController
+    joints: 
+      - rg2_right_main_joint
+      - rg2_right_secondary_joint
+      - rg2_right_outer_joint
+    pid_gains:
+      rg2_right_main_joint: {p: 100.0, i: 0.01, d: 10.0}
+      rg2_right_secondary_joint: {p: 100.0, i: 0.01, d: 10.0}
+      rg2_right_outer_joint: {p: 100.0, i: 0.01, d: 10.0}
+  rg2_left_controller:
+    type: position_controllers/JointGroupPositionController
+    joints:
+      - rg2_left_main_joint
+      - rg2_left_secondary_joint
+      - rg2_left_outer_joint
+    pid_gains:
+      rg2_left_main_joint: {p: 100.0, i: 0.01, d: 10.0}
+      rg2_left_secondary_joint: {p: 100.0, i: 0.01, d: 10.0}
+      rg2_left_outer_joint: {p: 100.0, i: 0.01, d: 10.0}

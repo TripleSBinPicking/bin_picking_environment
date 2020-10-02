@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="camerasim" >
+    <xacro:macro name="environment" params="prefix:=environment_ parent">
+        <link name="${prefix}ground_plane_box">
+            <!-- This box doesn't have any inertia, so it doesn't show up in gazebo -->
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="3.0 3.0 0.2"/> 
+                </geometry>
+                <material name="Grey">
+                    <color rgba="0.7 0.7 0.7 1.0"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="3.0 3.0 0.2"/> 
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="${prefix}ground_plane_box" type="fixed">
+            <parent link="${parent}" />
+            <child link="${prefix}ground_plane_box" />
+            <origin xyz="0 0 -0.1" rpy="0 0 0" />
+        </joint>
+    </xacro:macro>
+</robot>

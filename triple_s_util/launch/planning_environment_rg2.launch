@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<launch>
+    <!-- This file launches gazebo, rviz and moveit planner with a single launchfile-->
+    <arg name="limited" default="true" doc="Limits ur joint movement to [-pi,pi]" />
+    <arg name="sim" default="true" doc="Set simulation" />
+    <arg name="paused" default="false" doc="Launch Gazebo paused" />
+    <arg name="gui" default="true" doc="Launch Gazebo GUI" />
+    <arg name="robot_ip" default="0.0.0.0" doc="IP of the UR5" />
+    <arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
+    <arg name="camera_on_robot" default="true" doc="Is the camera linked to the robot? (Otherwise it is static)"/>
+
+    <!-- ======== Start gazebo (simulated environment) ======== -->
+    <include file="$(find triple_s_util)/launch/gazebo_ur5_rg2.launch" if="$(arg sim)">
+        <arg name="paused" value="$(arg paused)" />
+        <arg name="gui" value="$(arg gui)" />
+        <arg name="transmission_hw_interface" value="$(arg transmission_hw_interface)" />
+        <arg name="limited" value="$(arg limited)" />
+        <arg name="camera_on_robot" value="$(arg camera_on_robot)"/>
+    </include>
+
+    <!-- Start communication with the robot -->
+    <include file="$(find ur_bringup)/launch/ur5_bringup.launch" unless="$(arg sim)">
+        <arg name="robot_ip" value="$(arg robot_ip)" />
+    </include>
+
+    <!-- Start the planner execution -->
+    <include file="$(find ur5_moveit_config)/launch/ur5_moveit_planning_execution.launch">
+        <arg name="sim" value="$(arg sim)" />
+        <arg name="limited" value="$(arg limited)" />
+    </include>
+
+    <!-- The semantic description that corresponds to the URDF -->
+    <param name="robot_description_semantic" textfile="$(find triple_s_util)/config/rg2.srdf" />
+
+    <!-- Start rviz to create a planning -->
+    <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false" args="-d $(find triple_s_util)/config/rviz.rviz" output="screen">
+        <rosparam command="load" file="$(find ur5_moveit_config)/config/kinematics.yaml"/>
+    </node>
+</launch>

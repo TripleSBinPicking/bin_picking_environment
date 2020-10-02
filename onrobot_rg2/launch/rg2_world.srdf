@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot name="onrobot_rg2">
+    <virtual_joint name="fixed_base" type="fixed" parent_frame="world" child_link="rg2_world_link" />
+
+    <disable_collisions link1="rg2_base_link" link2="rg2_left_outer_link" reason="Adjacent" />
+    <disable_collisions link1="rg2_base_link" link2="rg2_right_outer_link" reason="Adjacent" />
+    <disable_collisions link1="rg2_base_link" link2="rg2_left_inner_link" reason="Adjacent" />
+    <disable_collisions link1="rg2_base_link" link2="rg2_right_inner_link" reason="Adjacent" />
+    <disable_collisions link1="rg2_right_finger" link2="rg2_right_outer_link" reason="Adjacent" />
+    <disable_collisions link1="rg2_right_finger" link2="rg2_right_inner_link" reason="Adjacent" />
+    <disable_collisions link1="rg2_left_finger" link2="rg2_left_outer_link" reason="Adjacent" />
+    <disable_collisions link1="rg2_left_finger" link2="rg2_left_inner_link" reason="Adjacent" />
+    <disable_collisions link1="rg2_right_outer_link" link2="rg2_right_inner_link" reason="Adjacent" />
+    <disable_collisions link1="rg2_left_outer_link" link2="rg2_left_inner_link" reason="Adjacent" />
+    <disable_collisions link1="rg2_right_inner_link" link2="rg2_left_inner_link" reason="Adjacent" />
+    <disable_collisions link1="rg2_right_inner_link" link2="rg2_left_outer_link" reason="Adjacent" />
+    <disable_collisions link1="rg2_right_outer_link" link2="rg2_left_outer_link" reason="Adjacent" />
+    <disable_collisions link1="rg2_right_outer_link" link2="rg2_left_inner_link" reason="Adjacent" />
+    <disable_collisions link1="rg2_right_finger" link2="rg2_left_finger" reason="Adjacent" />
+</robot>

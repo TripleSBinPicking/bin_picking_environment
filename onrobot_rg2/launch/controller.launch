@@ -1,0 +1,12 @@
+<launch>
+    <rosparam file="$(find onrobot_rg2)/launch/controller.yaml" command="load"/>
+
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/onrobot_rg2" args="--namespace=/onrobot_rg2 rg2_left_controller rg2_right_controller joint_state_controller"/>
+
+    <!-- Fake Calibration -->
+    <node pkg="rostopic" type="rostopic" name="fake_joint_calibration" args="pub /calibrated std_msgs/Bool true" />
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+        <remap from="/joint_states" to="/onrobot_rg2/joint_states"/>
+    </node>
+</launch>

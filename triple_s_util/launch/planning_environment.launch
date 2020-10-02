@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<launch>
+    <!-- This file launches gazebo, rviz and moveit planner with a single launchfile-->
+    <arg name="limited" default="true" doc="Limits ur joint movement to [-pi,pi]" />
+    <arg name="sim" default="true" doc="Set simulation" />
+    <arg name="robot_ip" default="0.0.0.0" doc="IP of the UR5" />
+
+    <!-- Start gazebo (simulated environment) -->
+    <include file="$(find ur_gazebo)/launch/ur5.launch" if="$(arg sim)">
+        <arg name="limited" value="$(arg limited)" />
+    </include>
+
+    <!-- Start communication with the robot -->
+    <include file="$(find ur_bringup)/launch/ur5_bringup.launch" unless="$(arg sim)">
+        <arg name="robot_ip" value="$(arg robot_ip)" />
+    </include>
+
+    <!-- Start the planner execution -->
+    <include file="$(find ur5_moveit_config)/launch/ur5_moveit_planning_execution.launch">
+        <arg name="sim" value="$(arg sim)" />
+        <arg name="limited" value="$(arg limited)" />
+    </include>
+
+    <!-- Start rviz to create a planning -->
+    <include file="$(find ur5_moveit_config)/launch/moveit_rviz.launch">
+        <arg name="config" value="true" />
+    </include>
+</launch>

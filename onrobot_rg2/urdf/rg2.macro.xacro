@@ -1,0 +1,204 @@
+<?xml version="1.0" ?>
+<!-- This file contains the main macro for the onrobot rg2 -->
+<robot name="onrobot_rg2_macro" xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:macro name="onrobot_rg2" params="prefix standalone">
+        <xacro:property name="joint_effort" value="1"/>
+        <xacro:property name="joint_velocity" value="2"/>
+        <material name="silver">
+            <color rgba="0.700 0.700 0.700 1.000"/>
+        </material>
+        <!-- ======== LINKS ========-->
+        <link name="${prefix}base_link">
+            <inertial>
+                <origin rpy="0 0 0" xyz="0.05411488933415834 -0.0001024352097312668 -3.928081769485662e-05"/>
+                <mass value="1.5357586911189074"/>
+                <inertia ixx="0.00057" ixy="2e-06" ixz="-1e-06" iyy="0.001696" iyz="-0.0" izz="0.001898"/>
+            </inertial>
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://onrobot_rg2/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="silver"/>
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://onrobot_rg2/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}left_finger">
+            <inertial>
+                <origin rpy="0 0 0" xyz="0.02875515360560227 -0.011139525072908746 -0.005299825895215888"/>
+                <mass value="0.06346447085199992"/>
+                <inertia ixx="3e-06" ixy="4e-06" ixz="0.0" iyy="1.5e-05" iyz="0.0" izz="1.6e-05"/>
+            </inertial>
+            <visual>
+                <origin rpy="0 0 0" xyz="-0.134353 -0.059032 -0.005305"/>
+                <geometry>
+                    <mesh filename="package://onrobot_rg2/meshes/rg2_left_finger.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="silver"/>
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="-0.134353 -0.059032 -0.005305"/>
+                <geometry>
+                    <mesh filename="package://onrobot_rg2/meshes/rg2_left_finger.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}right_finger">
+            <inertial>
+                <origin rpy="0 0 0" xyz="0.028755152484580992 0.011139532724237934 -0.005299827326906724"/>
+                <mass value="0.06346446545192494"/>
+                <inertia ixx="3e-06" ixy="-4e-06" ixz="0.0" iyy="1.5e-05" iyz="-0.0" izz="1.6e-05"/>
+            </inertial>
+            <visual>
+                <origin rpy="0 0 0" xyz="-0.134353 0.059232 -0.005305"/>
+                <geometry>
+                    <mesh filename="package://onrobot_rg2/meshes/rg2_right_finger.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="silver"/>
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="-0.134353 0.059232 -0.005305"/>
+                <geometry>
+                    <mesh filename="package://onrobot_rg2/meshes/rg2_right_finger.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}right_outer_link">
+            <inertial>
+                <origin rpy="0 0 0" xyz="-0.099 0.0171 0.008595"/>
+                <mass value="0.01"/>
+                <inertia ixx="0.01" ixy="0.00" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+            </inertial>
+            <visual>
+                <origin rpy="0 0 0" xyz="-0.099 0.0171 0.008595"/>
+                <geometry>
+                    <mesh filename="package://onrobot_rg2/meshes/rg2_right_outer_link.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="silver"/>
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="-0.099 0.0171 0.008595"/>
+                <geometry>
+                    <mesh filename="package://onrobot_rg2/meshes/rg2_right_outer_link.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}left_outer_link">
+            <inertial>
+                <origin rpy="0 0 0" xyz="-0.099 -0.0169 0.008595"/>
+                <mass value="0.01"/>
+                <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+            </inertial>
+            <visual>
+                <origin rpy="0 0 0" xyz="-0.099 -0.0169 0.008595"/>
+                <geometry>
+                    <mesh filename="package://onrobot_rg2/meshes/rg2_left_outer_link.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="silver"/>
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="-0.099 -0.0169 0.008595"/>
+                <geometry>
+                    <mesh filename="package://onrobot_rg2/meshes/rg2_left_outer_link.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}left_inner_link">
+            <inertial>
+                <origin rpy="0 0 0" xyz="0.013684817058033302 0.016364376889961313 -0.008749826851698"/>
+                <mass value="0.02609411603100668"/>
+                <inertia ixx="8e-06" ixy="-6e-06" ixz="-0.0" iyy="6e-06" iyz="-0.0" izz="1.2e-05"/>
+            </inertial>
+            <visual>
+                <origin rpy="0 0 0" xyz="-0.1155 -0.0074 -0.008755"/>
+                <geometry>
+                    <mesh filename="package://onrobot_rg2/meshes/rg2_left_inner_link.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="silver"/>
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="-0.1155 -0.0074 -0.008755"/>
+                <geometry>
+                    <mesh filename="package://onrobot_rg2/meshes/rg2_left_inner_link.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+        </link>
+        <link name="${prefix}right_inner_link">
+            <inertial>
+                <origin rpy="0 0 0" xyz="0.013684817060011192 -0.01636437507697131 -0.008749826514947753"/>
+                <mass value="0.026094116025041938"/>
+                <inertia ixx="8e-06" ixy="6e-06" ixz="0.0" iyy="6e-06" iyz="-0.0" izz="1.2e-05"/>
+            </inertial>
+            <visual>
+                <origin rpy="0 0 0" xyz="-0.1155 0.0076 -0.008755"/>
+                <geometry>
+                    <mesh filename="package://onrobot_rg2/meshes/rg2_right_inner_link.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="silver"/>
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="-0.1155 0.0076 -0.008755"/>
+                <geometry>
+                    <mesh filename="package://onrobot_rg2/meshes/rg2_right_inner_link.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+        </link>
+        <!-- ======== JOINTS ========-->
+        <joint name="${prefix}left_outer_joint" type="continuous">
+            <origin rpy="0 0 0" xyz="0.035353 0.042132 0.0139"/>
+            <parent link="${prefix}left_outer_link"/>
+            <child link="${prefix}left_finger"/>
+            <axis xyz="0.0 -0.0 1.0"/>
+            <mimic joint="${prefix}left_main_joint" multiplier="-1" />
+            <limit effort="${joint_effort}" velocity="${joint_velocity}"/>        
+        </joint>
+        <joint name="${prefix}right_outer_joint" type="continuous">
+            <origin rpy="0 0 0" xyz="0.035353 -0.042132 0.0139"/>
+            <parent link="${prefix}right_outer_link"/>
+            <child link="${prefix}right_finger"/>
+            <axis xyz="0.0 -0.0 1.0"/>
+            <mimic joint="${prefix}right_main_joint" multiplier="-1" />
+            <limit effort="${joint_effort}" velocity="${joint_velocity}"/>
+        </joint>
+        <joint name="${prefix}right_main_joint" type="revolute">
+            <origin rpy="0 0 0" xyz="0.099 -0.0171 -0.008595"/>
+            <parent link="${prefix}base_link"/>
+            <child link="${prefix}right_outer_link"/>
+            <axis xyz="0.0 0.0 1.0"/>
+            <limit lower="-0.30" upper="0.84" effort="${joint_effort}" velocity="${joint_velocity}"/>
+        </joint>
+        <joint name="${prefix}left_main_joint" type="revolute">
+            <origin rpy="0 0 0" xyz="0.099 0.0169 -0.008595"/>
+            <parent link="${prefix}base_link"/>
+            <child link="${prefix}left_outer_link"/>
+            <axis xyz="-0.0 0.0 1.0"/>
+            <limit lower="-0.84" upper="0.30" effort="${joint_effort}" velocity="${joint_velocity}"/>
+        </joint>
+        <joint name="${prefix}left_secondary_joint" type="continuous">
+            <origin rpy="0 0 0" xyz="0.1155 0.0074 0.008755"/>
+            <parent link="${prefix}base_link"/>
+            <child link="${prefix}left_inner_link"/>
+            <axis xyz="-0.0 0.0 1.0"/>
+            <mimic joint="${prefix}left_main_joint" />
+            <limit effort="${joint_effort}" velocity="${joint_velocity}"/>
+        </joint>
+        <joint name="${prefix}right_secondary_joint" type="continuous">
+            <origin rpy="0 0 0" xyz="0.1155 -0.0076 0.008755"/>
+            <parent link="${prefix}base_link"/>
+            <child link="${prefix}right_inner_link"/>
+            <axis xyz="-0.0 0.0 1.0"/>
+            <mimic joint="${prefix}right_main_joint" />
+            <limit effort="${joint_effort}" velocity="${joint_velocity}"/>
+        </joint>
+
+        <xacro:include filename="$(find onrobot_rg2)/urdf/rg2.gazebo.xacro"/>
+        <xacro:onrobot_rg2_gazebo prefix="${prefix}" standalone="${standalone}"/>
+        <xacro:include filename="$(find onrobot_rg2)/urdf/rg2.transmissions.xacro" />
+        <xacro:onrobot_rg2_transmissions prefix="${prefix}"/>
+    </xacro:macro>
+</robot>
