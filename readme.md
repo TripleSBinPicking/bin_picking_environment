@@ -17,7 +17,7 @@ Install Robotiq URDF descriptions ([yes, the kinetic branch can be used for ROS 
 
 A fork of the official ros-industrial repo is used, with some small changes for behaviour in Gazaebo.
 ```
-git clone -b kinetic-devel https://github.com/TripleSBinPicking/robotiq
+git clone -b kinetic-devel https://github.com/TripleSBinPicking/robotiq.git
 ```
 
 Update dependencies:
