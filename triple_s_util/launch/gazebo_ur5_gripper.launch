@@ -11,6 +11,7 @@
     <arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
     <arg name="limited" default="true" doc="Limits ur joint movement to [-pi,pi]" />
     <arg name="camera_on_robot" default="true" doc="Is the camera linked to the robot? (Otherwise it is static)"/>
+    <arg name="gripper" default="robotiq" doc="Set the gripper that is loaded (robotiq or rg2)"/>
 
     <!-- startup simulated world -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -24,10 +25,11 @@
     <param
         name="robot_description"
         command="$(find xacro)/xacro --inorder
-            '$(find triple_s_util)/urdf/ur5_rg2.urdf.xacro'
+            '$(find triple_s_util)/urdf/ur5.urdf.xacro'
             transmission_hw_interface:=$(arg transmission_hw_interface)
             limited:=$(arg limited)
-            camera_on_robot:=$(arg camera_on_robot)"
+            camera_on_robot:=$(arg camera_on_robot)
+            gripper_name:=$(arg gripper)"
     />
 
     <!-- push robot_description to factory and spawn robot in gazebo -->
@@ -39,13 +41,13 @@
         type="spawn_model"
         args="-urdf
             -param robot_description
-            -model ur5_rg2
-            -J ur5_rg2::elbow_joint 1.5707
-            -J ur5_rg2::shoulder_lift_joint -1.5707
-            -J ur5_rg2::shoulder_pan_joint 0
-            -J ur5_rg2::wrist_1_joint -1.5707
-            -J ur5_rg2::wrist_2_joint -1.5707
-            -J ur5_rg2::wrist_3_joint 0
+            -model ur5
+            -J ur5::elbow_joint 1.5707
+            -J ur5::shoulder_lift_joint -1.5707
+            -J ur5::shoulder_pan_joint 0
+            -J ur5::wrist_1_joint -1.5707
+            -J ur5::wrist_2_joint -1.5707
+            -J ur5::wrist_3_joint 0
             $(arg gazebo_paused)
             -z 1"
         respawn="false"
@@ -57,17 +59,6 @@
     <!-- Start UR5-arm controller -->
     <rosparam file="$(find ur_gazebo)/controller/arm_controller_ur5.yaml" command="load"/>
     <node name="arm_controller_spawner" pkg="controller_manager" type="spawner" args="arm_controller" respawn="false" output="screen"/>
-    
-    <!-- Start onrobot_rg2 controller -->
-    <rosparam file="$(find onrobot_rg2)/launch/controller.yaml" command="load"/>
-    <node
-        name="gripper_controller_spawner"
-        pkg="controller_manager"
-        type="spawner"
-        respawn="false"
-        output="screen"
-        args="onrobot_rg2/rg2_right_controller onrobot_rg2/rg2_left_controller"
-    />
 
     <!-- load other controllers -->
     <node
@@ -79,13 +70,45 @@
         args="load joint_group_position_controller"
     />
 
-    <!-- Load onrobot rg2 gripper serivice -->
-    <node
-        name="control_rg2"
-        pkg="onrobot_rg2"
-        type="control_gripper_service.py"
-        respawn="false"
-        output="screen"
-        ns="/onrobot_rg2"
-    />
+    <!-- Load gripper specific controllers -->
+    <group if="$(eval arg('gripper') == 'rg2')">
+        <!-- Start onrobot_rg2 controller -->
+        <rosparam file="$(find onrobot_rg2)/launch/controller.yaml" command="load"/>
+        <node
+            name="gripper_controller_spawner"
+            pkg="controller_manager"
+            type="spawner"
+            respawn="false"
+            output="screen"
+            args="onrobot_rg2/rg2_right_controller onrobot_rg2/rg2_left_controller"
+        />
+        <!-- Load onrobot rg2 gripper serivice -->
+        <node
+            name="control_rg2"
+            pkg="onrobot_rg2"
+            type="control_gripper_service.py"
+            respawn="false"
+            output="screen"
+        />
+    </group>
+    <group if="$(eval arg('gripper') == 'robotiq')">
+        <!-- Start robotiq controller -->
+        <rosparam file="$(find robotiq_2f_85_gripper_visualization)/config/controller.yaml" command="load"/>
+        <node
+            name="gripper_controller_spawner"
+            pkg="controller_manager"
+            type="spawner"
+            respawn="false"
+            output="screen"
+            args="robotiq_2f_85/left_controller robotiq_2f_85/right_controller"
+        />
+        <!-- Start service -->
+        <node
+            name="control_script"
+            pkg="robotiq_2f_85_gripper_visualization"
+            type="simulated_gripper_control.py"
+            respawn="false"
+            output="screen"
+        />
+    </group>
 </launch>

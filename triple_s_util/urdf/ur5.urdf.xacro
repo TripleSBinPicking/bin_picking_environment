@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="ur5" >
+    <xacro:arg name="limited" default="true"/>
+    <xacro:arg name="camera_on_robot" default="false"/>
+    <xacro:arg name="gripper_name" default="robotiq"/>
+    
+    <!-- UR5 -->
+    <xacro:if value="$(arg limited)">
+        <xacro:include filename="$(find ur_description)/urdf/ur5_joint_limited_robot.urdf.xacro" />
+    </xacro:if>
+    <xacro:unless value="$(arg limited)">
+        <xacro:include filename="$(find ur_description)/urdf/ur5_robot.urdf.xacro"/>
+    </xacro:unless>
+
+    <!-- Gripper -->
+    <xacro:property name="gripper_name" value="$(arg gripper_name)" />
+    <xacro:if value="${gripper_name == 'rg2'}">
+        <xacro:include filename="$(find onrobot_rg2)/urdf/rg2.macro.xacro" />
+        <xacro:onrobot_rg2 prefix="rg2_" standalone="false"/>
+
+        <joint name="ur5_gripper_link" type="fixed">
+            <parent link="ee_link" />
+            <child link="rg2_base_link" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </joint>
+    </xacro:if>
+    <xacro:if value="${gripper_name == 'robotiq'}">
+        <xacro:include filename="$(find robotiq_2f_85_gripper_visualization)/urdf/robotiq_arg2f_85_model_macro.xacro"/>
+        <xacro:robotiq_arg2f_85 prefix=""/>
+
+        <joint name="ur5_gripper_link" type="fixed">
+            <parent link="ee_link" />
+            <child link="robotiq_arg2f_base_link" />
+            <origin xyz="0 0 0" rpy="0 ${pi/2} 0" />
+        </joint>
+    </xacro:if>
+
+    <!-- D435 -->
+    <xacro:include filename="$(find triple_s_util)/urdf/camerasim.urdf.xacro" />
+    <xacro:unless value="$(arg camera_on_robot)">
+        <xacro:camerasim parent="world">
+            <origin xyz="1 0 0" rpy="0 ${pi/2} 0"/>
+        </xacro:camerasim>
+    </xacro:unless>
+    <xacro:if value="$(arg camera_on_robot)">
+        <xacro:camerasim parent="wrist_2_link">
+            <origin xyz="0 0.035 0.134" rpy="0 0 ${pi/2}"/>
+        </xacro:camerasim>
+    </xacro:if>
+
+    <!-- environment -->
+    <xacro:include filename="$(find triple_s_util)/urdf/environment.urdf.xacro" />
+    <xacro:environment parent="world" />   
+</robot>

@@ -13,6 +13,13 @@ Install Universal Robot URDF descriptions:
 git clone -b melodic-devel https://github.com/ros-industrial/universal_robot.git
 ```
 
+Install Robotiq URDF descriptions ([yes, the kinetic branch can be used for ROS melodic](https://github.com/ros-industrial/robotiq)):
+
+A fork of the official ros-industrial repo is used, with some small changes for behaviour in Gazaebo.
+```
+git clone -b kinetic-devel https://github.com/TripleSBinPicking/robotiq
+```
+
 Update dependencies:
 ```
 rosdep update
@@ -34,17 +41,27 @@ catkin_ws
     |    |-bin_picking_environment
     |    |    |- onrobot_rg2
     |    |    |- triple_s_util
+    |    |-robotiq
+    |    |    |- ...
     |    |-universal_robot
-    |    |    |- ....
+    |    |    |- ...
 ```
 ## Usage
 
 Command to the planning environment:
 ```
-roslaunch triple_s_util planning_environment_rg2.launch
+roslaunch triple_s_util planning_environment.launch
 ```
+The following arguments can be used (append them to the last command):
+ - `gripper:=rg2` load the Onrobot RG2 gripper instead of the Robotiq 2F 85 gripper
+ - `sim:=false` use the actual robot instead of the simulation (not tested!!)
+ - `camera_on_robot:=false` load a static camera instead of a camera on the robot
 
 Command to control the gripper (once previous command is running, replace `$DISTANCE` with a value):
 ```
-rosservice call /onrobot_rg2/control_rg2 "distance: $DISTANCE"
+rosservice call /control_robotiq "distance: $DISTANCE"
+```
+If the rg2 gripper is used the following command should be used
+```
+rosservice call /control_rg2 "distance: $DISTANCE"
 ```

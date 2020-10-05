@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<robot name="ur5" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:arg name="gripper" default="robotiq" />
+
+    <xacro:property name="gripper" value="$(arg gripper)" />
+    <xacro:include filename="$(find ur5_moveit_config)/config/ur5.srdf" />
+
+    <xacro:if value="${gripper == 'rg2'}">
+        <xacro:include filename="$(find onrobot_rg2)/urdf/rg2.srdf"/>
+    </xacro:if>
+    <xacro:if value="${gripper == 'robotiq'}">
+        <xacro:include filename="$(find robotiq_2f_85_gripper_visualization)/config/robotiq_2f_85.srdf"/>
+
+        <disable_collisions link1="robotiq_arg2f_base_link" link2="wrist_3_link" reason="Adjacent"/>
+    </xacro:if>
+
+    <group_state name="home_pose" group="manipulator">
+        <joint name="elbow_joint" value="1.5707" />
+        <joint name="shoulder_lift_joint" value="-1.5707" />
+        <joint name="shoulder_pan_joint" value="0" />
+        <joint name="wrist_1_joint" value="-1.5707" />
+        <joint name="wrist_2_joint" value="-1.5707" />
+        <joint name="wrist_3_joint" value="0" />
+    </group_state>
+</robot>

@@ -8,7 +8,7 @@
         <xacro:if value="${standalone}">
             <gazebo>
                 <plugin filename="libgazebo_ros_control.so" name="control">
-                    <!--<robotNamespace>/onrobot_rg2</robotNamespace>-->
+                    <robotNamespace>/onrobot_rg2</robotNamespace>
                 </plugin>
             </gazebo>
         </xacro:if>
