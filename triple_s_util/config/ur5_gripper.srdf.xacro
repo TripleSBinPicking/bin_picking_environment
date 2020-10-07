@@ -7,12 +7,16 @@
 
     <xacro:if value="${gripper == 'rg2'}">
         <xacro:include filename="$(find onrobot_rg2)/urdf/rg2.srdf"/>
+        <disable_collisions link1="Camera_bracket" link2="rg2_base_link"/>
     </xacro:if>
     <xacro:if value="${gripper == 'robotiq'}">
         <xacro:include filename="$(find robotiq_2f_85_gripper_visualization)/config/robotiq_2f_85.srdf"/>
-
+        
+        <disable_collisions link1="Camera_bracket" link2="robotiq_arg2f_base_link"/>
         <disable_collisions link1="robotiq_arg2f_base_link" link2="wrist_3_link" reason="Adjacent"/>
     </xacro:if>
+
+    <disable_collisions link1="Camera_bracket" link2="wrist_3_link"/>
 
     <group_state name="home_pose" group="manipulator">
         <joint name="elbow_joint" value="1.5707" />
