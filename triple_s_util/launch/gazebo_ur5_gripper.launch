@@ -5,6 +5,7 @@
 -->
 <launch>
     <env name="GAZEBO_MODEL_PATH" value="$(find triple_s_util)/meshes" />
+    <env name="GAZEBO_RESOURCE_PATH" value="$(find triple_s_util)/meshes" />
 
     <arg name="paused" default="false" doc="Launch Gazebo paused" />
     <arg name="gui" default="true" doc="Launch Gazebo GUI" />
@@ -12,11 +13,12 @@
     <arg name="limited" default="true" doc="Limits ur joint movement to [-pi,pi]" />
     <arg name="camera_on_robot" default="true" doc="Is the camera linked to the robot? (Otherwise it is static)"/>
     <arg name="gripper" default="robotiq" doc="Set the gripper that is loaded (robotiq or rg2)"/>
+    <arg name="world" default="table" doc="Set world. Options: table/empty"/>
 
     <!-- startup simulated world -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
-        <!--arg name="world_name" default="worlds/empty.world"/-->
-        <arg name="world_name" default="$(find triple_s_util)/meshes/table.world"/>
+        <arg name="world_name" default="worlds/empty.world" if="$(eval arg('world') == 'empty')"/>
+        <arg name="world_name" default="$(find triple_s_util)/meshes/table.world" if="$(eval arg('world') == 'table')"/>
         <arg name="paused" value="true"/>
         <arg name="gui" value="$(arg gui)"/>
     </include>

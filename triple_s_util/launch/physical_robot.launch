@@ -1,0 +1,30 @@
+<launch>
+    <!-- robot_ip: IP-address of the robot's socket-messaging server -->
+    <arg name="robot_ip" doc="IP of the controller" />
+    <arg name="reverse_port" default="50001" doc="Port on which controller listens for position values passed to servoj thread from the driver" />
+    <arg name="limited" default="false" doc="If true, limits joint range [-PI, PI] on all joints." />
+    <arg name="min_payload"  default="0.0" doc="lower payload bound for the robot" />
+    <arg name="max_payload"  default="10.0" doc="upper payload bound for the robot" />
+    <arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
+    <arg name="camera_on_robot" default="true" doc="Is the camera linked to the robot? (Otherwise it is static)"/>
+    <arg name="gripper" default="robotiq" doc="Set the gripper that is loaded (robotiq or rg2)"/>
+
+    <!-- send robot urdf to param server -->
+    <param
+        name="robot_description"
+        command="$(find xacro)/xacro --inorder
+            '$(find triple_s_util)/urdf/ur5.urdf.xacro'
+            transmission_hw_interface:=$(arg transmission_hw_interface)
+            limited:=$(arg limited)
+            camera_on_robot:=$(arg camera_on_robot)
+            gripper_name:=$(arg gripper)"
+    />
+
+    <!-- ur common -->
+    <include file="$(find ur_bringup)/launch/ur_common.launch">
+        <arg name="robot_ip" value="$(arg robot_ip)"/>
+        <arg name="reverse_port" value="$(arg reverse_port)"/>
+        <arg name="min_payload"  value="$(arg min_payload)"/>
+        <arg name="max_payload"  value="$(arg max_payload)"/>
+    </include>
+</launch>
