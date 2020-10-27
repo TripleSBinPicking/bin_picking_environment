@@ -31,6 +31,8 @@
         <arg name="gripper" value="$(arg gripper)"/>
     </include>
 
+    <remap unless="$(arg sim)" from="/follow_joint_trajectory" to="/scaled_pos_joint_traj_controller/follow_joint_trajectory"/>
+
     <!-- Start the planner execution -->
     <include file="$(find ur5_moveit_config)/launch/ur5_moveit_planning_execution.launch">
         <arg name="sim" value="$(arg sim)" />
