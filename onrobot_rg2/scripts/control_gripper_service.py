@@ -4,6 +4,7 @@ from __future__ import print_function
 import rospy
 from onrobot_rg2.srv import ControlRG2
 from std_msgs.msg import Float64MultiArray
+from std_msgs.msg import String
 
 MAX_ROTATION = 0.84
 MIN_ROTATION = -0.30
@@ -36,6 +37,14 @@ def control_gripper(request):
         publisher_right.publish(msg_right)
         publisher_left.publish(msg_left)
 
+        send = "sec myProgram():\n"
+        send += " textmsg(\"Hallo, wereld!\")\n"
+        send += " RG2(measured_width+5, 40)\n"
+        send += "end"
+
+        pub_physical.publish(send)
+
+
         rospy.loginfo("Rotating to %f radians", rotate_to)
         return rotate_to
     else:
@@ -43,12 +52,13 @@ def control_gripper(request):
         return -1
 
 def init_server():
-    global publisher_left, publisher_right
+    global publisher_left, publisher_right, pub_physical
     rospy.init_node('control_rg2_server')
     service = rospy.Service('control_rg2', ControlRG2, control_gripper)
 
     publisher_left = rospy.Publisher(LEFT_CONTROLLER_NAME, Float64MultiArray, queue_size=3)
     publisher_right = rospy.Publisher(RIGHT_CONTROLLER_NAME, Float64MultiArray, queue_size=3)
+    pub_physical = rospy.Publisher('/ur_hardware_interface/script_command', String, queue_size=10)
 
     rospy.loginfo("Ready to control the gripper")
     rospy.spin()
