@@ -19,4 +19,4 @@ rosdep install --from-paths src --ignore-src -y
 # Build the workspace
 catkin_make
 
-source devel/setup.bash
+source ../devel/setup.bash
