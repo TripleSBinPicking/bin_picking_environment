@@ -8,14 +8,7 @@ Make sure you have the following programs installed:
 Execute the following commands in the catkin workspace. (Probably `~/catkin_ws/src`)
 Clone this repository:
 ```
-git clone https://github.com/TripleSBinPicking/bin_picking_environment.git
-```
-
-### Install with setup script
-It is possible to do the following steps automatically by using the setup script.
-```bash
-$ cd bin_picking_environment
-$ sh ./setup.sh
+$ git clone https://github.com/TripleSBinPicking/bin_picking_environment.git
 ```
 
 ### Install manually
@@ -72,13 +65,13 @@ The following arguments can be used (append them to the last command):
 
 Command to control the gripper (once previous command is running, replace `$DISTANCE` with a value):
 ```
-rosservice call /control_robotiq "distance: $DISTANCE"
+$ rosservice call /control_robotiq "distance: $DISTANCE"
 ```
 
 If the rg2 gripper is used the following command should be used
 
 ```
-rosservice call /control_rg2 "distance: $DISTANCE"
+$ rosservice call /control_rg2 "distance: $DISTANCE"
 ```
 
 ### Real robot
