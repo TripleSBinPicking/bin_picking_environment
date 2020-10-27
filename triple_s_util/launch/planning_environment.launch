@@ -5,7 +5,7 @@
     <arg name="sim" default="true" doc="Set simulation" />
     <arg name="paused" default="false" doc="Launch Gazebo paused" />
     <arg name="gui" default="true" doc="Launch Gazebo GUI" />
-    <arg name="robot_ip" default="0.0.0.0" doc="IP of the UR5" />
+    <arg name="robot_ip" default="172.16.0.10" doc="IP of the UR5" />
     <arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
     <arg name="camera_on_robot" default="true" doc="Is the camera linked to the robot? (Otherwise it is static)"/>
     <arg name="gripper" default="robotiq" doc="Set the gripper that is loaded (robotiq or rg2)"/>
@@ -31,6 +31,7 @@
         <arg name="gripper" value="$(arg gripper)"/>
     </include>
 
+    <!-- Remap the follow_joint_trajectory to the correct namespace when running the real robot -->
     <remap unless="$(arg sim)" from="/follow_joint_trajectory" to="/scaled_pos_joint_traj_controller/follow_joint_trajectory"/>
 
     <!-- Start the planner execution -->

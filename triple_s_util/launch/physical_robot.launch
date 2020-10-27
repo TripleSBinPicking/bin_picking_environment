@@ -52,7 +52,5 @@
         <arg name="tool_tx_idle_chars" value="$(arg tool_tx_idle_chars)"/>
         <arg name="tool_device_name" value="$(arg tool_device_name)"/>
         <arg name="tool_tcp_port" value="$(arg tool_tcp_port)"/>
-        <!--<arg name="min_payload"  value="$(arg min_payload)"/>
-        <arg name="max_payload"  value="$(arg max_payload)"/>-->
     </include>
 </launch>
