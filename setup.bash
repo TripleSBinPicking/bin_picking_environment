@@ -20,5 +20,3 @@ rosdep install --from-paths src --ignore-src -y
 catkin_make
 
 source devel/setup.bash
-
-cd src

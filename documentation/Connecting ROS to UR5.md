@@ -28,7 +28,9 @@ Disable IPv6 on the IPv6 tab, and make sure no password is set on the Security t
 
 You can test the connection by pinging the UR5. Open a terminal and type in the following command:
 
-```$ ping <IP of UR5>```
+```bash
+$ ping <IP of UR5>
+```
 
 In our case the command is `ping 172.16.0.10`. The result should be something along the lines of: `64 bytes from 172.16.0.10` repeated over an over again. If nothing appears, the devices are not connect to each other.
 
