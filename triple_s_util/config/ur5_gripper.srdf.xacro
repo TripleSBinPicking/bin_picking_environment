@@ -26,4 +26,6 @@
         <joint name="wrist_2_joint" value="-1.5707" />
         <joint name="wrist_3_joint" value="0" />
     </group_state>
+
+    <xacro:include filename="$(find triple_s_util)/config/poses.srdf" />
 </robot>
