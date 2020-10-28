@@ -3,14 +3,39 @@
     <xacro:arg name="limited" default="true"/>
     <xacro:arg name="camera_on_robot" default="false"/>
     <xacro:arg name="gripper_name" default="robotiq"/>
+    <xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface"/>
+    <xacro:arg name="kinematics_config" default="$(find ur_description)/config/ur5_default.yaml"/>
     
+    <link name="world"/>
+
     <!-- UR5 -->
+    <xacro:include filename="$(find ur_description)/urdf/common.gazebo.xacro" />
+    <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />
+
     <xacro:if value="$(arg limited)">
-        <xacro:include filename="$(find ur_description)/urdf/ur5_joint_limited_robot.urdf.xacro" />
+        <xacro:ur5_robot prefix="" joint_limited="true"
+            shoulder_pan_lower_limit="${-pi}" shoulder_pan_upper_limit="${pi}"
+            shoulder_lift_lower_limit="${-pi}" shoulder_lift_upper_limit="${pi}"
+            elbow_joint_lower_limit="${-pi}" elbow_joint_upper_limit="${pi}"
+            wrist_1_lower_limit="${-pi}" wrist_1_upper_limit="${pi}"
+            wrist_2_lower_limit="${-pi}" wrist_2_upper_limit="${pi}"
+            wrist_3_lower_limit="${-pi}" wrist_3_upper_limit="${pi}"
+            transmission_hw_interface="$(arg transmission_hw_interface)"
+            kinematics_file="${load_yaml('$(arg kinematics_config)')}"
+        />
     </xacro:if>
     <xacro:unless value="$(arg limited)">
-        <xacro:include filename="$(find ur_description)/urdf/ur5_robot.urdf.xacro"/>
+        <xacro:ur5_robot prefix="" joint_limited="false"
+            transmission_hw_interface="$(arg transmission_hw_interface)"
+            kinematics_file="${load_yaml('$(arg kinematics_config)')}"
+        />
     </xacro:unless>
+
+    <joint name="ur5_world_joint" type="fixed">
+        <parent link="world"/>
+        <child link="base_link"/>
+        <origin xyz="0 0 1" rpy="0 0 0"/>
+    </joint>
 
     <!-- Camera Bracket-->
     <link name="Camera_bracket">
@@ -75,6 +100,6 @@
     </xacro:if>
 
     <!-- environment -->
-    <xacro:include filename="$(find triple_s_util)/urdf/environment.urdf.xacro" />
-    <xacro:environment parent="world" />   
+    <xacro:include filename="$(find triple_s_util)/urdf/saxion_table.urdf.xacro" />
+    <xacro:environment parent="world" />
 </robot>

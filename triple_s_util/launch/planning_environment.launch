@@ -8,8 +8,7 @@
     <arg name="robot_ip" default="172.16.0.10" doc="IP of the UR5" />
     <arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
     <arg name="camera_on_robot" default="true" doc="Is the camera linked to the robot? (Otherwise it is static)"/>
-    <arg name="gripper" default="robotiq" doc="Set the gripper that is loaded (robotiq or rg2)"/>
-    <arg name="world" default="table" doc="Set world. Options: table/empty"/>
+    <arg name="gripper" default="rg2" doc="Set the gripper that is loaded (robotiq or rg2)"/>
 
     <!-- ======== Start gazebo (simulated environment) ======== -->
     <include file="$(find triple_s_util)/launch/gazebo_ur5_gripper.launch" if="$(arg sim)">
@@ -19,7 +18,6 @@
         <arg name="limited" value="$(arg limited)" />
         <arg name="camera_on_robot" value="$(arg camera_on_robot)"/>
         <arg name="gripper" value="$(arg gripper)"/>
-        <arg name="world" value="$(arg world)"/>
     </include>
 
     <!-- Start communication with the robot -->
