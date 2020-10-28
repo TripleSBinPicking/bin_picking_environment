@@ -4,6 +4,7 @@
 # Date:         28-10-2020
 # Description:  This script can be used to generate an srdf file containing poses of a robot.
 #               This is done using moveit, so make sure that it is running.
+#               Read documentation/Creating robot poses.md for instructions.
 # Usage:        rosrun triple_s_util save_poses.py {filename}
 
 import sys
