@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+#
+# Author:       Niels de Boer
+# Date:         28-10-2020
+# Description:  Move the robot between named target poses.
+# Usage:        rosrun triple_s_util planner_script.py
 import sys
 import copy
 import rospy
@@ -11,89 +16,85 @@ from moveit_commander.conversions import pose_to_list
 
 class PlannerScript:
     def __init__(self):
-    
         moveit_commander.roscpp_initialize(sys.argv)
         rospy.init_node('planner_script', anonymous=True)
 
         self.robot = moveit_commander.RobotCommander()
-
         self.scene = moveit_commander.PlanningSceneInterface()
-
-        group_name = "manipulator"
-        self.move_group = moveit_commander.MoveGroupCommander(group_name)
-
+        self.move_group = moveit_commander.MoveGroupCommander("manipulator")
         self.move_group.set_pose_reference_frame('base_link')
 
         self.display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path', moveit_msgs.msg.DisplayTrajectory, queue_size=20)
 
         self.printRobotInformation()
 
-        self.moveToStartingState()
-        print "============ Robot in starting state ============"
-
-        self.goToCoords(1/2, 1/2, 1/2, 1/2)
+        self.startMoving()
 
     def printRobotInformation(self):
         """Print the information about the current state of the robot"""
 
         # Name of the reference frame for this robot:
         self.planning_frame = self.move_group.get_planning_frame()
-        print "============ Planning frame: %s" % self.planning_frame
+        print "============ Planning frame: %s ============" % self.planning_frame
 
         # We can also print the name of the end-effector link for this group:
         self.eef_link = self.move_group.get_end_effector_link()
-        print "============ End effector link: %s" % self.eef_link
+        print "============ End effector link: %s ============" % self.eef_link
 
         # We can get a list of all the groups in the robot:
         self.group_names = self.robot.get_group_names()
-        print "============ Available Planning Groups:", self.robot.get_group_names()
+        print "============ Available Planning Groups:", self.robot.get_group_names(), "============"
 
         # Sometimes for debugging it is useful to print the entire state of the
         # robot:
-        print "============ Printing robot state:"
+        print "============ Printing robot state: ============"
         print self.robot.get_current_state()
-        print "============"
 
-    def moveToStartingState(self, wait=True):
-        """Move the arm to a starting position
+    def planNamedTarget(self, target_name):
+        """ Create a planning to a named target.
+            Named targets are define in srdf and describe
+            the joint positions of a move group """
+        # Set the target
+        self.move_group.set_named_target(target_name)
+        
+        # Create the planning
+        plan = self.move_group.plan()
 
-        Parameters
-        ----------
-        wait : bool, optional
-            Wait for the action to be completed
-        """
+        # Publish the planning (so rviz can visualize it)
+        display_trajectory = moveit_msgs.msg.DisplayTrajectory()
+        display_trajectory.trajectory_start = self.robot.get_current_state()
+        display_trajectory.trajectory.append(plan)
+        self.display_trajectory_publisher.publish(display_trajectory)
 
-        joint_goal = self.move_group.get_current_joint_values()
+        return plan        
 
-        joint_goal[0] = pi/2
-        joint_goal[1] = -pi/2
-        joint_goal[2] = pi/2
-        joint_goal[3] = -pi/2
-        joint_goal[4] = pi/2
-        joint_goal[5] = -pi/2
+    def executePlan(self, plan, wait=True):
+        """ Execute a plan """
+        self.move_group.execute(plan, wait)
 
-        self.move_group.go(joint_goal, wait=True)
+    def startMoving(self):
+        plan = self.planNamedTarget('fold')
 
-        self.move_group.stop()
+        rospy.sleep(2)
 
-    def goToCoords(self, x, y, z, w):
-        goal = geometry_msgs.msg.Pose()
-        goal.orientation.w = w
-        goal.position.x = x
-        goal.position.y = y
-        goal.position.z = z
+        self.executePlan(plan)
+        plan = self.planNamedTarget('look_at_card')
 
-        self.move_group.set_pose_target(goal)
+        rospy.sleep(2)
 
-        plan = self.move_group.go(wait=True)
+        self.executePlan(plan)
+        plan = self.planNamedTarget('camera_1')
 
-        self.move_group.stop()
+        rospy.sleep(2)
 
-        self.move_group.clear_pose_targets()
+        self.executePlan(plan)
+        plan = self.planNamedTarget('camera_2')
 
-        return plan
+        rospy.sleep(2)
 
+        self.executePlan(plan)
 
+        self.startMoving()
 
 def main():
     try:

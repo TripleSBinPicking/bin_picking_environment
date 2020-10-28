@@ -25,7 +25,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Camera
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -77,10 +77,15 @@ Visualization Manager:
           Z: 2
       Name: MotionPlanning
       Planned Path:
-        Color Enabled: false
+        Color Enabled: true
         Interrupt Display: false
         Links:
           All Links Enabled: true
+          Camera_bracket:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           Expand Joint Details: false
           Expand Link Details: false
           Expand Tree: false
@@ -140,12 +145,12 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          forearm_link:
+          environment_table:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          ground_plane_box:
+          forearm_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -219,13 +224,13 @@ Visualization Manager:
             Show Trail: false
             Value: true
         Loop Animation: false
-        Robot Alpha: 0.5
+        Robot Alpha: 1
         Robot Color: 150; 50; 150
         Show Robot Collision: false
         Show Robot Visual: true
-        Show Trail: false
-        State Display Time: 0.05 s
-        Trail Step Size: 1
+        Show Trail: true
+        State Display Time: 0.01
+        Trail Step Size: 1000
         Trajectory Topic: /move_group/display_planned_path
       Planning Metrics:
         Payload: 1
@@ -259,6 +264,11 @@ Visualization Manager:
         Attached Body Color: 150; 50; 150
         Links:
           All Links Enabled: true
+          Camera_bracket:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           Expand Joint Details: false
           Expand Link Details: false
           Expand Tree: false
@@ -318,12 +328,12 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          forearm_link:
+          environment_table:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          ground_plane_box:
+          forearm_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -444,25 +454,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 5.117697715759277
+      Distance: 2.3766798973083496
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.35323065519332886
-        Y: 0.12310642004013062
-        Z: 0.11089382320642471
+        X: 0.23497594892978668
+        Y: 0.20505546033382416
+        Z: 1.3847848176956177
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.4603980779647827
+      Pitch: 0.6003978848457336
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.5004209876060486
+      Yaw: 5.203600883483887
     Saved: ~
 Window Geometry:
   Camera:
