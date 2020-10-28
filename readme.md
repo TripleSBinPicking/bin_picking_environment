@@ -11,7 +11,7 @@ Clone this repository:
 $ git clone https://github.com/TripleSBinPicking/bin_picking_environment.git
 ```
 
-### Install manually
+### Installation steps
 
 Go back to the `catkin_ws/src` directory. Clone the following repositories for the Universal Robots driver, the Universal Robot robot descriptions and the Robotiq descriptions.
 
@@ -59,9 +59,11 @@ Command to the planning environment:
 roslaunch triple_s_util planning_environment.launch
 ```
 The following arguments can be used (append them to the last command):
- - `gripper:=rg2` load the Onrobot RG2 gripper instead of the Robotiq 2F 85 gripper
- - `camera_on_robot:=false` load a static camera instead of a camera on the robot
- - `world:=empty` load an empty world instead of the table world
+ - `gripper:=<gripper name>` load another gripper (Either `robotiq`, `rg2` (default) or `none`)
+ - `camera_on_robot:=<true|false>` load a static camera instead of a camera on the robot (defaults: `true`)
+ - `poses:=<pose filename>` load poses from an srdf file (default: `$(find triple_s_util)/poses/test_sim.srdf`)
+ - `paused:=<true|false>` Start the simulation paused (default: `false`)
+ - `limited:=<true|false>` Limit joint movement to [`-pi`, `pi`] instead of [`-2pi`, `2pi`] (default: `true`)
 
 Command to control the gripper (once previous command is running, replace `$DISTANCE` with a value):
 ```
@@ -78,4 +80,15 @@ $ rosservice call /control_rg2 "distance: $DISTANCE"
 
 Follow the instructions in [this](documentation/Connecting%20ROS%20to%20UR5.md) document on how to set up the UR5.
 
-Start the planning environment (as in the simulation), but add the `sim:=false` option.
+Start the planning environment (as in the simulation), and use the following additional parameters:
+ - `sim:=false` to disable the simulation and use the real robot
+ - `robot_ip:=<ip of robot>` to configure the ip of the robot
+
+Be aware that MoveIt! sometimes has issues with finding plans with full joint limits [`-2pi`, `2pi`] and that this program by default limits the joints to [`-pi`, `pi`]. This has as a consequence that if the real robot is starting in a position which is outside of these limits, MoveIt! will not be able to find any solution. To solve this, disable the joint limits by adding `limited:=false`, or by moving the robot in a valid position before starting the planning environment.
+
+## Documentation
+### [Connecting ROS to UR5](documentation/Connecting%20ROS%20to%20UR5.md)
+This document describes how to setup the UR5 and ROS, so ROS can control the movement of the UR5
+
+### [Creating robot poses](documentation/Creating%20robot%20poses.md)
+This document describes how to create a file with all the robot poses.

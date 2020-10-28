@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <robot name="ur5" xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:arg name="gripper" default="robotiq" />
+    <xacro:arg name="poses" default="$(find triple_s_util)/config/poses/test_sim.srdf"/>
 
     <xacro:property name="gripper" value="$(arg gripper)" />
     <xacro:include filename="$(find ur5_moveit_config)/config/ur5.srdf" />
@@ -18,14 +19,5 @@
 
     <disable_collisions link1="Camera_bracket" link2="wrist_3_link"/>
 
-    <group_state name="home_pose" group="manipulator">
-        <joint name="elbow_joint" value="1.5707" />
-        <joint name="shoulder_lift_joint" value="-1.5707" />
-        <joint name="shoulder_pan_joint" value="0" />
-        <joint name="wrist_1_joint" value="-1.5707" />
-        <joint name="wrist_2_joint" value="-1.5707" />
-        <joint name="wrist_3_joint" value="0" />
-    </group_state>
-
-    <xacro:include filename="$(find triple_s_util)/config/poses.srdf" />
+    <xacro:include filename="$(arg poses)" />
 </robot>
