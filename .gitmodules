@@ -1,3 +1,6 @@
 [submodule "dex-net"]
 	path = dex-net
 	url = https://github.com/BerkeleyAutomation/dex-net.git
+[submodule "gqcnn"]
+	path = gqcnn
+	url = https://github.com/BerkeleyAutomation/gqcnn
