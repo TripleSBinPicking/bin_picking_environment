@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="camerasim" >
+    <xacro:macro name="environment" params="prefix:=environment_ parent">
+        <link name="${prefix}table">
+            <inertial>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <mass value="10"/>
+                <inertia ixx="8e-06" ixy="-6e-06" ixz="-0.0" iyy="6e-06" iyz="-0.0" izz="1.2e-05"/>
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://triple_s_util/meshes/viro/table.dae"/>
+                </geometry>
+                <material name="green">
+                    <color rgba="0 0.61 0.51 1.0"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://triple_s_util/meshes/viro/table.STL"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="${prefix}table_joint" type="fixed">
+            <parent link="${parent}" />
+            <child link="${prefix}table" />
+            <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
+        </joint>
+    </xacro:macro>
+</robot>

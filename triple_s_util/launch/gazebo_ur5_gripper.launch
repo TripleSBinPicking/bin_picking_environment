@@ -13,6 +13,7 @@
     <arg name="limited" default="true" doc="Limits ur joint movement to [-pi,pi]" />
     <arg name="camera_on_robot" default="true" doc="Is the camera linked to the robot? (Otherwise it is static)"/>
     <arg name="gripper" default="robotiq" doc="Set the gripper that is loaded (robotiq or rg2)"/>
+    <arg name="environment" default="saxion" doc="Set the environment of the robot"/>
 
     <!-- startup simulated world -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -29,7 +30,8 @@
             transmission_hw_interface:=$(arg transmission_hw_interface)
             limited:=$(arg limited)
             camera_on_robot:=$(arg camera_on_robot)
-            gripper_name:=$(arg gripper)"
+            gripper_name:=$(arg gripper)
+            environment:=$(arg environment)"
     />
 
     <!-- push robot_description to factory and spawn robot in gazebo -->

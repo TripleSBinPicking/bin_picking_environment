@@ -64,6 +64,7 @@ The following arguments can be used (append them to the last command):
  - `poses:=<pose filename>` load poses from an srdf file (default: `$(find triple_s_util)/poses/test_sim.srdf`)
  - `paused:=<true|false>` Start the simulation paused (default: `false`)
  - `limited:=<true|false>` Limit joint movement to [`-pi`, `pi`] instead of [`-2pi`, `2pi`] (default: `true`)
+ - `environment:=<saxion|viro>` Set the environment to load. If the `viro` environment is loaded, make sure to copy the table model files of Teams and place them in the `triple_s_util/meshes/viro` folder.
 
 Command to control the gripper (once previous command is running, replace `$DISTANCE` with a value):
 ```

@@ -1,1 +1,3 @@
 .vscode
+triple_s_util/meshes/viro/*
+!triple_s_util/meshes/viro/.gitkeep

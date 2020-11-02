@@ -5,7 +5,8 @@
     <xacro:arg name="gripper_name" default="robotiq"/>
     <xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface"/>
     <xacro:arg name="kinematics_config" default="$(find ur_description)/config/ur5_default.yaml"/>
-    
+    <xacro:arg name="environment" default="viro" />
+
     <link name="world"/>
 
     <!-- UR5 -->
@@ -31,11 +32,29 @@
         />
     </xacro:unless>
 
-    <joint name="ur5_world_joint" type="fixed">
-        <parent link="world"/>
-        <child link="base_link"/>
-        <origin xyz="0 0 1" rpy="0 0 0"/>
-    </joint>
+    <!-- environment -->
+    <xacro:property name="environment_name" value="$(arg environment)"/>
+    <xacro:if value="${environment_name == 'saxion'}">
+        <xacro:include filename="$(find triple_s_util)/urdf/saxion_table.urdf.xacro" />
+        <xacro:environment parent="world" />
+
+        <joint name="ur5_world_joint" type="fixed">
+            <parent link="world"/>
+            <child link="base_link"/>
+            <origin xyz="0 0.1 1" rpy="0 0 0"/>
+        </joint>
+    </xacro:if>
+    <xacro:if value="${environment_name == 'viro'}">
+        <xacro:include filename="$(find triple_s_util)/urdf/viro_table.urdf.xacro" />
+        <xacro:environment parent="world" />
+
+        <joint name="ur5_world_joint" type="fixed">
+            <parent link="world"/>
+            <child link="base_link"/>
+            <origin xyz="0 0 0.759" rpy="0 0 0"/>
+        </joint>
+    </xacro:if>
+    
 
     <!-- Camera Bracket-->
     <link name="Camera_bracket">
@@ -98,8 +117,4 @@
             <origin xyz="0.03 0.012 0" rpy="0 0 ${pi/2}"/>
         </xacro:camerasim>
     </xacro:if>
-
-    <!-- environment -->
-    <xacro:include filename="$(find triple_s_util)/urdf/saxion_table.urdf.xacro" />
-    <xacro:environment parent="world" />
 </robot>

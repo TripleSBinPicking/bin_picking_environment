@@ -10,6 +10,7 @@
     <arg name="camera_on_robot" default="true" doc="Is the camera linked to the robot? (Otherwise it is static)"/>
     <arg name="gripper" default="rg2" doc="Set the gripper that is loaded (robotiq or rg2)"/>
     <arg name="poses" default="$(find triple_s_util)/config/poses/test_sim.srdf" doc="Set the file that is loaded for the poses"/>
+    <arg name="environment" default="saxion"/>
 
     <!-- ======== Start gazebo (simulated environment) ======== -->
     <include file="$(find triple_s_util)/launch/gazebo_ur5_gripper.launch" if="$(arg sim)">
@@ -19,6 +20,7 @@
         <arg name="limited" value="$(arg limited)" />
         <arg name="camera_on_robot" value="$(arg camera_on_robot)"/>
         <arg name="gripper" value="$(arg gripper)"/>
+        <arg name="environment" value="$(arg environment)"/>
     </include>
 
     <!-- Start communication with the robot -->

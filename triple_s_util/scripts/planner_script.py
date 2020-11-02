@@ -66,7 +66,7 @@ class PlannerScript:
         display_trajectory.trajectory.append(plan)
         self.display_trajectory_publisher.publish(display_trajectory)
 
-        return plan        
+        return plan
 
     def executePlan(self, plan, wait=True):
         """ Execute a plan """
