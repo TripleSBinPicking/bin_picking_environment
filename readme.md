@@ -5,21 +5,15 @@ Make sure you have the following programs installed:
  - `git` 
  - `ros-melodic` (See the [ROS installation page](http://wiki.ros.org/ROS/Installation))
 
+### Installation steps
+
 Execute the following commands in the catkin workspace. (Probably `~/catkin_ws/src`)
 Clone this repository:
 ```
-$ git clone https://github.com/TripleSBinPicking/bin_picking_environment.git
+$ git clone --recurse-submodules https://github.com/TripleSBinPicking/bin_picking_environment.git
 ```
 
-### Installation steps
-
-Go back to the `catkin_ws/src` directory. Clone the following repositories for the Universal Robots driver, the Universal Robot robot descriptions and the Robotiq descriptions.
-
-```bash
-$ git clone https://github.com/UniversalRobots/Universal_Robots_ROS_Driver.git
-$ git clone -b calibration_devel https://github.com/fmauch/universal_robot.git
-$ git clone -b kinetic-devel https://github.com/TripleSBinPicking/robotiq.git
-```
+Go the the `~/catkin_ws` directory.
 
 Install all the dependencies (and update your system):
 ```bash
@@ -43,13 +37,10 @@ catkin_ws
     |    |-bin_picking_environment
     |    |    |- documentation
     |    |    |- onrobot_rg2
+    |    |    |- robotiq
     |    |    |- triple_s_util
-    |    |-fmauch_universal_robot
-    |    |    |- ...
-    |    |-robotiq
-    |    |    |- ...
-    |    |-Universal_Robots_ROS_Driver
-    |    |    |- ...
+    |    |    |- universal_robot
+    |    |    |- Universal_Robots_ROS_Driver
 ```
 ## Usage
 
