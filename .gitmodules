@@ -1,0 +1,3 @@
+[submodule "Universal_Robots_ROS_Driver"]
+	path = Universal_Robots_ROS_Driver
+	url = https://github.com/UniversalRobots/Universal_Robots_ROS_Driver.git
