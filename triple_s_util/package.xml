@@ -52,6 +52,9 @@
   <build_depend>roscpp</build_depend>
   <build_depend>rospy</build_depend>
   <build_depend>std_msgs</build_depend>
+  <build_depend>gazebo_ros_pkgs</build_depend>
+  <build_depend>gazebo_ros_control</build_depend>
+  <build_depend>libfcl</build_depend>
   <build_export_depend>roscpp</build_export_depend>
   <build_export_depend>rospy</build_export_depend>
   <build_export_depend>std_msgs</build_export_depend>
