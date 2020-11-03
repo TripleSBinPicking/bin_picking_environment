@@ -9,3 +9,7 @@
 	path = robotiq
 	url = https://github.com/TripleSBinPicking/robotiq.git
 	branch = kinetic-devel
+[submodule "Deep_Object_Pose"]
+	path = Deep_Object_Pose
+	url = https://github.com/TripleSBinPicking/Deep_Object_Pose.git
+	branch = ros-kinetic
