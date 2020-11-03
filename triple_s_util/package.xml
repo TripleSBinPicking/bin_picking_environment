@@ -60,7 +60,7 @@
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>realsense2_camera</exec_depend>
   <exec_depend>cv_bridge</exec_depend>
-  <exec_depend>vison_opencv</exec_depend>
+  <exec_depend>vision_opencv</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->
