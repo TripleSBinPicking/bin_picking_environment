@@ -13,6 +13,14 @@ Clone this repository:
 $ git clone --recurse-submodules https://github.com/TripleSBinPicking/bin_picking_environment.git
 ```
 
+Go the the `bin_picking_environment/Deep_Object_Pose` directory and install the python modules:
+
+```
+$ pip install -r requirements.txt
+```
+
+Download the file `TomatoSoup.pth` from [this](https://drive.google.com/drive/folders/1DfoA3m_Bm0fW8tOWXGVxi4ETlLEAgmcg) folder and put it in `bin_picking_environment/Deep_Object_Pose/weights`
+
 Go the the `~/catkin_ws` directory.
 
 Install all the dependencies (and update your system):
@@ -35,6 +43,7 @@ catkin_ws
     |-devel
     |-src
     |    |-bin_picking_environment
+    |    |    |- Deep_Object_Pose
     |    |    |- documentation
     |    |    |- onrobot_rg2
     |    |    |- robotiq
