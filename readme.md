@@ -4,6 +4,8 @@
 Make sure you have the following programs installed:
  - `git` 
  - `ros-melodic` (See the [ROS installation page](http://wiki.ros.org/ROS/Installation))
+ - `python-pip`
+ - [NVidia CUDA toolkit](https://developer.nvidia.com/cuda-10.2-download-archive) (installation instructions can be found [here](https://docs.nvidia.com/cuda/archive/10.2/cuda-installation-guide-linux/index.html), this repository is tested with version `10.2`)
 
 ### Installation steps
 
