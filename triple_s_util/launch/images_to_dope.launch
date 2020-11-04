@@ -6,6 +6,9 @@
     <arg name="dope_topic_publish_info" default="/dope/webcam/camera_info" doc="The DOPE topic to publish images to" />
     <arg name="dope_topic_subscribe" default="/dope/rgb_points" doc="The DOPE topic to subscribe to" />
     <arg name="camera_info_filename" default="camera_info.yaml" doc="The filename of the camera info file" />
+    <arg name="start_dope" default="true" doc="Start the doc node automatically" />
+
+    <include file="$(find dope)/launch/dope.launch" if="$(arg start_dope)"/>
 
     <node name="images_to_dope" pkg="triple_s_util" type="images_to_dope.py" output="screen">
         <param name="path_origin" value="$(arg path_origin)" />

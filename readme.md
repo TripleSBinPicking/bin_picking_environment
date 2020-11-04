@@ -95,3 +95,6 @@ This document describes how to setup the UR5 and ROS, so ROS can control the mov
 
 ### [Creating robot poses](documentation/Creating%20robot%20poses.md)
 This document describes how to create a file with all the robot poses.
+
+### [Create an annotated video](documentation/Pose%20estimation%20video.md)
+This document describes how to make an annotated video.
