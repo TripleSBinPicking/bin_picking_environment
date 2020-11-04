@@ -76,11 +76,8 @@ class ImagesToDope:
                 print 'Saved image as: ', self.current_image
             
             self.sendNextImage()
-            
 
 if __name__ == '__main__':
     rospy.init_node('images_to_dope', anonymous=True)
 
     ImagesToDope()
-
-

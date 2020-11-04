@@ -20,8 +20,6 @@ class VideoToImages:
         self.camera_info_topic = rospy.get_param('~camera_info_topic')
         self.total_images = rospy.get_param('~total_images')
 
-        print self.total_images
-
         self.stored_images = 0
         self.bridge = CvBridge()
 
@@ -65,10 +63,7 @@ class VideoToImages:
         
         file_to_save.close()
 
-
 if __name__ == '__main__':
     rospy.init_node('video_to_images', anonymous=True)
 
     VideoToImages()
-
-
