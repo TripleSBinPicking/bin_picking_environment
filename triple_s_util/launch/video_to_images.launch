@@ -1,0 +1,16 @@
+<launch>
+    <arg name="path" default="$(find triple_s_util)/local_resources/raw_images" doc="Path to save the images"/>
+    <arg name="camera_raw_topic" default="/dope/webcam/image_raw" doc="Ros topic to listen to for images"/>
+    <arg name="camera_info_topic" default="/dope/webcam/camera_info" doc="Ros topic to fetch the camera_info from"/>
+    <arg name="total_images" default="$(eval 5 * 30)" doc="The total amount of images to save"/>
+    <arg name="start_webcam" default="true" doc="Start the webcam (camera 0)" />
+
+    <include file="$(find dope)/launch/camera.launch" if="$(arg start_webcam)" />
+
+    <node name="video_to_images" pkg="triple_s_util" type="video_to_images.py" output="screen" required="true">
+        <param name="path" value="$(arg path)" />
+        <param name="camera_raw_topic" value="$(arg camera_raw_topic)"/>
+        <param name="camera_info_topic" value="$(arg camera_info_topic)"/>
+        <param name="total_images" value="$(arg total_images)"/>
+    </node>
+</launch>
