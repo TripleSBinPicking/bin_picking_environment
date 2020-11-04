@@ -6,10 +6,11 @@
 # Usage:        roslaunch triple_s_util video_to_images
 import rospy
 import sys
-from sensor_msgs.msg import Image
+from sensor_msgs.msg import Image, CameraInfo
 from cv_bridge import CvBridge, CvBridgeError
 import cv2
 import os
+import yaml
 
 class VideoToImages:
     def __init__(self):
@@ -25,6 +26,7 @@ class VideoToImages:
         self.bridge = CvBridge()
 
         camera_raw = rospy.Subscriber(self.camera_raw_topic, Image, self.videoReceivedCallback)
+        self.camera_info = rospy.Subscriber(self.camera_info_topic, CameraInfo, self.cameraInfoCallback)
 
         # Wait until all the required images are stored
         while self.stored_images < self.total_images:
@@ -52,6 +54,16 @@ class VideoToImages:
 
                 if self.stored_images % 30 == 0:
                     print 'Stored %d images' % self.stored_images
+    
+    def cameraInfoCallback(self, cameraInfo):
+        """ Store the camera info to a file, this is only done once """
+        file_to_save = file(os.path.join(self.path, rospy.get_param('~camera_info_output')), 'w')
+        
+        if yaml.dump(cameraInfo, file_to_save):
+            self.camera_info.unregister()
+            print 'Saved camera info'
+        
+        file_to_save.close()
 
 
 if __name__ == '__main__':

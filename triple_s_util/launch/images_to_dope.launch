@@ -1,0 +1,19 @@
+<launch>
+    <arg name="path_origin" default="$(find triple_s_util)/local_resources/raw_images" doc="Path to retrieve the images from" />
+    <arg name="path_save" default="$(find triple_s_util)/local_resources/dope_images" doc="Path to save the dope-images" />
+    <arg name="file_extension" default="jpeg" doc="Extension of the files" />
+    <arg name="dope_topic_publish" default="/dope/webcam/image_raw" doc="The DOPE topic to publish images to" />
+    <arg name="dope_topic_publish_info" default="/dope/webcam/camera_info" doc="The DOPE topic to publish images to" />
+    <arg name="dope_topic_subscribe" default="/dope/rgb_points" doc="The DOPE topic to subscribe to" />
+    <arg name="camera_info_filename" default="camera_info.yaml" doc="The filename of the camera info file" />
+
+    <node name="images_to_dope" pkg="triple_s_util" type="images_to_dope.py" output="screen">
+        <param name="path_origin" value="$(arg path_origin)" />
+        <param name="path_save" value="$(arg path_save)" />
+        <param name="file_extension" value="$(arg file_extension)" />
+        <param name="dope_topic_publish" value="$(arg dope_topic_publish)" />
+        <param name="dope_topic_publish_info" value="$(arg dope_topic_publish_info)" />
+        <param name="dope_topic_subscribe" value="$(arg dope_topic_subscribe)" />
+        <param name="camera_info_filename" value="$(arg camera_info_filename)" />
+    </node>
+</launch>
