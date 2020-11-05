@@ -65,6 +65,7 @@
   <exec_depend>realsense2_description</exec_depend>
   <exec_depend>cv_bridge</exec_depend>
   <exec_depend>vision_opencv</exec_depend>
+  <exec_depend>moveit_commander</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->
