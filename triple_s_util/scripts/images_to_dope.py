@@ -20,6 +20,7 @@ class ImagesToDope:
         self.extension = rospy.get_param('~file_extension')
         
         self.bridge = CvBridge()
+        self.received_images = 0
 
         self.dope_subscriber = rospy.Subscriber(rospy.get_param('~dope_topic_subscribe'), Image, self.imageReceived)
         self.dope_publisher = rospy.Publisher(rospy.get_param('~dope_topic_publish'), Image, queue_size=10, latch=True)
@@ -27,6 +28,7 @@ class ImagesToDope:
 
         # Load all filenames
         self.images = [f for f in os.listdir(self.path_origin) if os.path.isfile(os.path.join(self.path_origin, f)) and f.endswith(self.extension)]
+        self.total_images = len(self.images)
 
         # Load the config for the camera
         self.yaml_config = yaml.load(file(os.path.join(self.path_origin, rospy.get_param('~camera_info_filename'))).read())
@@ -73,7 +75,9 @@ class ImagesToDope:
             if not cv2.imwrite(os.path.join(image_path), cv2_img):
                 print 'Could not save image to ', image_path
             else:
+                self.received_images = self.received_images + 1
                 print 'Saved image as: ', self.current_image
+                print 'Progress: %d/%d' % (self.received_images, self.total_images)
             
             self.sendNextImage()
 
