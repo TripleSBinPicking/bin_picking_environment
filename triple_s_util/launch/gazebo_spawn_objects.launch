@@ -1,0 +1,13 @@
+<launch>
+    <node
+        name="gazebo_spawn_objects"
+        pkg="gazebo_ros"
+        type="spawn_model"
+        respawn="false"
+        output="screen"
+        args="-file '$(find triple_s_util)/meshes/tomato_soup/model.sdf'
+              -sdf
+              -model 'Tomato Soup'
+              -x -0.3 -y -0.3 -z 1.165 -Y 3.1415"
+    />
+</launch>
