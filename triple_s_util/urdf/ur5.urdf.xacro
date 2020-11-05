@@ -57,7 +57,7 @@
     
 
     <!-- Camera Bracket-->
-    <link name="Camera_bracket">
+    <link name="camera_bracket">
         <inertial>
             <origin rpy="0 0 0" xyz="0 0.01 -0.2239"/>
             <mass value="0.00995"/>
@@ -78,7 +78,7 @@
     </link>
     <joint name="bracket_ur5" type="fixed">
         <parent link="ee_link" />
-        <child link="Camera_bracket" />
+        <child link="camera_bracket" />
         <origin xyz="0 -0.0305 0.06298" rpy="${pi} 0 ${pi/2}" />
     </joint>
 
@@ -113,8 +113,8 @@
         </xacro:camerasim>
     </xacro:unless>
     <xacro:if value="$(arg camera_on_robot)">
-        <xacro:camerasim parent="Camera_bracket">
-            <origin xyz="0.03 0.012 0" rpy="0 0 ${pi/2}"/>
+        <xacro:camerasim parent="camera_bracket">
+            <origin xyz="0.03 0.012 0.025" rpy="${pi} 0 ${pi/2}"/>
         </xacro:camerasim>
     </xacro:if>
 </robot>

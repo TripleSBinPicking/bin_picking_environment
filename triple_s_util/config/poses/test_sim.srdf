@@ -40,4 +40,28 @@
         <joint name="shoulder_lift_joint" value="-1.66327688354" />
         <joint name="wrist_2_joint" value="-1.57092364834" />
     </group_state>
+    <group_state name="object_three" group="manipulator">
+        <joint name="elbow_joint" value="-0.862421025599" />
+        <joint name="shoulder_pan_joint" value="1.62966599898" />
+        <joint name="wrist_3_joint" value="2.73595221879" />
+        <joint name="wrist_1_joint" value="-2.59644578431" />
+        <joint name="shoulder_lift_joint" value="-2.33100019285" />
+        <joint name="wrist_2_joint" value="1.26255179896" />
+    </group_state>
+    <group_state name="object_two" group="manipulator">
+        <joint name="elbow_joint" value="-2.23071808971" />
+        <joint name="shoulder_pan_joint" value="2.21791972259" />
+        <joint name="wrist_3_joint" value="2.80859550338" />
+        <joint name="wrist_1_joint" value="-2.3375968056" />
+        <joint name="shoulder_lift_joint" value="-1.23638599079" />
+        <joint name="wrist_2_joint" value="0.505931423871" />
+    </group_state>
+    <group_state name="object_one" group="manipulator">
+        <joint name="elbow_joint" value="-2.5390846739" />
+        <joint name="shoulder_pan_joint" value="0.580020732368" />
+        <joint name="wrist_3_joint" value="-0.5308335166" />
+        <joint name="wrist_1_joint" value="0.198019096338" />
+        <joint name="shoulder_lift_joint" value="-1.4447776301" />
+        <joint name="wrist_2_joint" value="2.46769310592" />
+    </group_state>
 </robot>
