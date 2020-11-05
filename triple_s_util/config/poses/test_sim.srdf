@@ -64,4 +64,12 @@
         <joint name="shoulder_lift_joint" value="-1.4447776301" />
         <joint name="wrist_2_joint" value="2.46769310592" />
     </group_state>
+    <group_state name="dope_to_rviz" group="manipulator">
+        <joint name="elbow_joint" value="1.92118022798" />
+        <joint name="shoulder_pan_joint" value="2.16366122517" />
+        <joint name="wrist_3_joint" value="-2.88802868637" />
+        <joint name="wrist_1_joint" value="-0.515408719901" />
+        <joint name="shoulder_lift_joint" value="-1.8783918195" />
+        <joint name="wrist_2_joint" value="-0.959934662872" />
+    </group_state>
 </robot>
