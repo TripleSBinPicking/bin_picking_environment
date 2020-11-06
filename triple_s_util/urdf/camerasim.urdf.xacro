@@ -7,8 +7,18 @@
         <xacro:sensor_d435 name="${prefix}" parent="${parent}" use_nominal_extrinsics="true">
             <xacro:insert_block name="origin"/>
         </xacro:sensor_d435>
+        <link name="${prefix}_sim_link" />
 
-        <gazebo reference="${prefix}_link">
+        <!-- The TF of the camera sensor and the physical camera is wrong. This joint is used
+             to fix the rotation. The camera is still attached to ${prefix}_color_frame, but the
+             detected objects are placed relative to ${prefix}_sim_link. -->
+        <joint name="${prefix}_sim_joint" type="fixed">
+            <parent link="${prefix}_color_frame" />
+            <child link="${prefix}_sim_link" />
+            <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+        </joint>
+
+        <gazebo reference="${prefix}_color_frame">
             <sensor type="camera" name="d435_sim">
                 <update_rate>30.0</update_rate>
                 <camera name="head">

@@ -13,7 +13,7 @@ from visualization_msgs.msg import MarkerArray
 parser = argparse.ArgumentParser(description='Convert the frame ids of rosbag files')
 parser.add_argument('--input', '-i', help='Input bagfile', default='input.bag')
 parser.add_argument('--output', '-o', help='Output bagfile', default='output.bag')
-parser.add_argument('--frame', '-f', help='The frame id to use', default='/camera_color_frame')
+parser.add_argument('--frame', '-f', help='The frame id to use', default='/camera_sim_link')
 options = parser.parse_args()
 
 with rosbag.Bag(options.output, 'w') as outbag:
