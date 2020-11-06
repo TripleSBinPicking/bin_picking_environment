@@ -1,13 +1,46 @@
 <launch>
     <node
-        name="gazebo_spawn_objects"
+        name="gazebo_spawn_objects1"
         pkg="gazebo_ros"
         type="spawn_model"
         respawn="false"
         output="screen"
         args="-file '$(find triple_s_util)/meshes/tomato_soup/model.sdf'
               -sdf
-              -model 'Tomato Soup'
+              -model 'Tomato Soup1'
               -x -0.3 -y -0.3 -z 1.165 -Y 3.1415"
+    />
+    <node
+        name="gazebo_spawn_objects2"
+        pkg="gazebo_ros"
+        type="spawn_model"
+        respawn="false"
+        output="screen"
+        args="-file '$(find triple_s_util)/meshes/tomato_soup/model.sdf'
+              -sdf
+              -model 'Tomato Soup2'
+              -x -0.17 -y -0.38 -z 1.19 -R -0.33 -P -0.19 -Y 1.98"
+    />
+    <node
+        name="gazebo_spawn_objects3"
+        pkg="gazebo_ros"
+        type="spawn_model"
+        respawn="false"
+        output="screen"
+        args="-file '$(find triple_s_util)/meshes/tomato_soup/model.sdf'
+              -sdf
+              -model 'Tomato Soup3'
+              -x -0.44 -y -0.24 -z 1.18 -R 0 -P 0.73 -Y 2.48"
+    />
+    <node
+        name="gazebo_spawn_objects4"
+        pkg="gazebo_ros"
+        type="spawn_model"
+        respawn="false"
+        output="screen"
+        args="-file '$(find triple_s_util)/meshes/tomato_soup/model.sdf'
+              -sdf
+              -model 'Tomato Soup4'
+              -x -0.41 -y -0.45 -z 1.27 -R -1.16"
     />
 </launch>
