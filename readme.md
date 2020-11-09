@@ -66,7 +66,7 @@ The following arguments can be used (append them to the last command):
  - `poses:=<pose filename>` load poses from an srdf file (default: `$(find triple_s_util)/poses/test_sim.srdf`)
  - `paused:=<true|false>` Start the simulation paused (default: `false`)
  - `limited:=<true|false>` Limit joint movement to [`-pi`, `pi`] instead of [`-2pi`, `2pi`] (default: `true`)
- - `environment:=<saxion|viro>` Set the environment to load. If the `viro` environment is loaded, make sure to copy the table model files of Teams and place them in the `triple_s_util/meshes/viro` folder.
+ - `environment:=<saxion|viro>` Set the environment to load. If the `viro` environment is loaded, make sure to copy all of the [table model files of Teams](https://teams.microsoft.com/_#/school/files/Automated%20Bin%20Picking%20with%20a%20Cobot?threadId=19%3A5da6c3f517af41d690e7a41124fc332f%40thread.tacv2&ctx=channel&context=VIRO%2520Table%2520Gazebo&rootfolder=%252Fteams%252Fo365-team050700-AutomatedBinPickingwithaCobot%252FShared%2520Documents%252FAutomated%2520Bin%2520Picking%2520with%2520a%2520Cobot%252FSolidworks%2520Models%252FVIRO%2520Table%2520Gazebo) (`Automated Bin Picking with a Cobot/Solidworks Models/VIRO Table Gazebo`) and place them in the `triple_s_util/meshes/viro` folder.
 
 Command to control the gripper (once previous command is running, replace `$DISTANCE` with a value):
 ```
