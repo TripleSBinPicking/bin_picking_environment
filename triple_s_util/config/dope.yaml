@@ -1,0 +1,48 @@
+topic_camera: "/dope/webcam/image_raw"
+topic_camera_info: "/dope/webcam/camera_info"
+topic_publishing: "dope"
+input_is_rectified: True   # Whether the input image is rectified (strongly suggested!)
+downscale_height: 500      # if the input image is larger than this, scale it down to this pixel height
+
+# Comment any of these lines to prevent detection / pose estimation of that object
+weights: {
+    "TomatoSauce": "package://dope/weights/TomatoSauce.pth",
+}
+
+# Cuboid dimension in cm x,y,z
+dimensions: {
+    "TomatoSauce": [8.2847003936767578, 7.0198001861572266, 6.6469998359680176],
+}
+
+class_ids: {
+    "TomatoSauce": 1
+}
+
+draw_colors: {
+    "TomatoSauce": [0, 156, 30],
+}
+
+# optional: provide a transform that is applied to the pose returned by DOPE
+model_transforms: {
+#    "cracker": [[ 0,  0,  1,  0],
+#                [ 0, -1,  0,  0],
+#                [ 1,  0,  0,  0],
+#                [ 0,  0,  0,  1]]
+}
+
+# optional: if you provide a mesh of the object here, a mesh marker will be
+# published for visualization in RViz
+meshes: {
+    "TomatoSauce": "package://triple_s_util/meshes/tomato_soup/textured.obj",
+}
+
+# optional: If the specified meshes are not in meters, provide a scale here (e.g. if the mesh is in centimeters, scale should be 0.01). default scale: 1.0.
+mesh_scales: {
+    "TomatoSauce": 0.01,
+}
+
+# Config params for DOPE
+thresh_angle: 0.5
+thresh_map: 0.01
+sigma: 3
+thresh_points: 0.1

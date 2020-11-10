@@ -1,0 +1,7 @@
+<launch>
+    <arg name="dope_config" default="$(find triple_s_util)/config/dope.yaml" />
+
+    <include file="$(find dope)/launch/dope.launch">
+        <arg name="config" value="$(arg dope_config)" />
+    </include>
+</launch>
