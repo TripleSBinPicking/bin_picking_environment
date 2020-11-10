@@ -1,5 +1,14 @@
 <?xml version="1.0" ?>
 <robot name="rg2">
+    <group name="rg2">
+        <link name="rg2_base_link"/>
+        <link name="rg2_left_finger"/>
+        <link name="rg2_right_finger"/>
+        <link name="rg2_right_outer_link"/>
+        <link name="rg2_left_outer_link"/>
+        <link name="rg2_left_inner_link"/>
+        <link name="rg2_right_inner_link"/>
+    </group>
     <disable_collisions link1="rg2_base_link" link2="rg2_left_outer_link" reason="Adjacent" />
     <disable_collisions link1="rg2_base_link" link2="rg2_right_outer_link" reason="Adjacent" />
     <disable_collisions link1="rg2_base_link" link2="rg2_left_inner_link" reason="Adjacent" />
