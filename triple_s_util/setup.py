@@ -1,8 +1,9 @@
 from distutils.core import setup
+from catkin_pkg.python_setup import generate_distutils_setup
 
-setup(
-    version='0.0.0',
-    scripts=['scripts'],
-    packages=[],
+setup_args = generate_distutils_setup(
+    packages=['triple_s_util'],
     package_dir={'': 'src'}
 )
+
+setup(**setup_args)

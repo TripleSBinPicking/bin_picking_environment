@@ -6,3 +6,5 @@ triple_s_util/local_resources/**
 !triple_s_util/local_resources/.gitkeep
 !triple_s_util/local_resources/*/
 !triple_s_util/local_resources/*/.gitkeep
+
+*.pyc
