@@ -82,16 +82,28 @@
         <origin xyz="0 -0.0305 0.06298" rpy="${pi} 0 ${pi/2}" />
     </joint>
 
+
+    
     <!-- Gripper -->
+    <!-- The following link must be placed on the gripping location on the gripper (between the two fingers)-->
+    <link name="gripper_sim_link"/>
+    
     <xacro:property name="gripper_name" value="$(arg gripper_name)" />
     <xacro:if value="${gripper_name == 'rg2'}">
         <xacro:include filename="$(find onrobot_rg2)/urdf/rg2.macro.xacro" />
         <xacro:onrobot_rg2 prefix="rg2_" standalone="false"/>
-
+        
+        <!-- Link the rg2 to the ur5-->
         <joint name="ur5_gripper_link" type="fixed">
             <parent link="ee_link" />
             <child link="rg2_base_link" />
             <origin xyz="0.002 0 0" rpy="0 0 0" />
+        </joint>
+        <!-- Define the gripping location-->
+        <joint name="gripper_sim_link_joint" type="fixed">
+            <parent link="ee_link"/>
+            <child link="gripper_sim_link" />
+            <origin xyz="0.17 0 0" rpy="0 0 0"/>
         </joint>
     </xacro:if>
     <xacro:if value="${gripper_name == 'robotiq'}">

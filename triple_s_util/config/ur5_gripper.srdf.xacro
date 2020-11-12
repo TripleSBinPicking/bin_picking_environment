@@ -4,11 +4,20 @@
     <xacro:arg name="poses" default="$(find triple_s_util)/config/poses/test_sim.srdf"/>
 
     <xacro:property name="gripper" value="$(arg gripper)" />
-    <xacro:include filename="$(find ur5_moveit_config)/config/ur5.srdf" />
+    <xacro:include filename="$(find triple_s_util)/config/ur5.srdf" />
 
     <xacro:if value="${gripper == 'rg2'}">
         <xacro:include filename="$(find onrobot_rg2)/urdf/rg2.srdf" />
         <disable_collisions link1="camera_bracket" link2="rg2_base_link" />
+
+        <!-- Passive joints cannot be used for planning -->
+        <passive_joint name="rg2_base_link" />
+        <passive_joint name="rg2_left_finger" />
+        <passive_joint name="rg2_right_finger" />
+        <passive_joint name="rg2_right_outer_link" />
+        <passive_joint name="rg2_left_outer_link" />
+        <passive_joint name="rg2_left_inner_link" />
+        <passive_joint name="rg2_right_inner_link" />
     </xacro:if>
     <xacro:if value="${gripper == 'robotiq'}">
         <xacro:include filename="$(find robotiq_2f_85_gripper_visualization)/config/robotiq_2f_85.srdf" />
