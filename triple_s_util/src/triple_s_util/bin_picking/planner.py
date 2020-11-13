@@ -38,9 +38,6 @@ class Planner:
             moveit_msgs.msg.DisplayTrajectory,
             queue_size=10
         )
-
-        if not self.checkNamedTargets():
-            rospy.logwarn('Missing one or multiple named targets. bin_picking.py will not work as expected!')
     
     def displayPlan(self, plan):
         """
