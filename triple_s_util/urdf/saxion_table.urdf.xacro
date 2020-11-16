@@ -10,7 +10,7 @@
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <mesh filename="package://triple_s_util/meshes/saxion_table.dae"/>
+                    <mesh filename="package://triple_s_util/meshes/saxion/saxion_table.dae"/>
                 </geometry>
                 <material name="green">
                     <color rgba="0 0.61 0.51 1.0"/>
@@ -19,7 +19,7 @@
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <mesh filename="package://triple_s_util/meshes/saxion_table.dae"/>
+                    <mesh filename="package://triple_s_util/meshes/saxion/saxion_table.dae"/>
                 </geometry>
             </collision>
         </link>

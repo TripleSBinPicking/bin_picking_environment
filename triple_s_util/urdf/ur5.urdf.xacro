@@ -66,13 +66,13 @@
         <visual>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <geometry>
-                <mesh filename="package://triple_s_util/meshes/Camera_bracket.STL" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://triple_s_util/meshes/camera_bracket.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </visual>
         <collision>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <geometry>
-                <mesh filename="package://triple_s_util/meshes/Camera_bracket.STL" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://triple_s_util/meshes/camera_bracket.stl" scale="0.001 0.001 0.001"/>
             </geometry>
         </collision>
     </link>
