@@ -22,7 +22,7 @@ The launchfile has a few parameters. They can be used by adding `<parameter name
 | `camera_on_robot` | `true` or `false` | `true` | Launches the robot with the camera connected to the robot. If set to false, the camera is static in the world |
 | `gripper` | `rg2`, `robotiq` or `none` | `rg2` | The gripper to put on the robot |
 | `poses` | Path to `srdf` file | `triple_s_util/config/poses/test_sim.srdf` | Path to an `srdf` file that contains pose definitions |
-| `environment` | `saxion` or `viro` | `saxion` | The environment to put the robot in |
+| `environment` | `saxion` or `viro` | `saxion` | The environment to put the robot in. If the `viro` environment is loaded, make sure to copy all of the [table model files of Teams](https://teams.microsoft.com/_#/school/files/Automated%20Bin%20Picking%20with%20a%20Cobot?threadId=19%3A5da6c3f517af41d690e7a41124fc332f%40thread.tacv2&ctx=channel&context=VIRO%2520Table%2520Gazebo&rootfolder=%252Fteams%252Fo365-team050700-AutomatedBinPickingwithaCobot%252FShared%2520Documents%252FAutomated%2520Bin%2520Picking%2520with%2520a%2520Cobot%252FSolidworks%2520Models%252FVIRO%2520Table%2520Gazebo) (`Automated Bin Picking with a Cobot/Solidworks Models/VIRO Table Gazebo`) and place them in the `triple_s_util/meshes/viro` folder. |
 
 ## How it works
 The launchfile uses lots of other launchfiles, which each have some use for the robot.
