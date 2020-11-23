@@ -20,14 +20,27 @@ class BinPickingSequencer():
         self.sequence()
 
     def sequence(self):
+        object_to_request = 'tomatosauce'
+
+        # Temporary: Move to start position
+        rospy.loginfo('Moving to start position')
+        self.planner.planAndExecuteNamedTarget('dope_to_rviz')
+
         # Request a pose of an object through the service
-        request = self.requestObjectPose('tomatosauce')
+        rospy.loginfo('Requesting object position')
+        request = self.requestObjectPose(object_to_request)
+        rospy.loginfo('Got object position')
 
-        # Set the reference frame of the pose to the camera
-        request.object_pose.header.frame_id = 'camera_sim_link'
+        if request.found_object:
+            # Set the reference frame of the pose to the camera
+            request.object_pose.header.frame_id = rosparamOrDefault('~camera_link', 'camera_sim_link')
 
-        if not self.planner.planAndExecuteInReferenceFrame(request.object_pose):
-            rospy.logwarn('Couldn\'t move into position to grab the object!')
+            if not self.planner.planAndExecuteInReferenceFrame(request.object_pose):
+                rospy.logwarn('Couldn\'t move into position to grab the object!')
+            else:
+                rospy.loginfo('Moved to object')
+        else:
+            rospy.logwarn('Couldn\'t find any objects of type \"%s\"' % object_to_request)
 
         # Sleep for a bit
         rospy.sleep(10)

@@ -48,19 +48,22 @@ class FindObject:
         self.dopeCollection.reset()
         
         # Wait until the data from DOPE is received
-        while not self.dopeCollection.is_complete:
+        while not self.dopeCollection.isComplete():
             rospy.sleep(0.1)
 
         # Fetch the result
-        poses, markers = self.dopeCollection.getResults()
+        poses, markers, detections = self.dopeCollection.getResults()
         self.dopeCollection.reset()
 
         # Filter poses for this type
         requested_poses = self.filterPosesForObject(request.object_name, poses)
 
+        # Create response instance
+        result = triple_s_util.srv.ObjectRequestResponse()
+
         if len(requested_poses) == 0:
             rospy.loginfo('DOPE didn\'t detect any objects of type \"%s\"' % request.object_name)
-            return None
+            result.found_object = False
         else:
             best_pose = self.chooseBestPose(requested_poses)
 
@@ -71,7 +74,10 @@ class FindObject:
                 best_pose.pose.position.z
                 )
             )
-            return best_pose
+            result.found_object = True
+            result.object_pose = best_pose
+
+        return result
     
     def filterPosesForObject(self, object_name, poses):
         """

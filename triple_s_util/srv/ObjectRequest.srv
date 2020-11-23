@@ -1,3 +1,4 @@
 string object_name
 ---
+bool found_object
 geometry_msgs/PoseStamped object_pose
