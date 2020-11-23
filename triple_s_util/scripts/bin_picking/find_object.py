@@ -8,6 +8,7 @@ Description:  FindObject starts a service which will return the best object loca
 import sys
 import rospy
 import sensor_msgs.msg
+import geometry_msgs.msg
 import visualization_msgs.msg
 import triple_s_util.srv
 import message_filters
@@ -33,6 +34,12 @@ class FindObject:
             triple_s_util.srv.ObjectRequest,
             self.onObjectRequest
         )
+        
+        if not rospy.has_param('/dope/class_ids'):
+            rospy.logerr('FindObject: /dope/class_ids is not loaded on the parameter server!')
+            sys.exit(1)
+
+        self.classIds = rospy.get_param('/dope/class_ids')
 
         rospy.loginfo('Done initializing find_object.py')
 
@@ -44,6 +51,17 @@ class FindObject:
         """
         rospy.loginfo('Requesting object of type: %s' % request.object_name)
 
+        # Create response instance
+        result = triple_s_util.srv.ObjectRequestResponse()
+
+        # Get the class id for this object name
+        class_id = self.getClassId(request.object_name)
+
+        if class_id < 0:
+            rospy.logwarn('Object not detectable because it is not registered in DOPE!')
+            result.found_object = False
+            return result
+
         self.forwardImage.forwardNext()
         self.dopeCollection.reset()
         
@@ -52,20 +70,19 @@ class FindObject:
             rospy.sleep(0.1)
 
         # Fetch the result
-        poses, markers, detections = self.dopeCollection.getResults()
-        self.dopeCollection.reset()
+        _, _, detections = self.dopeCollection.getResults()
 
-        # Filter poses for this type
-        requested_poses = self.filterPosesForObject(request.object_name, poses)
-
-        # Create response instance
-        result = triple_s_util.srv.ObjectRequestResponse()
-
-        if len(requested_poses) == 0:
+        detections = self.filterDetectionsForClassId(class_id, detections.detections)
+        
+        if len(detections) == 0:
             rospy.loginfo('DOPE didn\'t detect any objects of type \"%s\"' % request.object_name)
             result.found_object = False
         else:
-            best_pose = self.chooseBestPose(requested_poses)
+            best_detection = self.chooseBestDetection(detections)
+
+            best_pose = geometry_msgs.msg.PoseStamped()
+            best_pose.header = best_detection.header
+            best_pose.pose = best_detection.results[0].pose.pose
 
             rospy.loginfo('Best pose for %s found at [%2.05f, %2.05f, %2.05f]:' % (
                 request.object_name,
@@ -76,25 +93,38 @@ class FindObject:
             )
             result.found_object = True
             result.object_pose = best_pose
-
+        
         return result
     
-    def filterPosesForObject(self, object_name, poses):
+    def filterDetectionsForClassId(self, class_id, detections):
         """
-        Find the poses that belong to a specific object
+        Filter the 
+        class_id -- Id of class to find
+        detections -- vision_msgs/Detection3D[]
+        """
+        return [detection for detection in detections if detection.results[0].id == class_id]
 
-        object_name -- The object that we are trying to find poses for
-        poses -- The list of poses in a tuple (object_name, pose)
-        """
-        return [pose for object_type, pose in poses if object_type == object_name]
-    
-    def chooseBestPose(self, pose_results):
+    def chooseBestDetection(self, detections):
         """ Find the best pose to move to (WIP)"""
-        if len(pose_results) > 0:
+        if len(detections) > 0:
             # TODO actually choose the best option
-            return pose_results[0]
+            return detections[0]
         else:
             return None
+
+    def getClassId(self, class_name):
+        """
+        Convert the class name into the class id of the object
+
+        class_name -- the name of the object
+
+        return -- the id of the object
+        """
+        if class_name in self.classIds:
+            return self.classIds[class_name]
+        else:
+            return -1
+        
         
 if __name__ == '__main__':
     rospy.init_node('find_object', anonymous=True)
