@@ -21,7 +21,7 @@ Go the the `bin_picking_environment/Deep_Object_Pose` directory and install the 
 $ pip install -r requirements.txt
 ```
 
-Download the file `TomatoSoup.pth` from [this](https://drive.google.com/drive/folders/1DfoA3m_Bm0fW8tOWXGVxi4ETlLEAgmcg) folder and put it in `bin_picking_environment/Deep_Object_Pose/weights`
+Download all the files from [this](https://bit.ly/3S-ABWAC-WEIGHTS) folder and put it in `bin_picking_environment/Deep_Object_Pose/weights`
 
 Go the the `~/catkin_ws` directory.
 
@@ -83,12 +83,16 @@ Start the planning environment (as in the simulation), and use the following add
 
 Be aware that MoveIt! sometimes has issues with finding plans with full joint limits [`-2pi`, `2pi`] and that this program by default limits the joints to [`-pi`, `pi`]. This has as a consequence that if the real robot is starting in a position which is outside of these limits, MoveIt! will not be able to find any solution. To solve this, disable the joint limits by adding `limited:=false`, or by moving the robot in a valid position before starting the planning environment.
 
-## Documentation
-### [Connecting ROS to UR5](documentation/Connecting%20ROS%20to%20UR5.md)
-This document describes how to setup the UR5 and ROS, so ROS can control the movement of the UR5
-
-### [Creating robot poses](documentation/Creating%20robot%20poses.md)
-This document describes how to create a file with all the robot poses.
-
-### [Create an annotated video](documentation/Pose%20estimation%20video.md)
-This document describes how to make an annotated video.
+## Documentation (WIP)
+- [1. Robot setup](#installation)
+  - [1.1 Installation](#installation)
+  - [1.2 Connecting ROS to UR5](documentation/Connecting%20ROS%20to%20UR5.md)
+  - [1.3 Creating robot poses](documentation/Creating%20robot%20poses.md)
+- [2. DOPE setup]()
+  - [2.1 NNDS tutorial](documentation/NNDS%20tutorial.md)
+  - [2.2 Training DOPE](documentation/Training%20DOPE.md)
+  - [2.3 Result from DOPE](documentation/Result%20from%20DOPE.md)
+- [3. Usage](#usage)
+  - [3.1 Planning Environment Explanation](documentation/Planning%20Environment%20Explanation.md)
+- [2. Other](#installation)
+  - [Create an annotated video](documentation/Pose%20estimation%20video.md)
