@@ -69,6 +69,7 @@ model = torch.load('/path/to/net_epoch_xx.pth')
 
 torch.save(model, '/path/to/net_epoch_xx_old.pth', _use_new_zipfile_serialization=False)
 ```
+This script must be run either on Kaggle, or on machine that has python 3 and PyTorch 1.6+.
 Use the `pth` file with the zipfile serialization disabled by placing it in the `Deep_Object_Pose/weights` folder.
 
 ### Validating your dataset
