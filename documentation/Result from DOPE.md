@@ -119,4 +119,18 @@ vision_msgs/Detection3D[] detections
       float64 z
 ```
 
-DOPE publishes more messages on different topics, but all that data can also be found in the message above.
+DOPE publishes more messages on different topics, but all that data can also be found in the message above. Note that the two poses that are returned, are relative to the camera. In order to place them in the reference frame of the robot planning the coordinates should be transformed. This can be done with the help of the [tf package](http://wiki.ros.org/tf) :
+```python
+import tf
+from geometry_msgs.msg import PoseStamped
+
+listener = tf.TransformListener()
+
+# The input pose contains position, orientation and a frame_id
+# For example, a frame_id of 'camera_sim_link'
+input_pose = PoseStamped()
+input_pose.header.frame_id = 'camera_sim_link'
+
+# output_pose contains the same pose, but in the reference frame of the base_link
+output_pose = listener.transformPose('base_link', input_pose)
+```
