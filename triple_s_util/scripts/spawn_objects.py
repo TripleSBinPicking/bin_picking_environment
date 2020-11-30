@@ -83,7 +83,7 @@ def createSpawnMessage(
     request = SpawnModelRequest()
     request.model_name = model_name
     
-    file = open(resource_retriever.get_filename(model_xml, use_protocol=False))
+    file = open(resource_retriever.get_filename(model_path, use_protocol=False))
     request.model_xml = file.read()
     file.close()
 
