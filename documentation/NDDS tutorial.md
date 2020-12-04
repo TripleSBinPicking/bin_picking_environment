@@ -17,4 +17,4 @@ Adding your own objects into the project is rather easy. First make the object i
 To train an AI with DOPE, not all possible image options are needed. For DOPE, only the Object Data and True Color elements are needed. This can be changed by selecting your SceneCapturer_Simple which was setup in the NDDS tutorial and go under details to Feature Extraction. Then deselect all array elements except for Object Data and True Color.
 Another important setting that has to be changed is the Captured Image Size. This has to be set to 400 x 400 pixels, because DOPE only takes this format for training.
 
-![Capturer settings for DOPE](documentation/resources/capturer_settings_ue4.PNG)
+![Capturer settings for DOPE](/documentation/resources/capturer_settings_ue4.PNG)
