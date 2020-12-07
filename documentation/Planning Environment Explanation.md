@@ -1,6 +1,4 @@
 # Planning Environment Explanation
-_Last update: 16 november 2020_
-
 This document describes what the [planning environment launchfile](../triple_s_util/launch/planning_environment.launch) does. The planning environment launchfile is the main launchfile for controlling the UR5 robot. It has the option to start and control the real robot, as well as a simulated robot.
 
 ## Starting the planning environment
@@ -45,3 +43,51 @@ Once a robot is running (either in a simulation, or a real robot), [MoveIt](http
 A [semantic robot description](http://wiki.ros.org/srdf) is also loaded on the ROS parameter server. The semantic robot description contains joint groups, named robot poses and other configuration settings for the robot.
 
 Finally, [rviz](http://wiki.ros.org/rviz) is started. Rviz can visualize what the robot is doing, and what is going to do.
+
+## Using Rviz
+The main goal of Rviz is to visualize what is happening in all the scripts that are running. In the display window on the left of the screen you can see the different displays that rviz is currently showing.
+
+![Rviz displays](resources/rviz_displays.png)
+
+The first three options are not that interesting and are just there to make Rviz run. However, the next three displays can be very usefull.
+
+### Motion Planning
+
+The motion planning display is used to show information about the current position and the movement planning of the robot. These things are visible in the 3D view on the right of Rviz. It is also possible to move the robot to a position using this display. There three robots visible:
+ 
+ 1. A normal colored robot. This is the current position of the robot
+ 2. A orange colored robot. This is the robot you can move around in Rviz. It is also possible to move the actual robot to the position (this is explained later)
+ 3. Multiple purple colored robots. This is the path of the robot that is going to take to reach its destination goal
+
+In the screen on the bottom left you can manipulate the robot movement planning.
+
+![Rviz motion planning](resources/rviz_motion_planning.png)
+
+There are a lot of options, but the two most interesting are the buttons under *Commands* and *Query*.
+
+Command buttons:
+ - *Plan* will calculate the motion the robot will have to make to move the robot to the orange colored robot
+ - *Execute* will execute said plan
+ - *Plan and Execute* will do both of those tings
+ - *Stop* will stop the motion of the robot
+
+Query buttons:
+ - *Planning Group* can determine the joint group for which a planning should be created. Should be left on *manipulator*
+ - *Start State* can set the start location of the path that the robot is going to take. Should be left on *\<current\>*
+ - *Goal State* can set a predefined location to create a planning to. More locations can be added using the `poses` parameter. (As described in [parameters](#parameters))
+
+A lot of other options are available, but are not used for this project.
+
+### Image
+The second display that is used is the Image display. This display shows the current camera view. It can be enabled by clicking *Image* in the bottom left of the screen (next to *MotionPlanning*). If the camera that is used runs on another topic, it can be changed by expanding the Image dropdown under *Displays* and changing the *Image Topic* value to the desired topic.
+
+### MarkerArray
+The thrid display is a MarkerArray display. This display is used to visualize were the detected objects are in the Rviz environment. If objects are detected they are displayed in the 3D view, as shown in the image below.
+
+![Objects in Rviz](resources/object_in_rviz.jpeg)
+
+The value that comes after the name of the object is a value between zero and one and shows the confidence that DOPE has that the object is at that location (zero is not confident, one is absolutely sure).
+
+Read next:  
+[Connecting ROS to UR5](Connecting%20ROS%20to%20UR5.md)  
+[Creating robot poses](Creating%20robot%20poses.md)

@@ -79,6 +79,8 @@ The program that was created at step 4, doesn't have any instructions in it yet.
 To easily reuse this program, you can save it on the robot.
 
 ### Step 7: Launch
+
+#### Without Rviz and MoveIt
 First, launch the ROS program that connects to the robot.
 ```bash
 $ roslaunch triple_s_util physical_robot.launch robot_ip:=<ip of robot>
@@ -87,3 +89,10 @@ $ roslaunch triple_s_util physical_robot.launch robot_ip:=<ip of robot>
 After this has successfully launched, click start on the UR5. The console on the ROS computer should now say `Ready to receive commands`.
 
 This can be tested by using `rqt` and loading a `joint trajectory controller` plugin. This will allow you to control all the joints.
+
+#### With Rviz and MoveIt
+The planning environment launchfile can be used:
+```bash
+$ roslaunch triple_s_util planning_environment.launch robot_ip:=<ip of robot> sim:=false
+```
+For more information, read [Planning environment explanation](Planning%20Environment%20Explanation.md)

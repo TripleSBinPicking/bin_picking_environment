@@ -33,4 +33,7 @@ So, put your robot in the position you want to save, and hit enter. Only when yo
 Finally, the program will ask you if you want to save another position. Hit enter `y` to enter another position, anything else will cause the program to save the file and exit.
 
 ### Step 4: Use the poses
-The poses are now saved to the specified path in `srdf` format. Load this file in your semantic robot description in order to use them.
+The poses are now saved to the specified path in `srdf` format. They can be loaded in using the `poses` parameter of the [planning environment launchfile](Planning%20Environment%20Explanation.md#parameters).
+
+Read next:  
+[Creating a dataset using NNDS](NDDS%20tutorial.md)  
