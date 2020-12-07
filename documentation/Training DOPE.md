@@ -77,3 +77,6 @@ Before you train DOPE, it is a good idea to validate that your dataset is correc
 ![DOPE dataset validation](resources/dope_train_lowercase.png)
 Dope has also distorted each image to make the result more robust for different kind of situations. If the dataset is not correctly loaded, you might get an error, or images without cuboids drawn on them:
 ![DOPE dataset validation2](resources/dope_train_capitalized.png)
+
+Read next:  
+[Running DOPE on still images](DOPE%20on%20still%20images.md)

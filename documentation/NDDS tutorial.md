@@ -28,3 +28,6 @@ To train an AI with DOPE, not all possible image options are needed. For DOPE, o
 Another important setting that has to be changed is the Captured Image Size. This has to be set to 400 x 400 pixels, because DOPE only takes this format for training.
 
 ![Capturer settings for DOPE](resources/capturer_settings_ue4.PNG)
+
+Read next:  
+[Training DOPE](Training%20DOPE.md)

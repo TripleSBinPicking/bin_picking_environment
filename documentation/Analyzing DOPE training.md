@@ -1,4 +1,6 @@
 # Analyzing DOPE Training
+This document describes our experience in training DOPE to detect new images.
+
 ### First dataset
 To train DOPE to detect new objects, it is necessary to create a robust dataset. For this project [NNDS](NNDS%20Tutorial.md) was used to generate the dataset. For the first training session, a dataset of 30.000 domain-randomized images were used. A subset of these images is shown below. Note that the distortion that can be seen does not have to be present in the dataset. The distortion is automatically applied before the trained dataset is used.
 
@@ -36,7 +38,7 @@ The loss values of this training session are also a bit better than the first se
 ![1st and 2nd dataset](resources/DOPE/beeropener_sessions.png)
 
 ### Recommendations
-It is recommended that the dataset is extended to the 60.000 domain-randomized images and 60.000 foto-realistic images. This will make the AI perform better.
+It is recommended that the dataset is extended to the 60.000 domain-randomized images and 60.000 foto-realistic images. This will make the AI perform better. It is also recommended to include images in wich the desired object is close to the camera. Currently DOPE is not able to reliably detect objects when they are very close.
 
 
 [^1]: One epoch is one training on all the data
