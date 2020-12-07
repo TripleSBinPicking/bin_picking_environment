@@ -16,15 +16,15 @@ For making the level, the original tutorial can be followed from page 12.
 ### Adding your own objects
 Adding your own objects into the project is rather easy. First make the object in for example Blender and export it as an .fbx file. Then drag it into a seperate folder and accept the import popup. An example for a folder structure is shown in the figure below. Here we have added a folder under Content named Objects in which seperate folders for each object is made. After this, you can drag the object into the map and before the camera. Try to position it in a way that the scene capturer has a good view on it. 
 
-![Folder structure in Unreal Engine](/documentation/resources/Folder_structure_ue4.PNG)
+![Folder structure in Unreal Engine](resources/Folder_structure_ue4.PNG)
 
 ### Adding random movement and rotation to objects
 After adding your objects, to get the random movement and rotation we will use a blueprint. Click on one of the objects that you want to use and select the blue button with Blueprint/Add Script. Then make the blueprint shown under here:
 
-![Random movement blueprint](/documentation/resources/Mover_blueprint.png)
+![Random movement blueprint](resources/Mover_blueprint.png)
 
 ### Export options for training with DOPE
 To train an AI with DOPE, not all possible image options are needed. For DOPE, only the Object Data and True Color elements are needed. This can be changed by selecting your SceneCapturer_Simple which was setup in the NDDS tutorial and go under details to Feature Extraction. Then deselect all array elements except for Object Data and True Color.
 Another important setting that has to be changed is the Captured Image Size. This has to be set to 400 x 400 pixels, because DOPE only takes this format for training.
 
-![Capturer settings for DOPE](/documentation/resources/capturer_settings_ue4.PNG)
+![Capturer settings for DOPE](resources/capturer_settings_ue4.PNG)
