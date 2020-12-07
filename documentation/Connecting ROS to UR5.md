@@ -96,3 +96,6 @@ The planning environment launchfile can be used:
 $ roslaunch triple_s_util planning_environment.launch robot_ip:=<ip of robot> sim:=false
 ```
 For more information, read [Planning environment explanation](Planning%20Environment%20Explanation.md)
+
+Read next:  
+[Creating robot poses](Creating%20robot%20poses.md)
