@@ -18,9 +18,9 @@ bool found_object
 geometry_msgs/PoseStamped object_pose
 ```
 
-If an object is requested, it sends a single frame of the camera feed to DOPE. DOPE doesn't constantly analyze the camera feed, because this takes a lot of processing power and is not needed for this system.
+If an object is requested, it sends a single frame of the camera feed to DOPE. DOPE doesn't constantly analyze the camera feed, because this takes a lot of processing power and is not needed for this system. Once DOPE has analyzed the image, the find object script will filter out the objects of the type that was requested. If there are multiple objects available, the script will determine which objects is the best candidate for picking up.
 
-The script that invokes the service is the bin_picking_sequence.py script
+The script that invokes the service is the bin_picking_sequence.py script.
 
 ### [`bin_picking_sequence.py`](../triple_s_util/scripts/bin_picking/bin_picking_sequence.py)
 

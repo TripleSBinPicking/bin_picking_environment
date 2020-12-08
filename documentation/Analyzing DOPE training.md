@@ -48,3 +48,6 @@ It is recommended that the dataset is extended to the 60.000 domain-randomized i
 ![L2 Loss function](resources/DOPE/l2_loss_function.png)
 
 Note that the loss only says something of the performance of the AI on the dataset that it is training on. A bad dataset can still have good loss values. It cannot be said that one AI is better than another AI because the loss value is lower.
+
+Read next:  
+[Configuring DOPE](Configuring%20DOPE.md)

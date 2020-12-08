@@ -13,6 +13,7 @@ This repository is for a project for saxion' smart solution semester. It was car
   - [2.3 Running DOPE on still images](documentation/DOPE%20on%20still%20images.md)
   - [2.3 Result from DOPE](documentation/Result%20from%20DOPE.md)
   - [2.4 Analyizing dope training](documentation/Analyzing%20DOPE%20training.md)
+  - [2.5 Configuring DOPE](documentation/Configuring%20DOPE.md)
 - [3. Picking up an object (WIP)](documentation/Picking%20up%20object%20overview.md)
   - [3.1 Overview (WIP)](documentation/xxx.md)
   - [3.2 Selecting the specific object (WIP)](documentation/xxx.md)
