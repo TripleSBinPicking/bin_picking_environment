@@ -29,5 +29,7 @@ Another important setting that has to be changed is the Captured Image Size. Thi
 
 ![Capturer settings for DOPE](resources/capturer_settings_ue4.PNG)
 
+
+
 Read next:  
 [Training DOPE](Training%20DOPE.md)
