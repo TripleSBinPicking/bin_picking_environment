@@ -19,7 +19,7 @@ Adding your own objects into the project is rather easy. First make the object i
 ![Folder structure in Unreal Engine](resources/Folder_structure_ue4.PNG)
 
 ### Adding random movement and rotation to objects
-After adding your objects, to get the random movement and rotation we will use a blueprint. Click on one of the objects that you want to use and select the blue button with Blueprint/Add Script. Then make the blueprint shown under here:
+After adding your objects, to get the random movement and rotation we will use a blueprint. Click on one of the objects that you want to use and select the blue button with Blueprint/Add Script. Then make the blueprint shown under here. Blueprint components can be added by right clicking on the surface and typing the name of the component you want to add. The delay in this blueprint is added so the object_settings.json that NDDS outputs a regular fixed model transform instead of it being made when it is already moving and rotating.
 
 ![Random movement blueprint](resources/Mover_blueprint.png)
 
@@ -28,6 +28,8 @@ To train an AI with DOPE, not all possible image options are needed. For DOPE, o
 Another important setting that has to be changed is the Captured Image Size. This has to be set to 400 x 400 pixels, because DOPE only takes this format for training.
 
 ![Capturer settings for DOPE](resources/capturer_settings_ue4.PNG)
+
+
 
 Read next:  
 [Training DOPE](Training%20DOPE.md)
