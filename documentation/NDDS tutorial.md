@@ -14,12 +14,12 @@ To make your own sysnthetic dataset for use with DOPE, there are a few things to
 For making the level, the original tutorial can be followed from page 12.
 
 ### Adding your own objects
-Adding your own objects into the project is rather easy. First make the object in for example Blender and export it as an .fbx file. Then drag it into a seperate folder and accept the import popup. An example for a folder structure is shown in the figure below. Here we have added a folder under Content named Objects in which seperate folders for each object is made. After this, you can drag the object into the map and before the camera. Try to position it in a way that the scene capturer has a good view on it. 
+Adding your own objects into the project is rather easy. First make the object in for example Blender and export it as an .fbx file. Then drag it into a seperate folder and accept the import popup. An example for a folder structure is shown in the figure below. Here we have added a folder under Content named Objects in which seperate folders for each object is made. After this, you can drag the object into the map and in front of the camera. Try to position it in a way that the scene capturer has a good view on it. 
 
 ![Folder structure in Unreal Engine](resources/Folder_structure_ue4.PNG)
 
 ### Adding random movement and rotation to objects
-After adding your objects, to get the random movement and rotation we will use a blueprint. Click on one of the objects that you want to use and select the blue button with Blueprint/Add Script. Then make the blueprint shown under here. Blueprint components can be added by right clicking on the surface and typing the name of the component you want to add. The delay in this blueprint is added so the object_settings.json that NDDS outputs a regular fixed model transform instead of it being made when it is already moving and rotating.
+After adding your objects, to get the random movement and rotation we will use a blueprint. Click on one of the objects that you want to use and select the blue button with Blueprint/Add Script. Then make the blueprint shown below. Blueprint components can be added by right clicking on the surface and typing the name of the component you want to add. The delay in this blueprint is added, so the object_settings.json that NDDS outputs has a regular fixed model transform, instead of it being made when it is already moving and rotating, which disturbs the .
 
 ![Random movement blueprint](resources/Mover_blueprint.png)
 
