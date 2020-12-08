@@ -30,7 +30,7 @@ $ pip install -r requirements.txt
 
 5. Go back to the the `~/catkin_ws` directory.
 ```
-$ ~/catkin_ws
+$ cd ~/catkin_ws
 ```
 
 6. Install all the dependencies (and update your system):

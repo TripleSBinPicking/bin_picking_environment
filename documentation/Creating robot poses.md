@@ -1,12 +1,11 @@
 # Creating robot poses
-This document describes how to create robot poses that can be used to control the robot.
+This document describes how to create robot poses that can be used to move the robot to a fixed position.
 
 ### Step 1: Run the planning environment
 Start up the planning environment:
 ```bash
 $ roslaunch triple_s_util planning_environment.launch
 ```
-
 Use all the paremeters that you need for this configuration. I.e. simulation, world, gripper etc.
 
 ### Step 2: Run the save_poses.py script
@@ -30,7 +29,7 @@ Press enter if the robot is in the pose that has to be stored.
 ```
 So, put your robot in the position you want to save, and hit enter. Only when you hit enter the position will be saved. Once it has fetched the position, it will ask you to give this position a name. Make sure this name is unique.
 
-Finally, the program will ask you if you want to save another position. Hit enter `y` to enter another position, anything else will cause the program to save the file and exit.
+Finally, the program will ask you if you want to save another position. Insert `y` to enter another position, anything else will cause the program to save the file and exit.
 
 ### Step 4: Use the poses
 The poses are now saved to the specified path in `srdf` format. They can be loaded in using the `poses` parameter of the [planning environment launchfile](Planning%20Environment%20Explanation.md#parameters).
