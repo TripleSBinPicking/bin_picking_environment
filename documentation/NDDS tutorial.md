@@ -9,12 +9,12 @@ In step 1, the original writers want you to get the file via github lfs, but thi
 To start NDDS just open the NDDS.uproject file that is in the \Source directory of the NDDS folder.
 
 ## Making your own synthetic dataset
-To make your own sysnthetic dataset for use with DOPE, there are a few things to keep in mind.
+To make your own synthetic dataset for use with DOPE, there are a few things to keep in mind.
 ### Making the level
 For making the level, the original tutorial can be followed from page 12.
 
 ### Adding your own objects
-Adding your own objects into the project is rather easy. First make the object in for example Blender and export it as an .fbx file. Then drag it into a seperate folder and accept the import popup. An example for a folder structure is shown in the figure below. Here we have added a folder under Content named Objects in which seperate folders for each object is made. After this, you can drag the object into the map and in front of the camera. Try to position it in a way that the scene capturer has a good view on it. 
+Adding your own objects into the project is rather easy. First make the object in for example Blender and export it as an .fbx file. Then drag it into a separate folder and accept the import popup. An example for a folder structure is shown in the figure below. Here we have added a folder under Content named Objects in which separate folders for each object is made. After this, you can drag the object into the map and in front of the camera. Try to position it in a way that the scene capturer has a good view on it. 
 
 ![Folder structure in Unreal Engine](resources/Folder_structure_ue4.PNG)
 
