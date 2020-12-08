@@ -23,10 +23,10 @@ So, in order to run for 60 epochs the entire command could be:
 ```bash
 rosrun dope train.py --data /path/to/dataset --object bicycle --outf /path/to/output --epochs 60
 ```
-Once the command is run the AI will start training on the new object. After each epoch a `.pth` is created in the directory specified using `--outf`. Place the file of the heighest epoch in `Deep_Object_Pose/weights` in order to use it.
+Once the command is run the AI will start training on the new object. After every epoch a `.pth` is created in the directory specified using `--outf`. Place the file of the highest epoch in `Deep_Object_Pose/weights` in order to use it.
 
 ### Running on Kaggle
-In order to run on Kaggle some modifications will have to be made. Some of these modifications are a bit _hacky_, but that is necessary because DOPE is not intended to run on Kaggle.
+In order to run on Kaggle some modifications will have to be made. Some of these modifications are a bit _hacky_, but this is necessary because DOPE is not intended to run on Kaggle.
 
 Insert the following code into a Kaggle code field:
 ```python
@@ -43,7 +43,7 @@ sys.argv = 'train.py --data /kaggle/input/beer-opener2/Bieropener --object biero
 import Deep_Object_Pose.scripts.train as train
 ```
 You can place your command parameters in `sys.argv`, make sure to include `train.py` at the beginning and keep the `.split(' ')` function call at the end.
-You can access your dataset by creating a new dataset in Kaggle, uploading your image dataset and then adding it to the Kaggle notebook. The dataset will then be located in `/kaggle/input/<dataset name>`. Make sure to put the output in `/kaggle/working`, otherwise you wont be able to access it afterwards. Also make sure to enable GPU acceleration and internet access. An example of a Kaggle notebook can be found in the following image:
+You can access your dataset by creating a new dataset in Kaggle, uploading your image dataset and then adding it to the Kaggle notebook. The dataset will then be located in `/kaggle/input/<dataset name>`. Make sure to put the output in `/kaggle/working`, otherwise you won't be able to access it afterwards. Also make sure to enable GPU acceleration and internet access. An example of a Kaggle notebook can be found in the following image:
 
 ![Kaggle example](resources/kaggle_notebook.png)
 
@@ -52,7 +52,7 @@ In order to run the notebook for as long as possible, click on Save Version in t
 #### Kaggle limitations
 Because Kaggle is a free service, it does have some limitations that have to be taken into account when using the service.
  - Maximum runtime of 9 hours per session
- - Maximum 37 hours per week usage of the GPU
+ - Maximum 37 hours per week usage of the GPU (Although this limit seems to fluctuate)
  - Maximum storage of 16 GB per notebook, and 100 GB total
 
 Training for more than 9 hours is not possible. However, it is possible to continue training in a new session. In order to do this you have to add the `pth` file of the last training session to the notebook and tell DOPE to load it using the `--net` parameter. An example of the `sys.argv` parameter then is:

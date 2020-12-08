@@ -49,7 +49,7 @@ The main goal of Rviz is to visualize what is happening in all the scripts that 
 
 ![Rviz displays](resources/rviz_displays.png)
 
-The first three options are not that interesting and are just there to make Rviz run. However, the next three displays can be very usefull.
+The first three options are not that interesting and are just there to make Rviz run. However, the next three displays can be very useful.
 
 ### Motion Planning
 
@@ -82,7 +82,7 @@ A lot of other options are available, but are not used for this project.
 The second display that is used is the Image display. This display shows the current camera view. It can be enabled by clicking *Image* in the bottom left of the screen (next to *MotionPlanning*). If the camera that is used runs on another topic, it can be changed by expanding the Image dropdown under *Displays* and changing the *Image Topic* value to the desired topic.
 
 ### MarkerArray
-The thrid display is a MarkerArray display. This display is used to visualize were the detected objects are in the Rviz environment. If objects are detected they are displayed in the 3D view, as shown in the image below.
+The third display is a MarkerArray display. This display is used to visualize were the detected objects are in the Rviz environment. If objects are detected they are displayed in the 3D view, as shown in the image below.
 
 ![Objects in Rviz](resources/object_in_rviz.jpeg)
 

@@ -9,7 +9,7 @@ The image gives a simple high-level overview of how the system works. Settings u
 Two other scripts are started in order to pick up objects.
 
 ### [`find_object.py`](../triple_s_util/scripts/bin_picking/find_object.py)
-The find object script starts a [ROS service](http://wiki.ros.org/Services). This service can be called and has a single parameter: the name of the object we want to pick up. Once the service is finished it will return wether it has found an object of this type and where this object is located (as described below and in the [service file](../triple_s_util/srv/ObjectRequest.srv)).
+The find object script starts a [ROS service](http://wiki.ros.org/Services). This service can be called and has a single parameter: the name of the object we want to pick up. Once the service is finished it will return whether it has found an object of this type and where this object is located (as described below and in the [service file](../triple_s_util/srv/ObjectRequest.srv)).
 
 ```
 string object_name

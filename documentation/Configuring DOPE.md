@@ -13,7 +13,7 @@ The following settings are some basic settings that configure DOPE.
 | `topic_camera_info` | ROS topic name | `/dope/webcam/camera_info` | The topic the camera publishes it's camera intrinsics on. For every message on `topic_camera` a message should also be sent on `topic_camera_info` |
 | `topic_publishing` | string | `dope` | The prefix for the ROS topics that DOPE publishes results on |
 | `input_is_rectified` | boolean | `True` | If true the image will be rectified for the camera distortion |
-| `downscale_height` | integer | `500` | Scale the input image to this heigt (larger images take more processing power) |
+| `downscale_height` | integer | `500` | Scale the input image to this height (larger images take more processing power) |
 
 ### Object settings
 The following settings are used to detect the position of objects. Each parameter is a list. The key of the list is always the name of the object that will be used. The values that can be used are explained in the table below. An example usage is also given below.
@@ -34,7 +34,7 @@ weights: {
 | `mesh_scales` | float | The scale of the mesh to meters. (So 1 if the mesh is in meters) |
 
 ### Inference settings
-The final few settings are for the AI itself and how it determines where objects are. Sadly they are not documented by DOPE.
+The following settings are used by the AI for determining where the objects are and how they are oriented. They are not documented by DOPE.
 
 | Parameter | Valid values | Default | Explanation |
 | --- | --- | --- | --- |

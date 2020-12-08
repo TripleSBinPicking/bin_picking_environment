@@ -6,7 +6,7 @@ To be able to create a video with the pose estimation in it, it is necessary to 
 ```bash
 roslaunch triple_s_util video_to_images
 ```
-By default the program will use the webcam (only works on laptops). If you whish to use your own topics you can set them using the following parameters:
+By default the program will use the webcam (only works on laptops). If you wish to use your own topics you can set them using the following parameters:
  - `camera_raw_topic` the topic on which the `sensor_msgs/Image` messages are published
  - `camera_info_topic` the topic on which the `sensor_msgs/CameraInfo` messages are published
  - `start_webcam` must be set to `false` to disable the webcam
@@ -16,7 +16,7 @@ Other parameters are:
  - `total_images` the total amount of images that must be saved (defaults to `150` for 5 seconds of video at 30 fps)
  - `camera_info_output` the name of the file with the camera information (defaults to `camera_info.yaml`)
 
-After running the launchfile the camera will start recording. The images will be placed in the location defined by `path`. The camera will automatically stop recording after the set amount of images are saved. The images are named `image{xxxx}.jpeg` were `{xxxx}` is replaced with the four-digit frame number.
+After running the launchfile the camera will start recording. The images will be placed in the location defined by `path`. The camera will automatically stop recording after the set amount of images are saved. The images are named `image{xxxx}.jpeg` where `{xxxx}` is replaced with the four-digit frame number.
 
 ### Step 2: Send the images through DOPE
 Once the images are ready it is time to let DOPE analyse them. This can be done by executing the following command:

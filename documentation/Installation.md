@@ -16,20 +16,20 @@ $ cd ~/catkin_ws/src
 ```
 
 2. Clone this repository:
-```
+```bash
 $ git clone --recurse-submodules https://github.com/TripleSBinPicking/bin_picking_environment.git
 ```
 
 3. Go the the `bin_picking_environment/Deep_Object_Pose` directory and install the python modules:
 
-```
+```bash
 $ pip install -r requirements.txt
 ```
 
 4. Download all the files from [this](https://bit.ly/3S-ABWAC-WEIGHTS) folder and put it in `bin_picking_environment/Deep_Object_Pose/weights`
 
 5. Go back to the the `~/catkin_ws` directory.
-```
+```bash
 $ cd ~/catkin_ws
 ```
 

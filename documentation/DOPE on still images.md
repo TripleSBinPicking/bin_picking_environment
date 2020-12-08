@@ -1,5 +1,5 @@
 # Running DOPE on still images
-When DOPE is doing inference on camera frames it uses a lot of the systems processing power. If the system is not powerfull enough it might not even run. To overcome this issue, it sometimes is possible to run DOPE on seperate images.
+When DOPE is doing inference on camera frames it uses a lot of the systems processing power. If the system is not powerful enough it might not even run. To overcome this issue, it is possible to run DOPE on separate images instead of a video feed. This process is also done seperately from running MoveIt and Rviz.
 
 ## Preparation
 ### System preparation
@@ -16,7 +16,7 @@ The area marked in red shows the currently used video memory. In our experiments
 If the command does not run at all, you might not have the Nvidia Cuda drivers installed. See [installation](Installation.md) for the links on how to install them.
 
 ### File preparation
-Put all the images that you want analyzed in a single folder. Also put a `yaml` file next to them that describes the camera that was used to make these pictures. If you don't have these settings, you put the following text in a file:
+Put all the images that you want analyzed into a single folder. Also put a `yaml` file next to them that describes the camera that was used to make these pictures. If you don't have these settings, you put the following text in a file:
 
 ```yaml
 !!python/object/new:sensor_msgs.msg._CameraInfo.CameraInfo
@@ -45,7 +45,7 @@ state:
 If you have used the pose estimation video script (as described in [this](Pose%20estimation%20video.md) tutorial), you will also have a file for the camera that was used for those pictures.
 
 ### Using DOPE
-In order to send seperate images to DOPE, we use a [custom script](../triple_s_util/scripts/images_to_dope.py) that must be launched using the launchfile [`images_to_dope.launch`](../triple_s_util/launch/images_to_dope.launch). It can be started by using the following command:
+In order to send separate images to DOPE, we use a [custom script](../triple_s_util/scripts/images_to_dope.py) that must be launched using the launchfile [`images_to_dope.launch`](../triple_s_util/launch/images_to_dope.launch). It can be started by using the following command:
 
 ```bash
 $ roslaunch triple_s_util images_to_dope.launch
@@ -68,7 +68,7 @@ However, it might be necessary to configure some parameters first:
 Once it starts running it will show a message in the console when an image was saved. Once it has printed `Finished!` you can exit the terminal.
 
 ### Saving results in a rosbag
-While this script is running, not only the images are published by DOPE, but also all the other information that is has gathered. It might be usefull to save this in a seperate [ROSbag](http://wiki.ros.org/rosbag/Commandline) file. This allows you to resend these messages, without actually having to run DOPE.
+While this script is running, not only the images are published by DOPE, but also all the other information that is has gathered. It might be useful to save this in a separate [ROSbag](http://wiki.ros.org/rosbag/Commandline) file. This allows you to resend these messages, without actually having to run DOPE.
 
 Read next:  
 [Result from DOPE](Result%20from%20DOPE.md)
