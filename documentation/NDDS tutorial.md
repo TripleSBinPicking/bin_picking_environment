@@ -19,7 +19,7 @@ Adding your own objects into the project is rather easy. First make the object i
 ![Folder structure in Unreal Engine](resources/Folder_structure_ue4.PNG)
 
 ### Adding random movement and rotation to objects
-After adding your objects, to get the random movement and rotation we will use a blueprint. Click on one of the objects that you want to use and select the blue button with Blueprint/Add Script. Then make the blueprint shown below. Blueprint components can be added by right clicking on the surface and typing the name of the component you want to add. The delay in this blueprint is added, so the object_settings.json that NDDS outputs has a regular fixed model transform, instead of it being made when it is already moving and rotating, which disturbs the .
+After adding your objects, to get the random movement and rotation we will use a blueprint. Click on one of the objects that you want to use and select the blue button with Blueprint/Add Script. Then make the blueprint shown below. Blueprint components can be added by right clicking on the surface and typing the name of the component you want to add. The delay in this blueprint is added, so the object_settings.json that NDDS outputs has a regular fixed model transform, instead of it being made when it is already moving and rotating, which disturbs the fixed model transform.
 
 ![Random movement blueprint](resources/Mover_blueprint.png)
 
