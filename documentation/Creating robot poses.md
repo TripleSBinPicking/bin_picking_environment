@@ -6,7 +6,7 @@ Start up the planning environment:
 ```bash
 $ roslaunch triple_s_util planning_environment.launch
 ```
-Use all the parameters that you need for this configuration. I.e. simulation, world, gripper etc.
+Use all the parameters that you need for this configuration. I.e. `sim`, `environment`, `gripper` etc.
 
 ### Step 2: Run the save_poses.py script
 Run the script:
