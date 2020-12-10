@@ -64,7 +64,7 @@ To control the robot precisely, it is necessary that ROS has information about t
 $ roslaunch ur_calibration calibration_correction.launch robot_ip:=<robot_ip>
 ```
 
-This will save a file to `~/.ros/robot_calibration.yaml`, which can be copied to our config. The file can also be renamed (in this case to `ur5_calibration.yaml`).
+This will save a file to `~/.ros/robot_calibration.yaml`, which can be copied to our config. The file can also be renamed by using the next command (in this case to `ur5_calibration.yaml`):
 ```bash
 $ mv ~/.ros/robot_calibration.yaml $(rospack find triple_s_util)/config/ur5_calibration.yaml
 ```
@@ -88,7 +88,7 @@ $ roslaunch triple_s_util physical_robot.launch robot_ip:=<ip of robot>
 
 After this has successfully launched, click start on the UR5. The console on the ROS computer should now say `Ready to receive commands`.
 
-This can be tested by using `rqt` and loading a `joint trajectory controller` plugin. This will allow you to control all the joints.
+This can be tested by using [`rqt`](http://wiki.ros.org/rqt) and loading a [`joint trajectory controller`](http://wiki.ros.org/rqt_joint_trajectory_controller) plugin. This will allow you to control all the joints.
 
 #### With Rviz and MoveIt
 The planning environment launchfile can be used:
