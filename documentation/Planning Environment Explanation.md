@@ -8,7 +8,7 @@ $ roslaunch triple_s_util planning_environment.launch
 ```
 
 ### Parameters
-The launchfile has a few parameters. They can be used by adding `<parameter name>:=<parameter value>` to the launch command.
+The launchfile has a few parameters. They can be used by adding `<parameter name>:=<parameter value>` to the end of the launch command. The order of the commands does not matter.
 
 | Parameter | Valid values | Default | Explanation |
 |---|---|---|---|
@@ -26,14 +26,14 @@ The launchfile has a few parameters. They can be used by adding `<parameter name
 The launchfile uses lots of other launchfiles, which each have some use for the robot.
 
 The first launchfile that is imported is [gazebo_ur5_gripper.launch](../triple_s_util/launch/gazebo_ur5_gripper.launch). This file is only loaded when a simulated robot is used, and it does the following things:
- - Startup an empty Gazebo world. [Gazebo](http://gazebosim.org/) is the simulation program that is used.
+ - Startup an empty Gazebo world. [Gazebo](http://gazebosim.org/) is the simulation program that is used. (It is automatically installed if you follow the [installation steps](Installation.md).)
  - Load our robot configuration to the [ROS parameter server](http://wiki.ros.org/Parameter%20Server).
  - Spawn our robot configuration in Gazebo
  - Start the simulated robot controller
  - Start the simulated UR5 joint controllers
  - Start the simulated gripper controllers
 
-If the real robot is used, and not a simulated robot. The following launchfile is first loaded: [physical_robot.launch](../triple_s_util/launch/physical_robot.launch). It does the following things:
+If the real robot is used, and not a simulated robot, the following launchfile is first loaded: [physical_robot.launch](../triple_s_util/launch/physical_robot.launch). It does the following things:
  - Load our robot configuration to the [ROS parameter server](http://wiki.ros.org/Parameter%20Server).
  - Create a node that can publish the robot state
  - Launch the UR5 driver
@@ -53,11 +53,11 @@ The first three options are not that interesting and are just there to make Rviz
 
 ### Motion Planning
 
-The motion planning display is used to show information about the current position and the movement planning of the robot. These things are visible in the 3D view on the right of Rviz. It is also possible to move the robot to a position using this display. There three robots visible:
+The motion planning display is used to show information about the current position and the movement planning of the robot. These things are visible in the 3D view on the right of Rviz. It is also possible to move the robot to a position using this display. There are three robots visible:
  
  1. A normal colored robot. This is the current position of the robot
  2. A orange colored robot. This is the robot you can move around in Rviz. It is also possible to move the actual robot to the position (this is explained later)
- 3. Multiple purple colored robots. This is the path of the robot that is going to take to reach its destination goal
+ 3. Multiple purple colored robots. This is the path the robot is going to take to reach its destination goal
 
 In the screen on the bottom left you can manipulate the robot movement planning.
 
