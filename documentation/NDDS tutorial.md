@@ -14,14 +14,14 @@ To make your own synthetic dataset for use with DOPE, there are a few things to 
 For making the level, the original tutorial can be followed from page 12.
 
 ### Adding your own objects
-Adding your own objects into the project is rather easy. First make the object a 3D modelling software of choice and export it as an .fbx file. We used Blender to model our objects. 
-Then drag it into a separate folder and accept the import popup. An example for a folder structure is shown in the figure below. Here we have added a folder under Content named Objects in which separate folders for each object is made. 
-After this, you can drag the object into the map and in front of the camera. Try to position it in a way that the scene capturer has a good view on it. 
+Adding your own objects into the project is rather easy. First make the object in a 3D modelling software of choice and export it as an .fbx file. We used Blender to model our objects. 
+Drag your object into a separate folder within Unreal and accept the import popup. An example for a folder structure is shown in the figure below. Here we have added a folder under Content named Objects in which a separate folder for each object is made. 
+After this, you can drag the object into the scene and in front of the camera. Try to position it in a way that the scene capturer has a good view on it. 
 
 ![Folder structure in Unreal Engine](resources/Folder_structure_ue4.PNG)
 
 ### Adding random movement and rotation to objects
-To add the random movement and rotation to objects we will use a blueprint. Click on one of the objects that you want to use and select the blue button with "Blueprint/Add Script".  This button can be found on the right side of the screen in the details tab. A window wil open prompting you to save the blueprint somewhere. Do this and select "Create Blueprint". Another window will open and shows the blueprint that is now linked to your object.
+To add the random movement and rotation to objects we will use a blueprint. Click on one of the objects that you want to use and select the blue button with "Blueprint/Add Script".  This button can be found on the right side of the screen in the details tab. A window wil open prompting you to save the blueprint somewhere. Do this and select "Create Blueprint". Another window will open which shows the blueprint that is now linked to your object.
 Create the blueprint shown below. Blueprint components can be added by right clicking on the surface and typing the name of the component you want to add. 
 When the level is played, NDDS saves the regular fixed model transform to the object_settings.json file. To prevent this fixed transform from being disturbed, we implemented a 2 second delay befor starting to move and rotate the objects.
 
