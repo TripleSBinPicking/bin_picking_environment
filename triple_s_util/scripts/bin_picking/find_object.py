@@ -13,6 +13,7 @@ import visualization_msgs.msg
 import triple_s_util.srv
 import message_filters
 import copy
+import tf
 
 from triple_s_util.bin_picking.util import rosparamOrDefault
 from triple_s_util.bin_picking.dope_collection import DopeCollection
@@ -21,6 +22,9 @@ from triple_s_util.bin_picking.forward_image import ForwardImage
 class FindObject:
     def __init__(self):
         self.dopeCollection = DopeCollection()
+        
+        self.tf = tf.TransformListener()
+
         self.forwardImage = ForwardImage(
             input_camera_raw = rosparamOrDefault('~camera_raw', '/d435_sim/camera_raw'),
             input_camera_info = rosparamOrDefault('~camera_info', '/d435_sim/camera_info'),
@@ -40,6 +44,13 @@ class FindObject:
             sys.exit(1)
 
         self.classIds = rospy.get_param('/dope/class_ids')
+
+        self.pose_reference_frame = rosparamOrDefault('/dope/pose_reference_frame', 'base_link')
+
+        self.min_x_object = rosparamOrDefault('/dope/min_x_object', -100)
+        self.max_x_object = rosparamOrDefault('/dope/max_x_object', 100)
+        self.min_y_object = rosparamOrDefault('/dope/mix_y_object', -100)
+        self.max_y_object = rosparamOrDefault('/dope/max_y_object', 100)
 
         rospy.loginfo('Done initializing find_object.py')
 
@@ -69,7 +80,7 @@ class FindObject:
         while not self.dopeCollection.isComplete():
             rospy.sleep(0.1)
 
-        # Fetch the result
+        # Fetch the result. Markers and poses are not used
         _, _, detections = self.dopeCollection.getResults()
 
         detections = self.filterDetectionsForClassId(class_id, detections.detections)
@@ -79,6 +90,10 @@ class FindObject:
             result.found_object = False
         else:
             best_detection = self.chooseBestDetection(detections)
+
+            if best_detection is None:
+                rospy.loginfo('Detected objects are not in a valid position')
+                return result
 
             best_pose = geometry_msgs.msg.PoseStamped()
             best_pose.header = best_detection.header
@@ -105,10 +120,38 @@ class FindObject:
         return [detection for detection in detections if detection.results[0].id == class_id]
 
     def chooseBestDetection(self, detections):
-        """ Find the best pose to move to (WIP)"""
+        """ Find the best pose to move to"""
         if len(detections) > 0:
-            # TODO actually choose the best option
-            return detections[0]
+            best_object = None
+            best_object_pose = None
+
+            for detection in detections:
+                object_pose = geometry_msgs.msg.PoseStamped()
+                object_pose.header.frame_id = rosparamOrDefault('/dope/camera_link', 'camera_sim_link')
+                object_pose.pose = detection.results[0].pose.pose
+
+                success, pose = self.transformToReferenceFrame(object_pose)
+
+                x = pose.pose.position.x
+                y = pose.pose.position.y
+                z = pose.pose.position.z
+
+                if x >= self.min_x_object and x <= self.max_x_object \
+                    and y >= self.min_y_object and y <= self.max_y_object:
+                    
+                    if best_object == None:
+                        best_object = detection
+                        best_object_pose = pose
+                    else:
+                        if best_object_pose.pose.position.z < z:
+                            best_object = detection
+                            best_object_pose = pose
+            
+            if best_object is not None:
+                best_object.results[0].pose.pose = best_object_pose.pose
+                best_object.header.frame_id = self.pose_reference_frame
+
+            return best_object
         else:
             return None
 
@@ -124,6 +167,15 @@ class FindObject:
             return self.classIds[class_name]
         else:
             return -1
+
+    def transformToReferenceFrame(self, poseStamped):
+        if self.tf.frameExists(self.pose_reference_frame) and self.tf.frameExists(poseStamped.header.frame_id):
+            return True, self.tf.transformPose(self.pose_reference_frame, poseStamped)
+        else:
+            rospy.logwarn('Tried creating a planning to a frame that doesn\'t exists! Frames: %s and %s', (
+                self.pose_reference_frame, poseStamped.header.frame_id
+            ))
+            return False, None
         
         
 if __name__ == '__main__':
