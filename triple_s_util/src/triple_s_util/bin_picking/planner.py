@@ -107,17 +107,22 @@ class Planner:
         
         returns -- tuple: planning succes (bool), plan
         """
+        success, pose_in_local_frame = self.transformToReferenceFrame(poseStamped)
+
+        if not success:
+            return False, None
+        
+        self.move_group.set_pose_target(pose_in_local_frame)
+        
+        plan = self.move_group.plan()
+
+        self.displayPlan(plan)
+
+        return len(plan.joint_trajectory.points) > 0, plan
+
+    def transformToReferenceFrame(self, poseStamped):
         if self.tf.frameExists(self.pose_reference_frame) and self.tf.frameExists(poseStamped.header.frame_id):
-            # Transform the pose from the local frame to the planning reference frame
-            pose_in_local_frame = self.tf.transformPose(self.pose_reference_frame, poseStamped)
-
-            self.move_group.set_pose_target(pose_in_local_frame)
-            
-            plan = self.move_group.plan()
-
-            self.displayPlan(plan)
-
-            return len(plan.joint_trajectory.points) > 0, plan
+            return True, self.tf.transformPose(self.pose_reference_frame, poseStamped)
         else:
             rospy.logwarn('Tried creating a planning to a frame that doesn\'t exists! Frames: %s and %s', (
                 self.pose_reference_frame, poseStamped.header.frame_id
@@ -137,6 +142,41 @@ class Planner:
         plan_success, plan = self.planInRefrenceFrame(poseStamped)
 
         if plan_success:
+            return self.executePlan(plan, wait=wait)
+        else:
+            return False
+
+    def planPose(self, pose):
+        """
+        Plan to a pose.
+
+        pose -- Pose to plan to. (geometry_msgs/Pose, geometry_msgs/PoseStamped, [x, y, z, r, p, y] or 
+                [x, y, z, qx, qy, qz, w])
+
+        return -- plan
+        """
+        self.move_group.set_pose_target(pose)
+
+        plan = self.move_group.plan()
+        
+        self.displayPlan(plan)
+
+        return plan
+
+    def planAndExecutePose(self, pose, wait=True):
+        """
+        Move to a pose
+
+        pose -- Pose to move to. (geometry_msgs/Pose, geometry_msgs/PoseStamped, [x, y, z, r, p, y] or 
+                [x, y, z, qx, qy, qz, w])
+        wait -- Only return this function if the movement is done, otherwise
+                method returns before the movement is finished
+
+        return -- Was the movement successfull?
+        """
+        plan = self.planPose(pose)
+
+        if plan:
             return self.executePlan(plan, wait=wait)
         else:
             return False

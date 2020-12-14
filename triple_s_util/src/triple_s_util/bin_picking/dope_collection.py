@@ -97,6 +97,4 @@ class DopeCollection:
 
     def isComplete(self):
         """ Check if all necessary data is received """
-        return len(self.poses) >= self.total_poses \
-            and not self.markers == None \
-            and not self.detection3DArray == None
+        return not self.markers == None and not self.detection3DArray == None
