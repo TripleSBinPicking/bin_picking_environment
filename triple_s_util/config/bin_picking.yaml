@@ -1,0 +1,41 @@
+# Configuration for bin picking
+
+# Camera topics
+camera_raw: "/d435_sim/camera_raw"
+camera_info: "/d435_sim/camera_info"
+
+# DOPE topics for images
+dope_camera_raw: "/dope/camera_raw"
+dope_camera_info: "/dope/camera_info"
+
+# Service to request an object from DOPE
+object_request_service: "/object_request"
+
+# Service to control the gripper
+gripper_service: "/control_rg2"
+
+# MoveIt planning link
+pose_reference_frame: "/base_link"
+
+# Link name of the camera
+camera_link: "camera_sim_link"
+
+# Boundaries for valid objects
+min_x_object: -100
+max_x_object: 100
+min_y_object: -100
+max_y_object: 100
+
+# Object names to collect poses for
+object_names: [
+  "tomatosauce"
+]
+
+# DOPE topics
+dope_markers_topic: "/dope/markers"
+dope_pose_topic_prefix: "/dope/pose_"
+dope_detected_objects_topic: "/dope/detected_objects"
+
+# Configure cylindrical objects
+cylindrical_axis:
+  tomatosauce: 'x'

@@ -21,22 +21,22 @@ class BinPickingSequencer():
     def __init__(self):
         self.planner = Planner()
         self.approach_distance = 0.2
-        self.pick_up_config = rospy.get_param('/dope/pick_up_config')
+        self.pick_up_config = rosparamOrDefault('/bin_picking/pick_up_config', {})
 
-        object_request_service_name = rosparamOrDefault('~object_request_service', '/object_request')
+        object_request_service_name = rosparamOrDefault('/bin_picking/object_request_service', '/object_request')
         rospy.wait_for_service(object_request_service_name)
         self.requestObjectPose = rospy.ServiceProxy(object_request_service_name, triple_s_util.srv.ObjectRequest)
-        self.controlGripper = rospy.ServiceProxy(rosparamOrDefault('/dope/gripper_service', '/control_rg2'), onrobot_rg2.srv.ControlRG2)
+        self.controlGripper = rospy.ServiceProxy(rosparamOrDefault('/bin_picking/gripper_service', '/control_rg2'), onrobot_rg2.srv.ControlRG2)
         self.posePublisher = rospy.Publisher('/tmp_pose', geometry_msgs.msg.PoseStamped, queue_size=10)
 
         self.sequence()
 
     def sequence(self):
-        object_to_request = 'BeerOpener'
+        object_to_request = 'tomatosauce'
 
         # Temporary: Move to start position
         rospy.loginfo('Moving to start position')
-        self.planner.planAndExecuteNamedTarget('look_at_bin')
+        self.planner.planAndExecuteNamedTarget('dope_to_rviz')
         self.controlGripper(110)
 
         # Request a pose of an object through the service
@@ -123,26 +123,21 @@ class BinPickingSequencer():
         rotated_z = np.array(quaternion_object.rotate([0, 0, 1]))
 
         if object_type in self.pick_up_config:
-            obj_config = self.pick_up_config[object_type]
+            cylindrical_axis = self.pick_up_config[object_type]
         else:
-            obj_config = {
-                'preffered_axis': 'z',
-                'is_cylindrical': True
-            }
+            cylindrical_axis = None
 
         preffered_rotation = rotated_x
         rod_vector = rotated_z
 
-        if obj_config['preffered_axis'] == 'y':
+        if cylindrical_axis == 'y':
             preffered_rotation = rotated_y
             rod_vector = rotated_x
-        elif obj_config['preffered_axis'] == 'z':
+        elif cylindrical_axis == 'z':
             preffered_rotation = rotated_z
             rod_vector = rotated_y
 
-        
-
-        if obj_config['is_cylindrical'] and abs(preffered_rotation[2]) < 1:
+        if cylindrical_axis is not None and abs(preffered_rotation[2]) < 0.8:
             print 'rodriguesRotation rotation'
             
             rodr = self.rodriguesRotation(rod_vector, preffered_rotation)
@@ -152,8 +147,8 @@ class BinPickingSequencer():
 
             array = np.zeros([3, 3])
             array[0] = -rodr
-            array[2] = preffered_rotation
             array[1] = np.cross(rodr, preffered_rotation)
+            array[2] = preffered_rotation
 
             array = np.rot90(np.fliplr(array))
             quad = Quaternion(matrix=array)
@@ -162,13 +157,29 @@ class BinPickingSequencer():
         else:
             print 'Axis grab'
 
-            # If the z component of the preffered axis is negative
-            # the vector is inversed. So the object is picked up from the
-            # other side
-            if preffered_rotation[2] < 0:
-                preffered_rotation = -1 * preffered_rotation
-            
-            return preffered_rotation, quaternion_object
+            array = np.zeros([3, 3])
+            array[0] = rotated_x
+            array[1] = rotated_y
+            array[2] = rotated_z
+
+            if abs(array[0][2]) < abs(rotated_y[2]):
+                array[0] = rotated_y
+                array[1] = rotated_z
+                array[2] = rotated_x
+            elif abs(array[0][2]) < abs(rotated_z[2]):
+                array[0] = rotated_z
+                array[1] = rotated_x
+                array[2] = rotated_y
+
+            pos = array[0]
+            if pos[2] < 0:
+                pos = -pos
+
+
+            array = np.rot90(np.fliplr(array))
+            quad = Quaternion(matrix=array)
+
+            return pos, quad
 
     def makePoseMessage(self, position, orientation):
         message = geometry_msgs.msg.Pose()

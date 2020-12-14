@@ -26,15 +26,15 @@ class FindObject:
         self.tf = tf.TransformListener()
 
         self.forwardImage = ForwardImage(
-            input_camera_raw = rosparamOrDefault('~camera_raw', '/d435_sim/camera_raw'),
-            input_camera_info = rosparamOrDefault('~camera_info', '/d435_sim/camera_info'),
-            output_camera_raw = rosparamOrDefault('~dope_camera_raw', '/dope/camera_raw'),
-            output_camera_info = rosparamOrDefault('~dope_camera_info', '/dope/camera_info')
+            input_camera_raw = rosparamOrDefault('/bin_picking/camera_raw', '/d435_sim/camera_raw'),
+            input_camera_info = rosparamOrDefault('/bin_picking/camera_info', '/d435_sim/camera_info'),
+            output_camera_raw = rosparamOrDefault('/bin_picking/dope_camera_raw', '/dope/camera_raw'),
+            output_camera_info = rosparamOrDefault('/bin_picking/dope_camera_info', '/dope/camera_info')
         )
 
         # Setup service
         self.service = rospy.Service(
-            rosparamOrDefault('~object_request_service', '/object_request'),
+            rosparamOrDefault('/bin_picking/object_request_service', '/object_request'),
             triple_s_util.srv.ObjectRequest,
             self.onObjectRequest
         )
@@ -45,12 +45,12 @@ class FindObject:
 
         self.classIds = rospy.get_param('/dope/class_ids')
 
-        self.pose_reference_frame = rosparamOrDefault('/dope/pose_reference_frame', 'base_link')
+        self.pose_reference_frame = rosparamOrDefault('/bin_picking/pose_reference_frame', 'base_link')
 
-        self.min_x_object = rosparamOrDefault('/dope/min_x_object', -100)
-        self.max_x_object = rosparamOrDefault('/dope/max_x_object', 100)
-        self.min_y_object = rosparamOrDefault('/dope/mix_y_object', -100)
-        self.max_y_object = rosparamOrDefault('/dope/max_y_object', 100)
+        self.min_x_object = rosparamOrDefault('/bin_picking/min_x_object', -100)
+        self.max_x_object = rosparamOrDefault('/bin_picking/max_x_object', 100)
+        self.min_y_object = rosparamOrDefault('/bin_picking/min_y_object', -100)
+        self.max_y_object = rosparamOrDefault('/bin_picking/max_y_object', 100)
 
         rospy.loginfo('Done initializing find_object.py')
 
@@ -127,7 +127,7 @@ class FindObject:
 
             for detection in detections:
                 object_pose = geometry_msgs.msg.PoseStamped()
-                object_pose.header.frame_id = rosparamOrDefault('/dope/camera_link', 'camera_sim_link')
+                object_pose.header.frame_id = rosparamOrDefault('/bin_picking/camera_link', 'camera_sim_link')
                 object_pose.pose = detection.results[0].pose.pose
 
                 success, pose = self.transformToReferenceFrame(object_pose)

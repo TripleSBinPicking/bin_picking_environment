@@ -16,4 +16,7 @@ def rosparamOrDefault(param, default_value):
     if rospy.has_param(param):
         return rospy.get_param(param)
     else:
+        rospy.logwarn("'%s' is not configured on the parameter server! Using default: '%s'" % (
+            param, default_value
+        ))
         return default_value

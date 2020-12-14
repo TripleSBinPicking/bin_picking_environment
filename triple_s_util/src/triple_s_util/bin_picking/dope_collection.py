@@ -24,24 +24,24 @@ class DopeCollection:
         self.total_poses = 0
 
         # DOPE pose Subscribers
-        for object_to_locate in rosparamOrDefault('~object_names', DEFAULT_OBJECT_NAMES):
+        for object_to_locate in rosparamOrDefault('/bin_picking/object_names', DEFAULT_OBJECT_NAMES):
             self.total_poses += 1
             rospy.loginfo('Subscribing to poses for objects of type "%s"' % object_to_locate)
             self.subscribers['dope_pose_%s' % object_to_locate] = rospy.Subscriber(
-                rosparamOrDefault('~dope_pose_topic_prefix', '/dope/pose_') + object_to_locate,
+                rosparamOrDefault('/bin_picking/dope_pose_topic_prefix', '/dope/pose_') + object_to_locate,
                 geometry_msgs.msg.PoseStamped,
                 self.onPoseReceived,
                 callback_args=object_to_locate
             )
 
         self.subscribers['marker'] = rospy.Subscriber(
-            rosparamOrDefault('~dope_markers_topic', '/dope/markers'),
+            rosparamOrDefault('/bin_picking/dope_markers_topic', '/dope/markers'),
             visualization_msgs.msg.MarkerArray,
             self.onMarkersReceived
         )
 
         self.subscribers['detectionarray'] = rospy.Subscriber(
-            rosparamOrDefault('~dope_detected_objects_topic', '/dope/detected_objects'),
+            rosparamOrDefault('/bin_picking/dope_detected_objects_topic', '/dope/detected_objects'),
             vision_msgs.msg.Detection3DArray,
             self.onDetectedObjectsReceived
         )
