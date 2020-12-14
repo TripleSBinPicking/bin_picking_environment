@@ -1,0 +1,7 @@
+<launch>
+    <rosparam command="load" file="$(find triple_s_util)/config/dope.yaml" ns="/dope"/>
+
+    <node name="find_object" pkg="triple_s_util" type="find_object.py" output="screen"/>
+
+    <node name="bin_picking_sequencer" pkg="triple_s_util" type="bin_picking_sequencer.py" output="screen"/>
+</launch>
