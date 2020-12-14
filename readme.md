@@ -8,7 +8,7 @@ This repository is for a project for saxion' smart solution semester. It was car
   - [1.3 Connecting ROS to UR5](documentation/Connecting%20ROS%20to%20UR5.md)
   - [1.4 Creating robot poses](documentation/Creating%20robot%20poses.md)
 - [2. DOPE setup](documentation/NDDS%20tutorial.md)
-  - [2.1 NNDS tutorial](documentation/NDDS%20tutorial.md)
+  - [2.1 NDDS tutorial](documentation/NDDS%20tutorial.md)
   - [2.2 Training DOPE](documentation/Training%20DOPE.md)
   - [2.3 Running DOPE on still images](documentation/DOPE%20on%20still%20images.md)
   - [2.4 Result from DOPE](documentation/Result%20from%20DOPE.md)

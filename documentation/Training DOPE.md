@@ -1,5 +1,5 @@
 # Training DOPE
-The Deep Object Pose Estimation (DOPE) AI is an artificial intelligence designed by Nvidia. It can do 6D pose estimation of objects in images. 6D pose estimation is estimation the transformation (x, y, z) and rotation (roll, pitch, yaw) of an object with respect to the camera. In order to detect objects, it is needed to train the AI on how to detect those objects. This document describes how this can be done.
+The Deep Object Pose Estimation (DOPE) AI is an artificial intelligence designed by Nvidia. It can do 6D pose estimation of objects in images. 6D pose estimation is the estimation of the transformation (x, y, z) and rotation (roll, pitch, yaw) of an object with respect to the camera. In order to detect objects, it is needed to train the AI on how to detect those objects. This document describes how this can be done.
 
 DOPE needs a very powerful NVidia graphics card in order to train. If you don't have such a graphics card available, it is possible to use the online service [kaggle](https://kaggle.com). Kaggle is an online Jupyter notebook/Google Colab like service and gives you access to a NVidia graphics card for 37 hours per week. 
 
@@ -15,7 +15,7 @@ The relevant parameters are explained in more detail in the following table:
 | object | `bicycle` | The name of the object to train on. This _must_ be a lowercase name! Even if the name of the object in the json file has capitalized letters |
 | outf | `/path/to/dataset-output` | The output folder. The `.pth` files will be placed here |
 | epochs | `30` | The amount of epochs to train for. One epoch is one training session on all the data. More epochs will take more time, but also lead to a better trained AI. After each epoch, an `pth` file is created |
-| _The following parameters are not required_ |
+| _The following parameters are optional_ |
 | save | `true` | Save a batch of images with the cuboids draw on it to validate the dataset |
 | net | `/path/to/epoch.pth` | Path to a `.pth` file to continue training |
 
@@ -23,7 +23,7 @@ So, in order to run for 60 epochs the entire command could be:
 ```bash
 rosrun dope train.py --data /path/to/dataset --object bicycle --outf /path/to/output --epochs 60
 ```
-Once the command is run the AI will start training on the new object. After every epoch a `.pth` is created in the directory specified using `--outf`. Place the file of the highest epoch in `Deep_Object_Pose/weights` in order to use it.
+Once the command is executed the AI will start training on the new object. After every epoch a `.pth` file is created in the directory specified using `--outf`. Place the file of the highest epoch in `Deep_Object_Pose/weights` in order to use it.
 
 ### Running on Kaggle
 In order to run on Kaggle some modifications will have to be made. Some of these modifications are a bit _hacky_, but this is necessary because DOPE is not intended to run on Kaggle.
@@ -61,7 +61,7 @@ train.py --data /path/to/dataset --object bicycle --outf /path/to/output --epoch
 ```
 
 ### Convert `pth` file to right filetype
-Because Kaggle uses python 3 and ros-melodic uses python 2, the `pth` file is not compatible it uses something called "zipfile serialization", which cannot be loaded by the older version. This can easily be fixed by using the following script:
+Because Kaggle uses python 3 and ros-melodic uses python 2, the `pth` file is not compatible because it uses something called "zipfile serialization", which cannot be loaded by the older version. This can easily be fixed by using the following script:
 ```python
 import torch
 
@@ -69,7 +69,7 @@ model = torch.load('/path/to/net_epoch_xx.pth')
 
 torch.save(model, '/path/to/net_epoch_xx_old.pth', _use_new_zipfile_serialization=False)
 ```
-This script must be run either on Kaggle, or on machine that has python 3 and PyTorch 1.6+.
+This script must be run either on Kaggle, or on a machine that has python 3 and PyTorch 1.6+.
 Use the `pth` file with the zipfile serialization disabled by placing it in the `Deep_Object_Pose/weights` folder.
 
 ### Validating your dataset
