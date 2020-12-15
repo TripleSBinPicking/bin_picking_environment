@@ -6,20 +6,37 @@ downscale_height: 500      # if the input image is larger than this, scale it do
 
 # Comment any of these lines to prevent detection / pose estimation of that object
 weights: {
-    "TomatoSauce": "package://dope/weights/TomatoSauce.pth",
+    # "tomatosauce": "package://dope/weights/TomatoSauce.pth",
+    "ViroBeerOpener": "package://dope/weights/viro_beeropener_30_old.pth",
+    "ViroPen": "package://dope/weights/viro_pen_33_old.pth",
+    "ViroUSB": "package://dope/weights/viro_usb_21_old.pth",
+    "ViroPeppermint": "package://dope/weights/viro_peppermint_15_old.pth",
+
 }
 
 # Cuboid dimension in cm x,y,z
 dimensions: {
-    "TomatoSauce": [8.2847003936767578, 7.0198001861572266, 6.6469998359680176],
+    # "tomatosauce": [8.2847003936767578, 7.0198001861572266, 6.6469998359680176],
+    "ViroBeerOpener": [8.2208003997802734, 0.5, 6.6668000221252441],
+    "ViroPen": [1.0989999771118164, 1.485200047492981, 13.399999618530273],
+    "ViroUSB": [0.44999998807907104, 1.2250000238418579, 4.0999999046325684],
+    "ViroPeppermint": [7.5999999046325684, 1.8966000080108643, 1.8983000516891479],
 }
 
 class_ids: {
-    "TomatoSauce": 1
+    # "tomatosauce": 8,
+    "ViroBeerOpener": 1,
+    "ViroPen": 2,
+    "ViroUSB": 3,
+    "ViroPeppermint": 4,
 }
 
 draw_colors: {
-    "TomatoSauce": [0, 156, 30],
+    # "tomatosauce": [0, 156, 30],
+    "ViroBeerOpener": [255, 0, 0],
+    "ViroPen": [0, 255, 0],
+    "ViroUSB": [127, 127, 0],
+    "ViroPeppermint": [127, 0, 127],
 }
 
 # optional: provide a transform that is applied to the pose returned by DOPE
