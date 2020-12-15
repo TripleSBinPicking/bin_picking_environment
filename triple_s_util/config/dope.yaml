@@ -60,9 +60,6 @@ meshes: {
 # optional: If the specified meshes are not in meters, provide a scale here (e.g. if the mesh is in centimeters, scale should be 0.01). default scale: 1.0.
 mesh_scales: {
     "TomatoSauce": 0.01,
-    "ViroPen": 0.001,
-    "ViroUSB": 0.001,
-    "ViroPeppermint": 0.001,
 }
 
 # Config params for DOPE

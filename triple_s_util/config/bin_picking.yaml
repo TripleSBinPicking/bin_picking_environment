@@ -42,4 +42,5 @@ rodrigues_z_limit: 0.8
 # Configure cylindrical objects
 cylindrical_axis:
   tomatosauce: 'x'
-  ViroPeppermint: 'x'
+  ViroPeppermint: 'y'
+  ViroPen: 'x'
