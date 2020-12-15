@@ -1,11 +1,14 @@
 <launch>
     <arg name="use_fake_objects" default="false" doc="Return fake object locations" />
+    <arg name="cont_requests" default="false" doc="Continuously request objects" />
 
-    <rosparam command="load" file="$(find triple_s_util)/config/dope.yaml" ns="/dope"/>
-    <rosparam command="load" file="$(find triple_s_util)/config/bin_picking.yaml" ns="/bin_picking"/>
+    <rosparam command="load" file="$(find triple_s_util)/config/dope.yaml" ns="/dope" />
+    <rosparam command="load" file="$(find triple_s_util)/config/bin_picking.yaml" ns="/bin_picking" />
 
-    <node name="find_object" pkg="triple_s_util" type="find_object.py" output="screen" unless="$(arg use_fake_objects)"/>
-    <node name="find_object" pkg="triple_s_util" type="fake_find_object.py" output="screen" if="$(arg use_fake_objects)"/>
+    <node name="find_object" pkg="triple_s_util" type="find_object.py" output="screen" unless="$(arg use_fake_objects)" />
+    <node name="find_object" pkg="triple_s_util" type="fake_find_object.py" output="screen" if="$(arg use_fake_objects)" />
 
-    <node name="bin_picking_sequencer" pkg="triple_s_util" type="bin_picking_sequencer.py" output="screen"/>
+    <node name="bin_picking_sequencer" pkg="triple_s_util" type="bin_picking_sequencer.py" output="screen" />
+
+    <node name="continous_requests" pkg="triple_s_util" type="continuous_random.py" output="screen" />
 </launch>

@@ -290,9 +290,7 @@ class BinPickingSequencer():
         poseStamped.pose = pose
 
         publisher.publish(poseStamped)
-
-
-    
+  
 if __name__ == '__main__':
     rospy.init_node('bin_picking_sequencer', anonymous=True)
     
