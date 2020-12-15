@@ -28,12 +28,14 @@ class BinPickingSequencer():
         rospy.wait_for_service(object_request_service_name)
         self.requestObjectPose = rospy.ServiceProxy(object_request_service_name, triple_s_util.srv.ObjectRequest)
         self.controlGripper = rospy.ServiceProxy(rosparamOrDefault('/bin_picking/gripper_service', '/control_rg2'), onrobot_rg2.srv.ControlRG2)
-        self.posePublisher = rospy.Publisher('/bin_picking/approach_pose', geometry_msgs.msg.PoseStamped, queue_size=10)
+        self.approachPosePublisher = rospy.Publisher('/bin_picking/approach_pose', geometry_msgs.msg.PoseStamped, queue_size=10)
+        self.objectPosePublisher = rospy.Publisher('/bin_picking/object_pose', geometry_msgs.msg.PoseStamped, queue_size=10)
+        self.graspPosePublisher = rospy.Publisher('/bin_picking/grasp_pose', geometry_msgs.msg.PoseStamped, queue_size=10)
 
         self.sequence()
 
     def sequence(self):
-        object_to_request = 'ViroPeppermint'
+        object_to_request = 'ViroPen'
 
         # Temporary: Move to start position
         rospy.loginfo('Moving to start position')
@@ -84,6 +86,8 @@ class BinPickingSequencer():
 
         returns -- approach pose (geometry_msgs/PoseStamped), grasp pose (geometry_msgs/PoseStamped)
         """
+        self.publishPose(object_pose.pose, self.objectPosePublisher)
+        
         quaternion_object = Quaternion(
             object_pose.pose.orientation.w,
             object_pose.pose.orientation.x,
@@ -108,11 +112,8 @@ class BinPickingSequencer():
         # Adjust grasp orientation
         object_pose.pose.orientation = approach_message.orientation
 
-        # Create PoseStamped message for debugging purposes
-        pstmpd = geometry_msgs.msg.PoseStamped()
-        pstmpd.header.frame_id = '/base_link'
-        pstmpd.pose = approach_message
-        self.posePublisher.publish(pstmpd)
+        self.publishPose(approach_message, self.approachPosePublisher)
+        self.publishPose(object_pose.pose, self.graspPosePublisher)
 
         return approach_message, object_pose
 
@@ -270,6 +271,13 @@ class BinPickingSequencer():
                 comp = temp[r-1]
 
         return comp
+
+    def publishPose(self, pose, publisher):
+        poseStamped = geometry_msgs.msg.PoseStamped()
+        poseStamped.header.frame_id = rosparamOrDefault('/bin_picking/pose_reference_frame', 'base_link')
+        poseStamped.pose = pose
+
+        publisher.publish(poseStamped)
 
 
     
