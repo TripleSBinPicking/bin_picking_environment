@@ -1,12 +1,12 @@
 # Configuration for bin picking
 
 # Camera topics
-camera_raw: "/d435_sim/camera_raw"
-camera_info: "/d435_sim/camera_info"
+camera_raw: "/d435_sim/color/image_raw"
+camera_info: "/d435_sim/color/camera_info"
 
 # DOPE topics for images
-dope_camera_raw: "/dope/camera_raw"
-dope_camera_info: "/dope/camera_info"
+dope_camera_raw: "/dope/webcam/image_raw"
+dope_camera_info: "/dope/webcam/camera_info"
 
 # Service to request an object from DOPE
 object_request_service: "/object_request"
