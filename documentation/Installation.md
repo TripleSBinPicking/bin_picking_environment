@@ -36,6 +36,7 @@ $ cd ~/catkin_ws
 
 6. Install all the dependencies (and install the latest updates):
 ```bash
+$ python -m pip install pyquaternion
 $ sudo apt update -qq
 $ rosdep update
 $ rosdep install --from-paths src --ignore-src -y
