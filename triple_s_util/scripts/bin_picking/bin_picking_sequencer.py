@@ -21,13 +21,14 @@ class BinPickingSequencer():
     def __init__(self):
         self.planner = Planner()
         self.approach_distance = 0.2
-        self.pick_up_config = rosparamOrDefault('/bin_picking/pick_up_config', {})
+        self.pick_up_config = rosparamOrDefault('/bin_picking/cylindrical_axis', {})
+        self.z_limit = rosparamOrDefault('/bin_picking/rodrigues_z_limit', 0.8)
 
         object_request_service_name = rosparamOrDefault('/bin_picking/object_request_service', '/object_request')
         rospy.wait_for_service(object_request_service_name)
         self.requestObjectPose = rospy.ServiceProxy(object_request_service_name, triple_s_util.srv.ObjectRequest)
         self.controlGripper = rospy.ServiceProxy(rosparamOrDefault('/bin_picking/gripper_service', '/control_rg2'), onrobot_rg2.srv.ControlRG2)
-        self.posePublisher = rospy.Publisher('/tmp_pose', geometry_msgs.msg.PoseStamped, queue_size=10)
+        self.posePublisher = rospy.Publisher('/bin_picking/approach_pose', geometry_msgs.msg.PoseStamped, queue_size=10)
 
         self.sequence()
 
@@ -44,10 +45,7 @@ class BinPickingSequencer():
         request = self.requestObjectPose(object_to_request)
         rospy.loginfo('Got object position')
 
-        if request.found_object:
-            # Set the reference frame of the pose to the camera
-            #request.object_pose.header.frame_id = rosparamOrDefault('~camera_link', 'camera_sim_link')
-            
+        if request.found_object:            
             approach_pose, pick_pose = self.determinePoses(request.object_pose, object_to_request)
 
             if not self.planner.planAndExecutePose(approach_pose):
@@ -77,8 +75,14 @@ class BinPickingSequencer():
         self.sequence()
 
     def determinePoses(self, object_pose, object_type):
-        print "Object Pose: ", object_pose
+        """
+        Calculate the approach pose and the grasp pose for an object
 
+        object_pose -- geometry_msgs/PoseStamped object pose
+        object_type -- string, object name
+
+        returns -- approach pose (geometry_msgs/PoseStamped), grasp pose (geometry_msgs/PoseStamped)
+        """
         quaternion_object = Quaternion(
             object_pose.pose.orientation.w,
             object_pose.pose.orientation.x,
@@ -86,31 +90,25 @@ class BinPickingSequencer():
             object_pose.pose.orientation.z
         )
 
-        print "Object Quat: ", quaternion_object
-
+        # Get the approach unit vector and pose rotation
         approach, rotation = self.approachCalculator(quaternion_object, object_type)
 
-        print "Approach: ", approach
-        print type(approach)
-
+        # Calculate the approach position:
+        # approach * approach distance + object position
         approach_position = np.array(approach) * self.approach_distance + np.array([
             object_pose.pose.position.x,
             object_pose.pose.position.y,
             object_pose.pose.position.z
         ])
-
-        print "Approach position: ", approach_position
-
-
-        #for i in range(0, 25):
-        #    rotation_rotated = rotation.rotate(Quaternion(axis=[0, 1, 0], angle=2*np.pi* (i/25)))
-
-
-
+        
+        # Create Pose message for approach
         approach_message = self.makePoseMessage(approach_position, rotation)
+        
+        # Adjust grasp orientation
         object_pose.pose.orientation = approach_message.orientation
-        pstmpd = geometry_msgs.msg.PoseStamped()
 
+        # Create PoseStamped message for debugging purposes
+        pstmpd = geometry_msgs.msg.PoseStamped()
         pstmpd.header.frame_id = '/base_link'
         pstmpd.pose = approach_message
         self.posePublisher.publish(pstmpd)
@@ -118,10 +116,103 @@ class BinPickingSequencer():
         return approach_message, object_pose
 
     def approachCalculator(self, quaternion_object, object_type):
+        """
+        Calculate the approach unit vector (grasp diretion) and grasp orientation
+
+        quaternion_object -- Quaternion of the rotation of the object
+        object_type -- Name of the object
+
+        return -- Unit vector (array), grasp orientation (Quaternion)
+        """
         rotated_x = np.array(quaternion_object.rotate([1, 0, 0]))
         rotated_y = np.array(quaternion_object.rotate([0, 1, 0]))
         rotated_z = np.array(quaternion_object.rotate([0, 0, 1]))
 
+        preffered_rotation, rod_vector, cylindrical_axis = self.getPrefferedRotation(object_type, rotated_x, rotated_y, rotated_z)
+
+        if cylindrical_axis is not None and abs(preffered_rotation[2]) < self.z_limit:
+            return self.getGraspPoseUsingRodrigues(preffered_rotation, rod_vector)
+        else:
+            return self.getGraspPoseUsingAxis(rotated_x, rotated_y, rotated_z)
+
+    def getGraspPoseUsingAxis(self, rotated_x, rotated_y, rotated_z):
+        """
+        Get the grasping position using the axis of the grasping object.
+
+        The axis of the object that is the highest is the approach axis for grasping.
+
+        rotated_x -- X rotation vector
+        rotated_y -- Y rotation vector
+        rotated_z -- Z rotation vector
+
+        return Unit vector, grasp orientation
+        """
+        rospy.loginfo('Determining grasping poses using axis rotation')
+
+        array = np.zeros([3, 3])
+        array[0] = rotated_x
+        array[1] = rotated_y
+        array[2] = rotated_z
+
+        if abs(array[0][2]) < abs(rotated_y[2]):
+            array[0] = rotated_y
+            array[1] = rotated_z
+            array[2] = rotated_x
+        elif abs(array[0][2]) < abs(rotated_z[2]):
+            array[0] = rotated_z
+            array[1] = rotated_x
+            array[2] = rotated_y
+
+        pos = array[0]
+
+        if pos[2] < 0:
+            pos = -pos
+
+        array = np.rot90(np.fliplr(array))
+        quad = Quaternion(matrix=array)
+
+        return pos, quad
+
+    def getGraspPoseUsingRodrigues(self, preffered_rotation, rod_vector):
+        """
+        Get the grasping position using rodrigues rotation.
+
+        Only suitable for cyclindrical objects. The highest point above the object is used
+        as the grasping approach.
+
+        preffered_rotation -- The axis to rotate around
+        rod_vector -- Axis perpendicular to preffered_rotation
+
+        returns -- Unit vector, grasp orientation
+        """
+        rospy.loginfo('Determining grasping poses using rodrigues rotation')
+            
+        rodr = self.rodriguesRotation(rod_vector, preffered_rotation)
+
+        if preffered_rotation[2] < 0:
+            preffered_rotation = -1 * preffered_rotation
+
+        array = np.zeros([3, 3])
+        array[0] = -rodr
+        array[1] = np.cross(rodr, preffered_rotation)
+        array[2] = preffered_rotation
+
+        array = np.rot90(np.fliplr(array))
+        quad = Quaternion(matrix=array)
+        
+        return rodr, quad
+
+    def getPrefferedRotation(self, object_type, rotated_x, rotated_y, rotated_z):
+        """
+        Get the preffered rotation axis. This is determined by the config
+
+        object_type -- name of the object
+        rotated_x -- X rotation vector
+        rotated_y -- Y rotation vector
+        rotated_z -- Z rotation vector
+
+        returns -- preffered rotation vector, perpendicular vector, cylindrical axis
+        """
         if object_type in self.pick_up_config:
             cylindrical_axis = self.pick_up_config[object_type]
         else:
@@ -137,51 +228,15 @@ class BinPickingSequencer():
             preffered_rotation = rotated_z
             rod_vector = rotated_y
 
-        if cylindrical_axis is not None and abs(preffered_rotation[2]) < 0.8:
-            print 'rodriguesRotation rotation'
-            
-            rodr = self.rodriguesRotation(rod_vector, preffered_rotation)
-
-            if preffered_rotation[2] < 0:
-                preffered_rotation = -1 * preffered_rotation
-
-            array = np.zeros([3, 3])
-            array[0] = -rodr
-            array[1] = np.cross(rodr, preffered_rotation)
-            array[2] = preffered_rotation
-
-            array = np.rot90(np.fliplr(array))
-            quad = Quaternion(matrix=array)
-            
-            return rodr, quad
-        else:
-            print 'Axis grab'
-
-            array = np.zeros([3, 3])
-            array[0] = rotated_x
-            array[1] = rotated_y
-            array[2] = rotated_z
-
-            if abs(array[0][2]) < abs(rotated_y[2]):
-                array[0] = rotated_y
-                array[1] = rotated_z
-                array[2] = rotated_x
-            elif abs(array[0][2]) < abs(rotated_z[2]):
-                array[0] = rotated_z
-                array[1] = rotated_x
-                array[2] = rotated_y
-
-            pos = array[0]
-            if pos[2] < 0:
-                pos = -pos
-
-
-            array = np.rot90(np.fliplr(array))
-            quad = Quaternion(matrix=array)
-
-            return pos, quad
+        return preffered_rotation, rod_vector, cylindrical_axis
 
     def makePoseMessage(self, position, orientation):
+        """
+        Create a geometry_msgs/Pose message from coords and Quaternion
+
+        position -- Array with the x, y, z coordinates ([x, y, z])
+        orientation -- Quaternion object
+        """
         message = geometry_msgs.msg.Pose()
         message.position.x = position[0]
         message.position.y = position[1]
@@ -190,8 +245,6 @@ class BinPickingSequencer():
         message.orientation.y = orientation[2]
         message.orientation.z = orientation[3]
         message.orientation.w = orientation[0]
-        
-        print message
         
         return message
 

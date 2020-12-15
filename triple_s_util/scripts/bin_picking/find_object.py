@@ -132,6 +132,9 @@ class FindObject:
 
                 success, pose = self.transformToReferenceFrame(object_pose)
 
+                if not success:
+                    continue
+                
                 x = pose.pose.position.x
                 y = pose.pose.position.y
                 z = pose.pose.position.z
@@ -172,7 +175,7 @@ class FindObject:
         if self.tf.frameExists(self.pose_reference_frame) and self.tf.frameExists(poseStamped.header.frame_id):
             return True, self.tf.transformPose(self.pose_reference_frame, poseStamped)
         else:
-            rospy.logwarn('Tried creating a planning to a frame that doesn\'t exists! Frames: %s and %s', (
+            rospy.logwarn('Tried creating a planning to a frame that doesn\'t exists! Frames: %s and %s' % (
                 self.pose_reference_frame, poseStamped.header.frame_id
             ))
             return False, None

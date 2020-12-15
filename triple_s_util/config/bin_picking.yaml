@@ -15,7 +15,7 @@ object_request_service: "/object_request"
 gripper_service: "/control_rg2"
 
 # MoveIt planning link
-pose_reference_frame: "/base_link"
+pose_reference_frame: "base_link"
 
 # Link name of the camera
 camera_link: "camera_sim_link"
@@ -35,6 +35,9 @@ object_names: [
 dope_markers_topic: "/dope/markers"
 dope_pose_topic_prefix: "/dope/pose_"
 dope_detected_objects_topic: "/dope/detected_objects"
+
+# Configure rodrigues z limit
+rodrigues_z_limit: 0.8
 
 # Configure cylindrical objects
 cylindrical_axis:
