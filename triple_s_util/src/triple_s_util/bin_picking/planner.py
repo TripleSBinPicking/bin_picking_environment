@@ -20,11 +20,11 @@ class Planner:
 
         # Setup the move group
         self.move_group = moveit_commander.MoveGroupCommander(
-            rosparamOrDefault('~manipulator', 'manipulator')
+            rosparamOrDefault('/bin_picking/manipulator', 'manipulator')
         )
 
         # Set the reference frame
-        self.pose_reference_frame = rosparamOrDefault('~pose_reference_frame', 'base_link')
+        self.pose_reference_frame = rosparamOrDefault('/bin_picking/pose_reference_frame', 'base_link')
         self.move_group.set_pose_reference_frame(
             self.pose_reference_frame
         )
@@ -34,7 +34,7 @@ class Planner:
 
         # Create publisher to publish the planned trajectories
         self.publisher_display_trajectory = rospy.Publisher(
-            rosparamOrDefault('~display_trajectory_publisher', '/move_group/display_planned_path'),
+            rosparamOrDefault('/bin_picking/display_trajectory_publisher', '/move_group/display_planned_path'),
             moveit_msgs.msg.DisplayTrajectory,
             queue_size=10
         )
@@ -161,7 +161,7 @@ class Planner:
         
         self.displayPlan(plan)
 
-        return plan
+        return len(plan.joint_trajectory.points) > 0, plan
 
     def planAndExecutePose(self, pose, wait=True):
         """
@@ -174,9 +174,9 @@ class Planner:
 
         return -- Was the movement successfull?
         """
-        plan = self.planPose(pose)
+        success, plan = self.planPose(pose)
 
-        if plan:
+        if success:
             return self.executePlan(plan, wait=wait)
         else:
             return False
