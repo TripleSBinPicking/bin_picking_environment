@@ -59,6 +59,7 @@ catkin_python_setup()
 add_service_files(
   FILES
   ObjectRequest.srv
+  PickupRequest.srv
 )
 
 ## Generate actions in the 'action' folder

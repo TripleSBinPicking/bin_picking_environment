@@ -1,0 +1,5 @@
+string object_name
+---
+bool found_object
+bool picked_up_object
+string error_message

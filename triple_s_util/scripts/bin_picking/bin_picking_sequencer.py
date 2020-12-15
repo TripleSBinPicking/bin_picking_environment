@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """
-Author:       Niels de Boer
+Author:       Niels de Boer, Chiel Boerrigter
 Date:         11-11-2020
-Description:  TBD
+Description:  Start a service to pick up objects
 """
 import sys
 import rospy
@@ -31,11 +31,16 @@ class BinPickingSequencer():
         self.approachPosePublisher = rospy.Publisher('/bin_picking/approach_pose', geometry_msgs.msg.PoseStamped, queue_size=10)
         self.objectPosePublisher = rospy.Publisher('/bin_picking/object_pose', geometry_msgs.msg.PoseStamped, queue_size=10)
         self.graspPosePublisher = rospy.Publisher('/bin_picking/grasp_pose', geometry_msgs.msg.PoseStamped, queue_size=10)
+        
+        self.service = rospy.Service(
+            rosparamOrDefault('/bin_picking/pick_up_request_service', '/pick_up_request'),
+            triple_s_util.srv.PickupRequest,
+            self.onPickUpRequest
+        )
 
-        self.sequence()
-
-    def sequence(self):
-        object_to_request = 'ViroPen'
+    def onPickUpRequest(self, request):
+        object_to_request = request.object_name
+        response = triple_s_util.srv.PickupRequestResponse()
 
         # Temporary: Move to start position
         rospy.loginfo('Moving to start position')
@@ -48,22 +53,27 @@ class BinPickingSequencer():
         rospy.loginfo('Got object position')
 
         if request.found_object:            
+            response.found_object = True
             approach_pose, pick_pose = self.determinePoses(request.object_pose, object_to_request)
 
             if not self.planner.planAndExecutePose(approach_pose):
                 rospy.logwarn('Couldn\'t move into approach position to grab the object!')
+                response.error_message = 'Couldn\'t move into approach position to grab the object!'
             else:
                 rospy.loginfo('Moved to approach pose')
                 rospy.sleep(0.2)
                 if not self.planner.planAndExecutePose(pick_pose):
                     rospy.logwarn('Couldn\'t move into position to grab the object!')
+                    response.error_message = 'Couldn\'t move into position to grab the object!'
                 else:
                     rospy.loginfo('Moved to object')
                     rospy.sleep(0.2)
                     self.controlGripper(0)
+
+                    response.picked_up_object = True
         else:
             rospy.logwarn('Couldn\'t find any objects of type \"%s\"' % object_to_request)
-
+            response.error_message = 'Couldn\'t find any objects of type \"%s\"' % object_to_request
 
         rospy.sleep(0.1)
 
@@ -74,8 +84,7 @@ class BinPickingSequencer():
         # Sleep for a bit
         rospy.sleep(0.1)
 
-        # Repeat
-        self.sequence()
+        return response
 
     def determinePoses(self, object_pose, object_type):
         """
@@ -273,6 +282,9 @@ class BinPickingSequencer():
         return comp
 
     def publishPose(self, pose, publisher):
+        """
+        Publish a pose message on a PoseStamped topic
+        """
         poseStamped = geometry_msgs.msg.PoseStamped()
         poseStamped.header.frame_id = rosparamOrDefault('/bin_picking/pose_reference_frame', 'base_link')
         poseStamped.pose = pose
