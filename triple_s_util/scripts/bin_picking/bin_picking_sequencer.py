@@ -33,11 +33,11 @@ class BinPickingSequencer():
         self.sequence()
 
     def sequence(self):
-        object_to_request = 'tomatosauce'
+        object_to_request = 'ViroPeppermint'
 
         # Temporary: Move to start position
         rospy.loginfo('Moving to start position')
-        self.planner.planAndExecuteNamedTarget('dope_to_rviz')
+        self.planner.planAndExecuteNamedTarget('look_at_bin')
         self.controlGripper(110)
 
         # Request a pose of an object through the service
@@ -52,24 +52,25 @@ class BinPickingSequencer():
                 rospy.logwarn('Couldn\'t move into approach position to grab the object!')
             else:
                 rospy.loginfo('Moved to approach pose')
-                rospy.sleep(2)
+                rospy.sleep(0.2)
                 if not self.planner.planAndExecutePose(pick_pose):
                     rospy.logwarn('Couldn\'t move into position to grab the object!')
                 else:
                     rospy.loginfo('Moved to object')
-                    rospy.sleep(2)
+                    rospy.sleep(0.2)
                     self.controlGripper(0)
         else:
             rospy.logwarn('Couldn\'t find any objects of type \"%s\"' % object_to_request)
 
 
-        rospy.sleep(10)
+        rospy.sleep(0.1)
 
         self.planner.planAndExecuteNamedTarget('handoff')
+        rospy.sleep(0.1)
         self.controlGripper(110)
 
         # Sleep for a bit
-        rospy.sleep(5)
+        rospy.sleep(0.1)
 
         # Repeat
         self.sequence()
@@ -167,7 +168,13 @@ class BinPickingSequencer():
 
         if pos[2] < 0:
             pos = -pos
+        else:
+            array[0] = -array[0]
+            array[1] = -array[1]
 
+            if array[0][2] < 0:
+                pos = -pos
+    
         array = np.rot90(np.fliplr(array))
         quad = Quaternion(matrix=array)
 
