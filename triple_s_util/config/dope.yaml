@@ -50,12 +50,19 @@ model_transforms: {
 # optional: if you provide a mesh of the object here, a mesh marker will be
 # published for visualization in RViz
 meshes: {
-    "TomatoSauce": "package://triple_s_util/meshes/tomato_soup/textured.obj",
+    "tomatosauce": "package://triple_s_util/meshes/tomato_soup/textured.obj",
+    "ViroBeerOpener": "package://triple_s_util/meshes/beer_opener/beer_opener.stl",
+    "ViroPen": "package://triple_s_util/meshes/pen/pen_viro.stl",
+    "ViroUSB": "package://triple_s_util/meshes/usb_stick/usb_viro.stl",
+    "ViroPeppermint": "package://triple_s_util/meshes/peppermint/peppermint.stl",
 }
 
 # optional: If the specified meshes are not in meters, provide a scale here (e.g. if the mesh is in centimeters, scale should be 0.01). default scale: 1.0.
 mesh_scales: {
     "TomatoSauce": 0.01,
+    "ViroPen": 0.001,
+    "ViroUSB": 0.001,
+    "ViroPeppermint": 0.001,
 }
 
 # Config params for DOPE
