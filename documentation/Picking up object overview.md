@@ -62,4 +62,4 @@ Details on how to call this service are described in [Starting a pick up sequenc
 More details on how the approach pose and grasp pose are calculated can be found in [TMP](#TODO).
 
 Read next:  
-[Picking up object overview.md](Picking%20up%20object%20overview.md)
+[Selecting the specific object](Selecting%20the%20specific%20object.md)
