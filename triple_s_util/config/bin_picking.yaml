@@ -1,40 +1,48 @@
 # Configuration for bin picking
 
-# Camera topics
-camera_raw: "/d435_sim/color/image_raw"
-camera_info: "/d435_sim/color/camera_info"
-
-# DOPE topics for images
-dope_camera_raw: "/dope/webcam/image_raw"
-dope_camera_info: "/dope/webcam/camera_info"
-
 # Service to request an object from DOPE
 object_request_service: "/object_request"
+# Service to request an object pick up
+pick_up_request_service: "/pick_up_request"
 
 # Service to control the gripper
 gripper_service: "/control_rg2"
 
 # MoveIt planning link
 pose_reference_frame: "base_link"
+manipulator: "manipulator"
 
 # Link name of the camera
 camera_link: "camera_sim_link"
 
 # Boundaries for valid objects
-min_x_object: -100
-max_x_object: 100
-min_y_object: -100
-max_y_object: 100
+min_x_object: -0.1
+max_x_object: 0.4
+min_y_object: -0.5
+max_y_object: -0.30
+min_z_object: 0.005
+max_z_object: 0.20
 
 # Object names to collect poses for
 object_names: [
-  "tomatosauce"
+  "tomatosauce", "ViroBeerOpener", "ViroPen", "ViroUSB", "ViroPeppermint"
 ]
 
 # DOPE topics
 dope_markers_topic: "/dope/markers"
 dope_pose_topic_prefix: "/dope/pose_"
 dope_detected_objects_topic: "/dope/detected_objects"
+
+# DOPE topics for images
+dope_camera_raw: "/dope/webcam/image_raw"
+dope_camera_info: "/dope/webcam/camera_info"
+
+# Camera topics
+camera_raw: "/d435_sim/color/image_raw"
+camera_info: "/d435_sim/color/camera_info"
+
+# Planning trajectory display publisher
+display_trajectory_publisher: "/move_group/display_planned_path"
 
 # Configure rodrigues z limit
 rodrigues_z_limit: 0.8

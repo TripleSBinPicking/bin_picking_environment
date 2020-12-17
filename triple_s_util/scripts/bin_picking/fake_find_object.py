@@ -25,6 +25,14 @@ class FakeFindObject:
         self.object_meshes = rosparamOrDefault('/dope/meshes', {})
         self.object_colors = rosparamOrDefault('/dope/draw_colors', {})
         self.object_mesh_scale = rosparamOrDefault('/dope/mesh_scales', {})
+        self.min_x_object = rosparamOrDefault('/bin_picking/min_x_object', -100)
+        self.max_x_object = rosparamOrDefault('/bin_picking/max_x_object', 100)
+        self.min_y_object = rosparamOrDefault('/bin_picking/min_y_object', -100)
+        self.max_y_object = rosparamOrDefault('/bin_picking/max_y_object', 100)
+        self.min_z_object = rosparamOrDefault('/bin_picking/min_z_object', -100)
+        self.max_z_object = rosparamOrDefault('/bin_picking/max_z_object', 100)
+
+
         self.pose_publishers = {}
 
         for name, dimension in self.object_dimensions.items():
@@ -131,9 +139,9 @@ class FakeFindObject:
         pose = geometry_msgs.msg.PoseStamped()
         pose.header.frame_id = rosparamOrDefault('/bin_picking/pose_reference_frame', 'base_link')
         
-        pose.pose.position.x = random.uniform(0.1, 0.25)
-        pose.pose.position.y = random.uniform(-0.30, -0.45)
-        pose.pose.position.z = random.uniform(0.05, 0.15)
+        pose.pose.position.x = random.uniform(self.min_x_object, self.max_x_object)
+        pose.pose.position.y = random.uniform(self.min_y_object, self.max_y_object)
+        pose.pose.position.z = random.uniform(self.min_z_object, self.max_z_object)
 
         quat = Quaternion.random()
 

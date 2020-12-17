@@ -39,10 +39,16 @@ class BinPickingSequencer():
         )
 
     def onPickUpRequest(self, request):
+        """
+        Try to pick up an object
+
+        request -- triple_s_util/PickupRequest
+
+        returns -- triple_s_util/PickupRequestResponse
+        """
         object_to_request = request.object_name
         response = triple_s_util.srv.PickupRequestResponse()
 
-        # Temporary: Move to start position
         rospy.loginfo('Moving to start position')
         self.planner.planAndExecuteNamedTarget('look_at_bin')
         self.controlGripper(110)
@@ -67,10 +73,11 @@ class BinPickingSequencer():
                     response.error_message = 'Couldn\'t move into position to grab the object!'
                 else:
                     rospy.loginfo('Moved to object')
-                    rospy.sleep(0.2)
+                    rospy.sleep(1)
                     self.controlGripper(0)
-
                     response.picked_up_object = True
+
+                    self.planner.planAndExecutePose(approach_pose)
         else:
             rospy.logwarn('Couldn\'t find any objects of type \"%s\"' % object_to_request)
             response.error_message = 'Couldn\'t find any objects of type \"%s\"' % object_to_request

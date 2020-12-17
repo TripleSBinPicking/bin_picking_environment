@@ -51,6 +51,8 @@ class FindObject:
         self.max_x_object = rosparamOrDefault('/bin_picking/max_x_object', 100)
         self.min_y_object = rosparamOrDefault('/bin_picking/min_y_object', -100)
         self.max_y_object = rosparamOrDefault('/bin_picking/max_y_object', 100)
+        self.min_z_object = rosparamOrDefault('/bin_picking/min_z_object', -100)
+        self.max_z_object = rosparamOrDefault('/bin_picking/max_z_object', 100)
 
         rospy.loginfo('Done initializing find_object.py')
 
@@ -140,7 +142,8 @@ class FindObject:
                 z = pose.pose.position.z
 
                 if x >= self.min_x_object and x <= self.max_x_object \
-                    and y >= self.min_y_object and y <= self.max_y_object:
+                    and y >= self.min_y_object and y <= self.max_y_object \
+                    and z >= self.min_z_object and z <= self.max_z_object:
                     
                     if best_object == None:
                         best_object = detection
