@@ -35,4 +35,4 @@ Finally, the program will ask you if you want to save another position. Insert `
 The poses are now saved to the specified path in `srdf` format. They can be loaded in using the `poses` parameter of the [planning environment launchfile](Planning%20Environment%20Explanation.md#parameters).
 
 Read next:  
-[Creating a dataset using NNDS](NDDS%20tutorial.md)  
+[Creating a dataset using NDDS](NDDS%20tutorial.md)  

@@ -15,11 +15,13 @@ The launchfile has two parameters, they are explained in the table below.
 |---|---|---|---|
 | `use_fake_objects` | boolean | `false` | If enabled, a random position will be chosen as object location, instead of relying on data from DOPE |
 | `cont_requests` | boolean | `false` | If enabled, it is not necessary to manually request for an object to be picked up. The system will randomly try to pick up one of the registered objects. (See [Configuring DOPE](Configuring%20DOPE.md)) |
+| `dope_config` | Path to `yaml`-file | `$(find triple_s_util)/config/dope.yaml` | Path to [DOPE configuration](Configuring%20DOPE.md) file |
+| `bin_picking_config` | Path to `yaml`-file | `$(find triple_s_util)/config/bin_picking.yaml` | Path to [bin picking configuration](Configuring%20bin%20picking.md) file |
 
 ### Starting a pick up sequence
 In order for the system to start the picking up sequence, the `/pick_up_request` service must be used. It can be invoked using [C++](http://wiki.ros.org/ROS/Tutorials/WritingServiceClient%28c%2B%2B%29) or [python](http://wiki.ros.org/ROS/Tutorials/WritingServiceClient%28python%29) by creating a client node (see the linked tutorials on how to do this). It is also possible to use the terminal:
 ```bash
-rosservice call /pick_up_request "object_name: '<insert name of object here>'"
+$ rosservice call /pick_up_request "object_name: '<insert name of object here>'"
 ```
 Note that the object that is requested can be put in the `object_name` parameter. The object must be configured in DOPE in order to be able to pick up the object. Once the pick up sequence is done, the service will return three values:
  1. `found_object` shows wether an object was detected
@@ -40,7 +42,7 @@ geometry_msgs/PoseStamped object_pose
 
 If an object is requested, it sends a single frame of the camera feed to DOPE. DOPE doesn't constantly analyze the camera feed, because this takes a lot of processing power and is not needed for this system. Once DOPE has analyzed the image, the find object script will filter out the objects of the type that was requested. If there are multiple objects available, the script will determine which objects is the best candidate for picking up.
 
-More details on how it is determined which objects are picked up read [TMP](#TODO).
+More details on how it is determined which objects are picked up read [Picking up object overview.md](Picking%20up%20object%20overview.md).
 
 ### [`bin_picking_sequence.py`](../triple_s_util/scripts/bin_picking/bin_picking_sequence.py)
 
@@ -58,3 +60,6 @@ The bin picking sequence script is in charge of everything. It first starts the 
 Details on how to call this service are described in [Starting a pick up sequence](#starting-a-pick-up-sequence)
 
 More details on how the approach pose and grasp pose are calculated can be found in [TMP](#TODO).
+
+Read next:  
+[Picking up object overview.md](Picking%20up%20object%20overview.md)

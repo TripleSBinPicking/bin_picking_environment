@@ -49,3 +49,6 @@ The following settings are for determining the approach pose and grasp pose.
 | --- | --- | --- | --- |
 | `rodrigues_z_limit` | Value between `0` and `1` | `0.8` | The maximum absolute z value of an cylindrical object for it to be picked up using the rodrigues method |
 | `cylindrical_axis` | List of objects that are cylindrical around a certain axis | ```tomatosauce: 'x'  ViroPeppermint: 'y'  ViroPen:'x'``` | The objects that are cylindrical must be put here, along with the axis they are cylindrical on |
+
+Read next:  
+[Running everything](Running%20everything.md)

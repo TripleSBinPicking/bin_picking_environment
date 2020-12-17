@@ -1,0 +1,9 @@
+<launch>
+    <arg name="run_dope" default="true" doc="Run DOPE" />
+
+    <include file="$(find triple_s_util)/launch/dope.launch" if="$(arg run_dope)" />
+    <include file="$(find triple_s_util)/launch/planning_environment.launch" />
+    <include file="$(find triple_s_util)/launch/object_grasping.launch">
+        <arg name="use_fake_objects" value="$(eval not arg('run_dope'))" />
+    </include>
+</launch>
