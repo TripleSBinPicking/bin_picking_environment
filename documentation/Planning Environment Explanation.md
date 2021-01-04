@@ -78,15 +78,28 @@ Query buttons:
 
 A lot of other options are available, but are not used for this project.
 
-### Image
-The second display that is used is the Image display. This display shows the current camera view. It can be enabled by clicking *Image* in the bottom left of the screen (next to *MotionPlanning*). If the camera that is used runs on another topic, it can be changed by expanding the Image dropdown under *Displays* and changing the *Image Topic* value to the desired topic.
+### Camera Display
+The second display that is used is the camera display. This display shows the current camera view. It can be enabled by clicking *Camera Display* in the bottom left of the screen (next to *MotionPlanning*). If the camera that is used runs on another topic, it can be changed by expanding the Image dropdown under *Displays* and changing the *Image Topic* value to the desired topic.
 
-### MarkerArray
+### Object Markers
 The third display is a MarkerArray display. This display is used to visualize were the detected objects are in the Rviz environment. If objects are detected they are displayed in the 3D view, as shown in the image below.
 
 ![Objects in Rviz](resources/object_in_rviz.jpeg)
 
 The value that comes after the name of the object is a value between zero and one and shows the confidence that DOPE has that the object is at that location (zero is not confident, one is absolutely sure).
+
+### Object, Approach and Grasp Pose
+The fourth, fifth and sixth displays are pose displays. They will appear as axes in the Rviz main window.
+
+The object pose shows the location of the the object that is going to be picked up, the approach pose shows the position of the gripper before and after moving to the grasp pose, and the grasp pose is the location of the gripper when the robot is going to pick up the object.
+
+![Rviz pose displays](resources/rviz_pose_displays.png)
+
+Note that the object pose and grasp pose might be hard to identify, because they have their origin in the same position.
+
+### Rodrigues Rotations
+The seventh and final display shows all the vectors that were used to determine the best approach position. More on that can be found [here](Picking%20up%20object%20overview.md).
+![Rviz rodr rotations](resources/rviz_rodr_rotations.png)
 
 Read next:  
 [Connecting ROS to UR5](Connecting%20ROS%20to%20UR5.md)  
