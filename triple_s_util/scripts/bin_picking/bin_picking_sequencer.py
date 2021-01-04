@@ -23,6 +23,8 @@ class BinPickingSequencer():
         self.approach_distance = 0.2
         self.pick_up_config = rosparamOrDefault('/bin_picking/cylindrical_axis', {})
         self.z_limit = rosparamOrDefault('/bin_picking/rodrigues_z_limit', 0.8)
+        self.rodrigues_resolution = rosparamOrDefault('/bin_picking/rodrigues_resolution', 100)
+        self.pose_reference_frame = rosparamOrDefault('/bin_picking/pose_reference_frame', 'base_link')
 
         object_request_service_name = rosparamOrDefault('/bin_picking/object_request_service', '/object_request')
         rospy.wait_for_service(object_request_service_name)
@@ -31,6 +33,7 @@ class BinPickingSequencer():
         self.approachPosePublisher = rospy.Publisher('/bin_picking/approach_pose', geometry_msgs.msg.PoseStamped, queue_size=10)
         self.objectPosePublisher = rospy.Publisher('/bin_picking/object_pose', geometry_msgs.msg.PoseStamped, queue_size=10)
         self.graspPosePublisher = rospy.Publisher('/bin_picking/grasp_pose', geometry_msgs.msg.PoseStamped, queue_size=10)
+        self.rodriguesPosePublisher = rospy.Publisher('/bin_picking/rodrigues_pose', geometry_msgs.msg.PoseArray, queue_size=10)
         
         self.service = rospy.Service(
             rosparamOrDefault('/bin_picking/pick_up_request_service', '/pick_up_request'),
@@ -112,7 +115,7 @@ class BinPickingSequencer():
         )
 
         # Get the approach unit vector and pose rotation
-        approach, rotation = self.approachCalculator(quaternion_object, object_type)
+        approach, rotation = self.approachCalculator(quaternion_object, object_type, object_pose.pose)
 
         # Calculate the approach position:
         # approach * approach distance + object position
@@ -133,12 +136,13 @@ class BinPickingSequencer():
 
         return approach_message, object_pose
 
-    def approachCalculator(self, quaternion_object, object_type):
+    def approachCalculator(self, quaternion_object, object_type, object_pose):
         """
         Calculate the approach unit vector (grasp diretion) and grasp orientation
 
         quaternion_object -- Quaternion of the rotation of the object
         object_type -- Name of the object
+        object_pose -- Object pose (geometry_msgs/Pose)
 
         return -- Unit vector (array), grasp orientation (Quaternion)
         """
@@ -149,7 +153,7 @@ class BinPickingSequencer():
         preffered_rotation, rod_vector, cylindrical_axis = self.getPrefferedRotation(object_type, rotated_x, rotated_y, rotated_z)
 
         if cylindrical_axis is not None and abs(preffered_rotation[2]) < self.z_limit:
-            return self.getGraspPoseUsingRodrigues(preffered_rotation, rod_vector)
+            return self.getGraspPoseUsingRodrigues(preffered_rotation, rod_vector, object_pose)
         else:
             return self.getGraspPoseUsingAxis(rotated_x, rotated_y, rotated_z)
 
@@ -197,7 +201,7 @@ class BinPickingSequencer():
 
         return pos, quad
 
-    def getGraspPoseUsingRodrigues(self, preffered_rotation, rod_vector):
+    def getGraspPoseUsingRodrigues(self, preffered_rotation, rod_vector, object_pose):
         """
         Get the grasping position using rodrigues rotation.
 
@@ -211,7 +215,7 @@ class BinPickingSequencer():
         """
         rospy.loginfo('Determining grasping poses using rodrigues rotation')
             
-        rodr = self.rodriguesRotation(rod_vector, preffered_rotation)
+        rodr = self.rodriguesRotation(rod_vector, preffered_rotation, object_pose)
 
         if preffered_rotation[2] < 0:
             preffered_rotation = -1 * preffered_rotation
@@ -272,13 +276,36 @@ class BinPickingSequencer():
         
         return message
 
-    def rodriguesRotation(self, v, k):
+    def rodriguesRotation(self, v, k, object_pose):
         """
         Rotates vector v about unitvector k according to Rodrigues' rotation formula and returns highest point
         """
+
+        pose_array = geometry_msgs.msg.PoseArray()
+        pose_array.header.frame_id = self.pose_reference_frame
+
         temp = np.zeros(shape=(100,3))
-        for i in range(1,100):
-            temp[i] = v * math.cos(2*math.pi/i) + np.cross(k,v) * math.sin(2*math.pi/i) + k * np.dot(k,v) * (1-math.cos(2*math.pi/i))   
+        for i in range(0, self.rodrigues_resolution):
+            angle = 2 * math.pi * (float(i)/self.rodrigues_resolution)
+            temp[i] = v * math.cos(angle) + np.cross(k,v) * math.sin(angle) + k * np.dot(k,v) * (1-math.cos(angle))   
+
+            array = np.zeros([3, 3])
+            array[0] = -temp[i]
+            array[1] = np.cross(temp[i], k)
+            array[2] = k
+
+            array = np.rot90(np.fliplr(array))
+            quad = Quaternion(matrix=array)
+            pose_msg = self.makePoseMessage(
+                [object_pose.position.x,
+                object_pose.position.y,
+                object_pose.position.z],
+                quad)
+
+            pose_array.poses.append(pose_msg)
+        
+        self.rodriguesPosePublisher.publish(pose_array)
+
         comp = np.zeros(shape=(3))
 
         # Finds vector with highest z component

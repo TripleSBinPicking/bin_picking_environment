@@ -47,6 +47,9 @@ display_trajectory_publisher: "/move_group/display_planned_path"
 # Configure rodrigues z limit
 rodrigues_z_limit: 0.8
 
+# Configure the rodrigues resolution. i.e. how many rotations are done
+rodrigues_resolution: 100
+
 # Configure cylindrical objects
 cylindrical_axis:
   tomatosauce: 'x'
