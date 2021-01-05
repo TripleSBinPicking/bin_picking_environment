@@ -4,7 +4,7 @@ This document describes how to create a video with the pose estimation of the ob
 ### Step 1: Create image sequence and camera config
 To be able to create a video with the pose estimation in it, it is necessary to evaluate every frame individually. It is also necessary to create a file which describes the camera. This can both be automatically done.
 ```bash
-roslaunch triple_s_util video_to_images
+roslaunch triple_s_util video_to_images.launch
 ```
 By default the program will use the webcam (only works on laptops). If you wish to use your own topics you can set them using the following parameters:
  - `camera_raw_topic` the topic on which the `sensor_msgs/Image` messages are published
