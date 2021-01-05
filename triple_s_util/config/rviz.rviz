@@ -234,7 +234,7 @@ Visualization Manager:
         Robot Alpha: 1
         Robot Color: 150; 50; 150
         Show Robot Collision: false
-        Show Robot Visual: false
+        Show Robot Visual: true
         Show Trail: true
         State Display Time: 0.01
         Trail Step Size: 1000
@@ -440,10 +440,12 @@ Visualization Manager:
       Value: false
     - Class: rviz/MarkerArray
       Enabled: true
-      Marker Topic: /dope/markers
+      Marker Topic: /dope/markers_fixed
       Name: Object Markers
       Namespaces:
+        bboxes: true
         meshes: true
+        texts: true
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -550,10 +552,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.8103985786437988
+      Pitch: 0.68039870262146
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.4335818290710449
+      Yaw: 5.721752643585205
     Saved: ~
 Window Geometry:
   Camera Display:

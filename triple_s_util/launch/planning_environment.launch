@@ -54,4 +54,7 @@
     <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false" args="-d $(find triple_s_util)/config/rviz.rviz" output="screen">
         <rosparam command="load" file="$(find ur5_moveit_config)/config/kinematics.yaml"/>
     </node>
+
+    <!-- change marker messages headers-->
+    <node name="set_marker_frame_id" pkg="triple_s_util" type="set_marker_frame.py" output="screen" />
 </launch>
