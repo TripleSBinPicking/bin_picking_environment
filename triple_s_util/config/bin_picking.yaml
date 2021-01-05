@@ -53,5 +53,5 @@ rodrigues_resolution: 100
 # Configure cylindrical objects
 cylindrical_axis:
   tomatosauce: 'x'
-  ViroPeppermint: 'y'
-  ViroPen: 'x'
+  ViroPeppermint: 'x'
+  ViroPen: 'z'
