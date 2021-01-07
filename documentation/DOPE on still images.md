@@ -57,7 +57,7 @@ However, it might be necessary to configure some parameters first:
 |---|---|---|---|
 | `path_origin` | Path to a folder | `$(find triple_s_util)/local_resources/raw_images` | The location of the images that have to be analyzed |
 | `path_save` | Path to a folder | `$(find triple_s_util)/local_resources/dope_images` | The output folder of the analyzed images |
-| `file_extension` | `jpg|png|jpeg` | `jpeg` | File extension of the images that have to be analyzed |
+| `file_extension` | `jpg/png/jpeg` | `jpeg` | File extension of the images that have to be analyzed |
 | `dope_topic_publish` | ROS topic name | `/dope/webcam/image_raw` | The topic on which images should be published to be analyzed |
 | `dope_topic_publish_info` | ROS topic name | `/dope/webcam/camera_info` | The topic on which the camera information must be published |
 | `dope_topic_subscribe` | ROS topic name | `/dope/rgb_points` | The topic on which DOPE publishes the analyzed images with cuboids |
