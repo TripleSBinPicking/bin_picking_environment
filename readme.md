@@ -1,8 +1,7 @@
 # Saxion Smart Solution Semester - Bin Picking Robot
 This repository is for a project for saxion' smart solution semester. It was carried out for the research group for mechatronics and VIRO. The goal of the project was to pick up specific objects from a bin and present them to the user.
 
-## Summary
-`<tbd>`
+The final solution was made for a [Universal Robots UR5 robot](https://www.universal-robots.com/products/ur5-robot/) and [ROS](https://www.ros.org/). A gripper and camera were mounted on the robot. The camera was used to detect the 6D positions (x-, y-, z-position and x-, y-, z-rotation) of objects. These object detections are performed using the [DOPE](https://github.com/NVlabs/Deep_Object_Pose) AI, created by NVidia. Once an object is detected, an algorithm is run to determine the optimal position for the gripper in order to pick up the object. Sadly, due to the COVID-19 pandemic, the system was only tested in simulations.
 
 ## Documentation
 - [1. Robot setup](documentation/Installation.md)
