@@ -1,6 +1,9 @@
 # Saxion Smart Solution Semester - Bin Picking Robot
 This repository is for a project for saxion' smart solution semester. It was carried out for the research group for mechatronics and VIRO. The goal of the project was to pick up specific objects from a bin and present them to the user.
 
+## Summary
+`<tbd>`
+
 ## Documentation
 - [1. Robot setup](documentation/Installation.md)
   - [1.1 Installation](documentation/Installation.md)
@@ -23,3 +26,4 @@ This repository is for a project for saxion' smart solution semester. It was car
 - [5. Running on another robot](documentation/Running%20on%20another%20robot.md)
 - [6. Other](documentation/Pose%20estimation%20video.md)
   - [Create an annotated video](documentation/Pose%20estimation%20video.md)
+- [7. Conclusions & Recommendations](documentation/Conclusion%20and%20recommendations.md)
