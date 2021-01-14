@@ -19,7 +19,7 @@ The final solution was made for a [Universal Robots UR5 robot](https://www.unive
 - [3. Picking up an object](documentation/Picking%20up%20object%20overview.md)
   - [3.1 Overview](documentation/Picking%20up%20object%20overview.md)
   - [3.2 Selecting the specific object](documentation/Selecting%20the%20specific%20object.md)
-  - [3.3 Picking up the specific object (WIP)](documentation/GrabPoseCalculator.pdf)
+  - [3.3 Picking up the specific object](documentation/GrabPoseCaclulator.pdf)
   - [3.4 Configuring bin picking](documentation/Configuring%20bin%20picking.md)
 - [4. Running everything](documentation/Running%20everything.md)
 - [5. Running on another robot](documentation/Running%20on%20another%20robot.md)
