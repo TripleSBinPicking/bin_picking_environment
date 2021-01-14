@@ -26,4 +26,4 @@ This repository is for a project for saxion' smart solution semester. It was car
 - [5. Running on another robot](documentation/Running%20on%20another%20robot.md)
 - [6. Other](documentation/Pose%20estimation%20video.md)
   - [Create an annotated video](documentation/Pose%20estimation%20video.md)
-- [7. Conclusions & Recommendations](documentation/Conclusion%20and%20recommendations.md)
+- [7. Conclusions & Recommendations](documentation/Conclusions%20and%20recommendations.md)
