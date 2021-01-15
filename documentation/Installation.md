@@ -3,7 +3,7 @@ This document will describe how to get this repository ready to run.
 ## Preparation steps
 Make sure you have the following programs installed:
  - `git` 
- - `ros-melodic` (See the [ROS installation page](http://wiki.ros.org/ROS/Installation). This program was tested with `ros-melodic-desktop` on Ubuntu)
+ - `ros-melodic` (See the [ROS installation page](http://wiki.ros.org/ROS/Installation). This program was tested with `ros-melodic-desktop` on Ubuntu 18.04)
  - `python-pip` (Included with ROS)
  - [NVidia CUDA toolkit](https://developer.nvidia.com/cuda-10.2-download-archive) (installation instructions can be found [here](https://docs.nvidia.com/cuda/archive/10.2/cuda-installation-guide-linux/index.html), this repository is tested with version `10.2`. A Nvidia GPU is required.)
 
